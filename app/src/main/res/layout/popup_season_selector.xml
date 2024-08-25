@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.g.pocketmal.ui.widget.BorderCardView
+        android:id="@+id/cv_container"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="4dp"
+        android:orientation="vertical"
+        android:visibility="invisible"
+        tools:visibility="visible">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="12dp"
+            android:layout_marginLeft="12dp"
+            android:layout_marginRight="12dp"
+            android:layout_marginStart="12dp"
+            android:layout_marginTop="12dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/seasonal__season" />
+
+            <com.g.pocketmal.ui.widget.hashtagview.HashtagView
+                android:id="@+id/hv_season"
+                style="@style/HashtagView"
+                android:layout_marginBottom="8dp"
+                app:radioMode="true"
+                app:rowMode="equal"
+                app:rowsQuantity="2"
+                app:selectionMode="true"
+                app:tagBackground="@drawable/background_hashtag"
+                app:tagForeground="@drawable/background_hashtag_selector"
+                app:tagPaddingBottom="2dp"
+                app:tagPaddingLeft="4dp"
+                app:tagPaddingRight="4dp"
+                app:tagPaddingTop="2dp"
+                app:tagTextColor="@android:color/white" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/seasonal__year" />
+
+            <com.shawnlin.numberpicker.NumberPicker
+                android:id="@+id/np_year"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:np_dividerColor="@color/main_light"
+                app:np_height="64dp"
+                app:np_max="2020"
+                app:np_min="1950"
+                app:np_formatter="%d"
+                app:np_order="descending"
+                app:np_orientation="horizontal"
+                app:np_textColor="@color/main_light"
+                app:np_textSize="14sp"
+                app:np_selectedTextSize="18sp"
+                app:np_selectedTextColor="?android:textColorPrimary"
+                app:np_value="3"
+                app:np_width="180dp"
+                app:np_wrapSelectorWheel="true" />
+
+            <Button
+                android:id="@+id/btn_load"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                style="@style/Widget.AppCompat.Button.Borderless"
+                android:textColor="@color/main_light"
+                android:layout_gravity="center_horizontal"
+                android:text="@string/seasonal__load" />
+        </LinearLayout>
+
+    </com.g.pocketmal.ui.widget.BorderCardView>
+</FrameLayout>

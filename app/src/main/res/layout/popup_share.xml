@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab_set_reminder"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/fap_margin"
+        android:layout_marginLeft="@dimen/fap_margin"
+        android:layout_marginStart="@dimen/fap_margin"
+        android:layout_marginTop="@dimen/fap_margin"
+        android:src="@drawable/ic_baseline_insert_invitation_24"
+        app:elevation="8dp"
+        app:pressedTranslationZ="2dp" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab_share"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/fap_margin"
+        android:src="@drawable/ic_baseline_share_24"
+        app:elevation="8dp"
+        app:pressedTranslationZ="2dp" />
+</LinearLayout>

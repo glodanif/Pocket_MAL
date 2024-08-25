@@ -1,0 +1,509 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/sv_container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?android:windowBackground"
+    android:fillViewport="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:id="@+id/rl_user_info"
+            android:layout_width="match_parent"
+            android:layout_height="130dp"
+            android:background="@color/main"
+            android:clickable="true"
+            android:focusable="true"
+            android:padding="16dp">
+
+            <ImageView
+                android:id="@+id/iv_avatar"
+                android:layout_width="64dp"
+                android:layout_height="64dp"
+                android:contentDescription="@string/avatarDescription"
+                android:scaleType="centerCrop"
+                android:src="@drawable/empty_avatar" />
+
+            <TextView
+                android:id="@+id/tv_username"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_marginTop="8dp"
+                android:ellipsize="end"
+                android:singleLine="true"
+                android:textColor="@android:color/white"
+                android:textSize="20sp"
+                tools:text="Tester" />
+
+            <ImageView
+                android:id="@+id/iv_share_list"
+                android:layout_width="42dp"
+                android:layout_height="42dp"
+                android:layout_alignParentEnd="true"
+                android:clickable="true"
+                android:focusable="true"
+                android:padding="6dp"
+                android:src="@drawable/ic_baseline_share_24" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/rl_switch"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/light_blue_selector">
+
+            <ImageView
+                android:id="@+id/iv_switch_icon"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_centerVertical="true"
+                android:padding="10dp"
+                android:src="@drawable/ic_baseline_sync_alt_24" />
+
+            <TextView
+                android:id="@+id/tv_switch_label"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_toEndOf="@+id/iv_switch_icon"
+                android:padding="14dp"
+                android:text="@string/switchToManga"
+                android:textColor="?android:textColorPrimary"
+                android:textSize="15sp" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/rl_lists"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/iv_list_icon"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_centerVertical="true"
+                android:padding="10dp"
+                android:src="@drawable/ic_baseline_subject_24" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toEndOf="@+id/iv_list_icon"
+                android:padding="14dp"
+                android:text="@string/menuList"
+                android:textColor="?android:textColorPrimary"
+                android:textSize="15sp" />
+
+            <TextView
+                android:id="@+id/tv_total_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="20dp"
+                android:text="@string/zero"
+                android:textColor="?android:textColorPrimary"
+                android:textSize="15sp" />
+        </RelativeLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_list_holder"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:id="@+id/rl_in_progress_holder"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/light_blue_selector"
+                android:clickable="true"
+                android:focusable="true"
+                android:paddingStart="30dp"
+                android:paddingTop="10dp"
+                android:paddingEnd="20dp"
+                android:paddingBottom="10dp">
+
+                <TextView
+                    android:id="@+id/tv_in_progress_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:fontFamily="sans-serif-light"
+                    android:text="@string/watching"
+                    android:textColor="?android:textColorPrimary"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/tv_in_progress_count"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:fontFamily="sans-serif-light"
+                    android:text="@string/zero"
+                    android:textColor="?android:textColorPrimary"
+                    android:textSize="15sp" />
+            </RelativeLayout>
+
+            <View style="@style/StatusItemsSeparator" />
+
+            <RelativeLayout
+                android:id="@+id/rl_completed_holder"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/light_blue_selector"
+                android:clickable="true"
+                android:focusable="true"
+                android:paddingStart="30dp"
+                android:paddingTop="10dp"
+                android:paddingEnd="20dp"
+                android:paddingBottom="10dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:fontFamily="sans-serif-light"
+                    android:text="@string/completed"
+                    android:textColor="?android:textColorPrimary"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/tv_completed_count"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:fontFamily="sans-serif-light"
+                    android:text="@string/zero"
+                    android:textColor="?android:textColorPrimary"
+                    android:textSize="15sp" />
+            </RelativeLayout>
+
+            <View style="@style/StatusItemsSeparator" />
+
+            <RelativeLayout
+                android:id="@+id/rl_on_hold_holder"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/light_blue_selector"
+                android:clickable="true"
+                android:focusable="true"
+                android:paddingStart="30dp"
+                android:paddingTop="10dp"
+                android:paddingEnd="20dp"
+                android:paddingBottom="10dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:fontFamily="sans-serif-light"
+                    android:text="@string/onHold"
+                    android:textColor="?android:textColorPrimary"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/tv_on_hold_count"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:fontFamily="sans-serif-light"
+                    android:text="@string/zero"
+                    android:textColor="?android:textColorPrimary"
+                    android:textSize="15sp" />
+            </RelativeLayout>
+
+            <View style="@style/StatusItemsSeparator" />
+
+            <RelativeLayout
+                android:id="@+id/rl_dropped_holder"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/light_blue_selector"
+                android:clickable="true"
+                android:focusable="true"
+                android:paddingStart="30dp"
+                android:paddingTop="10dp"
+                android:paddingEnd="20dp"
+                android:paddingBottom="10dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:fontFamily="sans-serif-light"
+                    android:text="@string/dropped"
+                    android:textColor="?android:textColorPrimary"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/tv_dropped_count"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:fontFamily="sans-serif-light"
+                    android:text="@string/zero"
+                    android:textColor="?android:textColorPrimary"
+                    android:textSize="15sp" />
+            </RelativeLayout>
+
+            <View style="@style/StatusItemsSeparator" />
+
+            <RelativeLayout
+                android:id="@+id/rl_planned_holder"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/light_blue_selector"
+                android:clickable="true"
+                android:focusable="true"
+                android:paddingStart="30dp"
+                android:paddingTop="10dp"
+                android:paddingEnd="20dp"
+                android:paddingBottom="10dp">
+
+                <TextView
+                    android:id="@+id/tv_planned_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:fontFamily="sans-serif-light"
+                    android:text="@string/planToWatch"
+                    android:textColor="?android:textColorPrimary"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/tv_planned_count"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:fontFamily="sans-serif-light"
+                    android:text="@string/zero"
+                    android:textColor="?android:textColorPrimary"
+                    android:textSize="15sp" />
+            </RelativeLayout>
+        </LinearLayout>
+
+        <RelativeLayout
+            android:id="@+id/rl_base"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/light_blue_selector">
+
+            <ImageView
+                android:id="@+id/iv_search_icon"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_centerVertical="true"
+                android:padding="10dp"
+                android:src="@drawable/ic_baseline_search_24" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_toEndOf="@+id/iv_search_icon"
+                android:padding="14dp"
+                android:text="@string/browse"
+                android:textColor="?android:textColorPrimary"
+                android:textSize="15sp" />
+        </RelativeLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_base_holder"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="gone"
+            tools:visibility="visible">
+
+            <TextView
+                android:id="@+id/tv_seasonal_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/light_blue_selector"
+                android:clickable="true"
+                android:focusable="true"
+                android:fontFamily="sans-serif-light"
+                android:paddingStart="30dp"
+                android:paddingTop="10dp"
+                android:paddingEnd="20dp"
+                android:paddingBottom="10dp"
+                android:text="@string/seasonal__seasonal"
+                android:textColor="?android:textColorPrimary"
+                android:textSize="15sp" />
+
+            <View
+                android:id="@+id/v_seasonal_divider"
+                style="@style/StatusItemsSeparator"
+                tools:viewBindingIgnore="true" />
+
+            <TextView
+                android:id="@+id/tv_top_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/light_blue_selector"
+                android:clickable="true"
+                android:focusable="true"
+                android:fontFamily="sans-serif-light"
+                android:paddingStart="30dp"
+                android:paddingTop="10dp"
+                android:paddingEnd="20dp"
+                android:paddingBottom="10dp"
+                android:text="@string/top"
+                android:textColor="?android:textColorPrimary"
+                android:textSize="15sp" />
+
+            <View style="@style/StatusItemsSeparator" />
+
+            <TextView
+                android:id="@+id/tv_most_popular_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/light_blue_selector"
+                android:clickable="true"
+                android:focusable="true"
+                android:fontFamily="sans-serif-light"
+                android:paddingStart="30dp"
+                android:paddingTop="10dp"
+                android:paddingEnd="20dp"
+                android:paddingBottom="10dp"
+                android:text="@string/mostPopular"
+                android:textColor="?android:textColorPrimary"
+                android:textSize="15sp" />
+
+            <LinearLayout
+                android:id="@+id/ll_anime_browse"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <View style="@style/StatusItemsSeparator" />
+
+                <TextView
+                    android:id="@+id/tv_upcoming_button"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/light_blue_selector"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:fontFamily="sans-serif-light"
+                    android:paddingStart="30dp"
+                    android:paddingTop="10dp"
+                    android:paddingEnd="20dp"
+                    android:paddingBottom="10dp"
+                    android:text="@string/upcoming"
+                    android:textColor="?android:textColorPrimary"
+                    android:textSize="15sp" />
+
+                <View style="@style/StatusItemsSeparator" />
+
+                <TextView
+                    android:id="@+id/tv_airing_button"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/light_blue_selector"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:fontFamily="sans-serif-light"
+                    android:paddingStart="30dp"
+                    android:paddingTop="10dp"
+                    android:paddingEnd="20dp"
+                    android:paddingBottom="10dp"
+                    android:text="@string/airing"
+                    android:textColor="?android:textColorPrimary"
+                    android:textSize="15sp" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tv_recent_activity"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/light_blue_selector"
+            android:clickable="true"
+            android:focusable="true"
+            android:padding="14dp"
+            android:text="@string/activity"
+            android:textColor="?android:textColorPrimary"
+            android:textSize="15sp"
+            android:visibility="gone" />
+
+        <LinearLayout
+            android:id="@+id/ll_activity_holder"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <TextView
+                android:id="@+id/tv_recent_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/light_blue_selector"
+                android:clickable="true"
+                android:focusable="true"
+                android:fontFamily="sans-serif-light"
+                android:paddingStart="30dp"
+                android:paddingTop="10dp"
+                android:paddingEnd="20dp"
+                android:paddingBottom="10dp"
+                android:textColor="?android:textColorPrimary"
+                android:textSize="15sp" />
+
+            <View style="@style/StatusItemsSeparator" />
+
+            <TextView
+                android:id="@+id/tv_history_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/light_blue_selector"
+                android:clickable="true"
+                android:focusable="true"
+                android:fontFamily="sans-serif-light"
+                android:paddingStart="30dp"
+                android:paddingTop="10dp"
+                android:paddingEnd="20dp"
+                android:paddingBottom="10dp"
+                android:text="@string/history"
+                android:textColor="?android:textColorPrimary"
+                android:textSize="15sp" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tv_friends"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/light_blue_selector"
+            android:clickable="true"
+            android:focusable="true"
+            android:padding="14dp"
+            android:text="@string/friends__friends"
+            android:textColor="?android:textColorPrimary"
+            android:textSize="15sp"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/tv_people_search"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/light_blue_selector"
+            android:clickable="true"
+            android:focusable="true"
+            android:padding="14dp"
+            android:text="@string/peopleSearch"
+            android:textColor="?android:textColorPrimary"
+            android:textSize="15sp"
+            android:visibility="gone" />
+    </LinearLayout>
+</ScrollView>

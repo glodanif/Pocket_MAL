@@ -1,0 +1,807 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Pocket MAL</string>
+
+    <string name="ok">OK</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="loading">Loading</string>
+    <string name="tryAgain">Retry</string>
+    <string name="save">Save</string>
+    <string name="cancel">Cancel</string>
+    <string name="clear">Clear</string>
+    <string name="remove">Remove</string>
+    <string name="defaultValue">Default</string>
+    <string name="unknown">Unknown</string>
+    <string name="updating">Updating</string>
+    <string name="notAvailableOffline">This action isn\'t available in offline mode</string>
+
+    <!-- login -->
+    <string name="username">Username</string>
+    <string name="password">Password</string>
+    <string name="login">Login</string>
+    <string name="registration">Registration</string>
+    <string name="loginFailed">Login failed. Please check your connection or try again later&#8230;</string>
+    <string name="loginBadRequest">Something went horribly wrong, please retype your credentials or try to login on the website</string>
+    <string name="wrongCredentials">The username or password you entered was incorrect</string>
+    <string name="wrongCredentialsNotAllowedSymbols">The username or password you entered was incorrect\n\nWarning\n\nYour password contains not allowed symbols \"&lt;\" or \":\", most likely it\'s the reason why you cannot log into the app. For more details check MAL forum\nhttps://myanimelist.net/forum/?topicid=1423799</string>
+    <string name="login__empty_username">Username must not be empty</string>
+    <string name="login__empty_password">Password must not be empty</string>
+    <string name="login__banned_ip">Too many failed login attempts, this IP is blocked for a couple of hours.\n\nPlease try again later.\n\nThis is myanimelist.net limitation, for more details check MAL forum\nhttps://myanimelist.net/forum/?topicid=1632480</string>
+    <string name="login__captcha">Website login required.\n\nDue to security reasons MAL requires you to enter a captcha, please open myanimelist.net website on your mobile web browser and login/relogin there. After that try to login in Pocket MAL again.</string>
+    <string name="login__no_internet_connection">Unable to load the login page\nplease check your Internet connection</string>
+    <string name="login__refresh">Refresh</string>
+    <string name="login__login_failure">Failed to log you in, please restart the app or try again later</string>
+
+    <string name="none">None</string>
+
+    <string name="general__banned_ip">Too many failed login attempts were done before, this IP is blocked for a couple of hours.\n\nPlease try again later.</string>
+    <string name="general__captcha">Website login required.\n\nPlease open myanimelist.net website on your mobile web browser and login/relogin there.</string>
+
+    <!-- statuses -->
+    <string name="watching">Watching</string>
+    <string name="completed">Completed</string>
+    <string name="onHold">On Hold</string>
+    <string name="dropped">Dropped</string>
+    <string name="planToWatch">Plan to Watch</string>
+    <string name="reading">Reading</string>
+    <string name="planToRead">Plan to Read</string>
+    <string name="planned">Planned</string>
+
+    <!-- airing/publishing statuses -->
+    <string name="airing">Airing</string>
+    <string name="notYetAired">Not Yet Aired</string>
+    <string name="publishing">Publishing</string>
+    <string name="notYetPublished">Not Yet Published</string>
+    <string name="finished">Finished</string>
+
+    <!-- types -->
+    <string name="tv">TV</string>
+    <string name="ova">OVA</string>
+    <string name="movie">Movie</string>
+    <string name="special">Special</string>
+    <string name="ona">ONA</string>
+    <string name="musical">Music</string>
+    <string name="manga">Manga</string>
+    <string name="novel">Novel</string>
+    <string name="oneShot">One Shot</string>
+    <string name="doujinshi">Doujinshi</string>
+    <string name="manhwa">Manhwa</string>
+    <string name="manhua">Manhua</string>
+    <string name="oel">OEL</string>
+    <string name="anime">Anime</string>
+
+    <!-- scores -->
+    <string name="noScore">— / No Score</string>
+    <string name="score10">10 / Masterpiece</string>
+    <string name="score9">9  / Great</string>
+    <string name="score8">8  / Very Good</string>
+    <string name="score7">7  / Good</string>
+    <string name="score6">6  / Fine</string>
+    <string name="score5">5  / Average</string>
+    <string name="score4">4  / Bad</string>
+    <string name="score3">3  / Very Bad</string>
+    <string name="score2">2  / Horrible</string>
+    <string name="score1">1  / Appalling</string>
+
+    <string name="plusOne">+1</string>
+    <string name="plusOneChapter">+1C</string>
+    <string name="plusOneVolume">+1V</string>
+
+    <!-- list -->
+    <string name="syncFailed">Unable to synchronize your list, please check your Internet connection</string>
+    <string name="syncFailedTimeout">Timeout, please check if <u>myanimelist.net</u> is available</string>
+    <string name="syncFailedMalDown">Looks like <u>myanimelist.net</u> is down, please check the website</string>
+    <string name="updateFailed">Unable to update this title, check your connection or try again later&#8230;</string>
+    <string name="updateUnsynchFailed">Unable to update this title, please resynchronize your list&#8230;</string>
+    <string name="removingFailed">Unable to remove this title, check your connection or try again later&#8230;</string>
+    <string name="addingFailed">Unable to add this title, check your connection or try again later&#8230;</string>
+    <string name="removingConfirmation">Do you really want to remove this title from your list?</string>
+    <string name="getListFailed">Unable to retrieve your list, check your connection or try again later&#8230;</string>
+    <string name="anime_list">Anime List</string>
+    <string name="manga_list">Manga List</string>
+    <string name="someListIsEmpty">Your \"%s\" list is empty</string>
+    <!-- %s - watching/dropped/etc. -->
+    <string name="sorting">Sorting</string>
+    <string name="title">Title</string>
+    <string name="progress">Progress</string>
+    <string name="reverse">Reverse</string>
+    <string name="lastUpdated">Last Updated</string>
+    <string name="synchronization">Synchronization</string>
+    <string name="lastSynchronized">Synchronized %s</string>
+    <string name="filter">Filter</string>
+    <string name="refresh">Refresh</string>
+    <string name="sort">Sort</string>
+    <string name="scoreList">Score: %s</string>
+    <string name="typeList">Type: %s</string>
+    <string name="tagsInList"><![CDATA["Tags: <i>%s</i>"]]></string>
+    <string name="unableToParseLink">Unable to parse this link</string>
+
+    <string name="shareAnimeListText">My anime list - https://myanimelist.net/animelist/%s</string>
+    <string name="shareMangeListText">My manga list - https://myanimelist.net/mangalist/%s</string>
+
+    <!-- first time user experience -->
+    <string name="rightSwipeTip">Swipe to the right to open the main menu</string>
+    <string name="filterTip">Swipe down to refresh the list</string>
+    <string name="longClickTip">Long click on the list item to show the \"+1\" button</string>
+    <string name="clickTip">Click on the episodes label to show the \"+1\" button</string>
+    <string name="attention">Attention</string>
+    <string name="hentaiFtue">In Upcoming, Airing and Just Added lists you may descry some hentai titles with NSFW posters. The app provides you with a hentai filter for these lists, do you want to activate it?</string>
+    <string name="hentaiFtueAdditional">(you always can switch the filter in \"Settings\")</string>
+
+    <!-- title details -->
+    <string name="addToMyList">Add to my list</string>
+    <string name="tagsLabel">Tags</string>
+    <string name="editTags">No tags</string>
+    <string name="type">Type</string>
+    <string name="episodes">Episodes</string>
+    <string name="chapters">Chapters</string>
+    <string name="volumes">Volumes</string>
+    <string name="status">Status</string>
+    <string name="aired">Aired</string>
+    <string name="published">Published</string>
+    <string name="score">Score</string>
+    <string name="duration">Duration</string>
+    <string name="rating">Rating</string>
+    <string name="genres">Genres</string>
+    <string name="premiered">Premiered</string>
+    <string name="broadcast">Broadcast</string>
+    <string name="producers">Producers</string>
+    <string name="licensors">Licensors</string>
+    <string name="studios">Studios</string>
+    <string name="source">Source</string>
+    <string name="dateNotAvailable">Not available</string>
+    <string name="adding">Adding</string>
+    <string name="removing">Removing</string>
+    <string name="detailsLoadingFail">Unable to get title\'s details, check your connection or try again later&#8230;</string>
+    <string name="goToWebsiteAnime"><u>View details on MAL</u></string>
+    <string name="removeTitleFromList">Remove from list</string>
+    <string name="editDetails">Edit Details</string>
+    <string name="rateTitle">Rate this title</string>
+    <string name="emptySynopsis">No synopsis information has been added to this title.</string>
+    <string name="discuss">Discuss</string>
+    <string name="copy">Copy</string>
+    <string name="serialization">Serialization</string>
+    <string name="authors">Authors</string>
+    <string name="noneFound">None found</string>
+    <string name="englishTitle"><![CDATA[<b>English:</b> %s]]></string>
+    <string name="romajiTitle"><![CDATA[<b>Romaji:</b> %s]]></string>
+    <string name="synonyms"><![CDATA[<b>Synonyms:</b> %s]]></string>
+    <string name="japaneseTitle"><![CDATA[<b>Japanese:</b> %s]]></string>
+    <string name="emptyTitle">Title is empty</string>
+    <string name="animeDetailsTitle">Anime Details</string>
+    <string name="mangaDetailsTitle">Manga Details</string>
+    <string name="details__unable_to_parse_link">Unable to get the title ID, please try again later…</string>
+    <string name="details__unable_load_details">Unable to load the title\'s details\nplease check your Internet connection</string>
+
+    <!-- about -->
+    <string name="about">About</string>
+    <string name="rateApp">Rate app</string>
+
+    <!-- edit details -->
+    <string name="watchingPeriod">Watching Period</string>
+    <string name="readingPeriod">Reading Period</string>
+    <string name="startDate">Start Date</string>
+    <string name="finishDate">Finish Date</string>
+
+    <!-- logout -->
+    <string name="logout">Logout</string>
+    <string name="logoutConfirmation">Are you sure you want to log out?</string>
+
+    <string name="episodes_popup__update">Update</string>
+    <string name="episodes_popup__not_valid_episodes">Invalid number</string>
+
+    <!-- left sliding menu -->
+    <string name="spentDaysDummy">Days spent: 0</string>
+    <string name="spentDays">Days spent: %.2f</string>
+    <string name="zero">0</string>
+    <string name="questionMark">\?</string>
+    <string name="someonesAnimeList">%s\'s anime list</string>
+    <string name="someonesMangaList">%s\'s manga list</string>
+    <string name="switchToManga">Switch to Manga</string>
+    <string name="switchToAnime">Switch to Anime</string>
+    <string name="menuList">My List</string>
+    <string name="peopleSearch">People Search</string>
+    <string name="recentAnime">Recent Anime</string>
+    <string name="recentManga">Recent Manga</string>
+    <string name="activity">Activity</string>
+    <string name="history">History</string>
+
+    <!-- search -->
+    <string name="search">Search</string>
+    <string name="animeSearch">Anime Search</string>
+    <string name="mangaSearch">Manga Search</string>
+    <string name="searchFailed">Unable to load data. Please check your connection or try again later&#8230;</string>
+    <string name="emptySearchResult">No titles matching your query were found</string>
+    <string name="episodesSearchList">Episodes: %s</string>
+    <string name="chaptersSearchList">Chapters: %s</string>
+    <string name="volumesSearchList">Volumes: %s</string>
+    <string name="queryIsTooShort">Query must be at least 3 characters long</string>
+
+    <!-- recent activity -->
+    <string name="recent__failed">Unable to connect to MAL, check your connection or try again later&#8230;</string>
+    <string name="recent__get_rssLink">Get RSS link</string>
+    <string name="recent__share">Share</string>
+    <string name="recent__copy_to_clipboard">Copy to clipboard</string>
+    <string name="recent__rss_link">RSS Link</string>
+    <string name="history__failed">Unable to connect to MAL, check your connection or try again later&#8230;</string>
+
+    <!-- problems -->
+    <string name="getIdFailed">Unable to obtain the title ID, please try again later&#8230;</string>
+    <string name="notSyncAnimeList">Your anime list is not synchronized</string>
+    <string name="notSyncMangaList">Your manga list is not synchronized</string>
+    <string name="resynchronizeRequest">Please resynchronize your list</string>
+    <string name="noShareApp">You don\'t have any apps to share text</string>
+    <string name="noWebBrowser">You don\'t have any apps to open links</string>
+    <string name="noCalendar">You don\'t have any apps to add event</string>
+    <string name="addingFailedOnMal">Unable to get title details&#8230;\n\nIf this title is on your list, please resynchronize it.</string>
+    <string name="gettingDetailsFailed">Unable to get additional information. Please try again later&#8230;</string>
+    <string name="notApprovedTitle">This title has not been approved yet</string>
+    <string name="possiblyNotApprovedTitle">Unable to add this title to your list, most likely it has not been approved yet</string>
+    <string name="unableToAddTitle">Unable to add this title. Please, report it to developer</string>
+    <string name="unableToRefreshTitleDetails">Unable to refresh the title\'s details, check your connection or try again later&#8230;</string>
+
+    <string name="copiedToClipboard">Copied to clipboard</string>
+
+    <!-- set as "watching"/"reading"/"completed" dialogs -->
+    <string name="setAnimeAsCompleted">You have watched the last episode. Do you want to set this anime as \"Completed\"?</string>
+    <string name="setAsWatching">Do you want to set this anime as \"Watching\"?</string>
+    <string name="watchedAllEpisodes">You have already watched all episodes</string>
+    <string name="readLastChapter">You have already read all chapters</string>
+    <string name="readLastVolume">You have already read all volumes</string>
+    <string name="setMangaAsCompleted">You have read the last chapter, do you want to set this manga as \"Completed\"?</string>
+    <string name="setAsReading">Do you want to set this manga as \"Reading\"?</string>
+
+    <string name="friends__friends">Friends</string>
+    <string name="friends__foreign_friends">%s\'s friends</string>
+    <string name="friends__friends_quantity">Online: %1$d / All: %2$d</string>
+    <string name="friends__no_friends">You don\'t have any MAL friends</string>
+    <string name="friends__refresh_failed">Unable to refresh your friends list</string>
+    <string name="friends__fetch_failed">Unable to retrieve your friends list, check your connection or try again later</string>
+
+    <!-- user profile -->
+    <string name="user_profile__last_online">Last online: %s</string>
+    <string name="user_profile__unknown_online">unknown</string>
+    <string name="user_profile__online">Online</string>
+    <string name="user_profile__view_on_mal">View on MAL</string>
+    <string name="user_profile__join_date">Joined: %s</string>
+    <string name="user_profile__get_user_details_fail">Unable to get user info, check your connection or try again later&#8230;</string>
+    <string name="user_profile__no_connection">No connection</string>
+
+    <string name="search__query">Query</string>
+    <string name="search__type">Type</string>
+    <string name="search__score">Score</string>
+    <string name="search__status">Status</string>
+    <string name="search__rated">Rated</string>
+    <string name="search__airing_period">Airing Period</string>
+    <string name="search__publishing_period">Publishing Period</string>
+    <string name="search__none">None</string>
+    <string name="search__genres">Genres</string>
+    <string name="search__sorting">Sorting</string>
+    <string name="search__search">SEARCH</string>
+    <string name="search__too_small_query">Must have at least 3 byte characters or be empty to search</string>
+    <string name="search__exclude">Exclude selected genres</string>
+    <string name="search__reverse">Reverse</string>
+
+    <string name="searchResult">Search Result</string>
+    <string name="searchHistory">Search History</string>
+    <string name="searching">Searching</string>
+    <string name="cannotFindUser">Failed to find the specified user, please try again</string>
+    <string name="removeFromHistory">Do you want to remove this user from search history?</string>
+    <string name="userRecentAnime">%s\'s recent anime</string>
+    <string name="userRecentManga">%s\'s recent manga</string>
+
+    <string name="settings__settings">Settings</string>
+    <string name="settings__list_section">List</string>
+    <string name="settings__auto_sync">Auto Synchronization</string>
+    <string name="settings__auto_sync_description">Synchronize your list when the application starts</string>
+    <string name="settings__default_list">Default List</string>
+    <string name="settings__default_list_description">Preferred list to be shown when the application starts</string>
+    <string name="settings__view">View</string>
+    <string name="settings__theme">Theme</string>
+    <string name="settings__theme_description">Choose light, dark or black theme</string>
+    <string name="settings__simple_view">Simple View</string>
+    <string name="settings__simple_view_description">Don\'t show posters in list</string>
+    <string name="settings__simple_external_browser">External Browser</string>
+    <string name="settings__simple_external_browser_description">Use external browser to open links</string>
+    <string name="settings__simple_view_notification">This change will be applied after next app start</string>
+    <string name="settings__details">Details</string>
+    <string name="settings__show_tags">Display Tags</string>
+    <string name="settings__show_tags_description">Displaying your tags in list</string>
+    <string name="settings__auto_date">Auto Date</string>
+    <string name="settings__auto_date_description">Automatically set start and finish date</string>
+    <string name="settings__save_sorting_state">Save Sorting State</string>
+    <string name="settings__save_sorting_state_description">Don\'t lose sorting state when app is closing</string>
+    <string name="settings__search">Search</string>
+    <string name="settings__english_titles_description">Show English titles if available</string>
+    <string name="settings__english_titles">English Titles</string>
+    <string name="settings__action_popup_section">Action Popup</string>
+    <string name="settings__action_popup">Action Popup</string>
+    <string name="settings__action_popup_description">Show Action Popup when certain actions are performed</string>
+    <string name="settings__action_popup_options">Action Popup Settings</string>
+    <string name="settings__action_popup_options_description">Choose when the Action Popup appears</string>
+    <string name="settings__rate_completed">Rate Just Completed Titles</string>
+    <string name="settings__rate_completed_description">Propose to rate just completed titles</string>
+    <string name="settings__others_section">Others</string>
+    <string name="settings__hentai_filter">NSFW content</string>
+    <string name="settings__hentai_filter_your_list">Your List</string>
+    <string name="settings__hentai_filter_your_list_description">Display NSFW content in your list</string>
+    <string name="settings__hentai_filter_browse">Browse / Search</string>
+    <string name="settings__hentai_filter_browse_description">Display NSFW content in Browse section and Search results</string>
+
+    <!-- action popup -->
+    <string name="shareTitleText">%1$s - %2$s\n\n#Pocket_MAL</string>
+
+    <string name="startedToWatchAnime">I\'ve recently started watching \"{title}\" - {link}</string>
+    <string name="resumedToWatchAnime">I\'ve recently resumed watching \"{title}\" from the {watched_episodes?} progress - {link}</string>
+    <string name="watchingAnime">I\'ve recently watched the {watched_episodes?} progress of \"{title}\" - {link}</string>
+    <string name="watchingWithSeriesEpisodesAnime">I\'ve recently watched the {watched_episodes?} of {series_episodes} episodes of \"{title}\" - {link}</string>
+    <string name="completedAnime">I\'ve recently completed watching \"{title}\" - {link}</string>
+    <string name="completedWithScoreAnime">I\'ve recently completed watching \"{title}\", My final score: {score}/10 - {link}</string>
+    <string name="onHoldAnime">I\'ve temporarily stopped watching \"{title}\" after the {watched_episodes?} progress - {link}</string>
+    <string name="droppedAnime">I\'ve recently dropped the anime \"{title}\" after the {watched_episodes?} progress - {link}</string>
+    <string name="planToWatchAnime">I plan to watch \"{title}\" - {link}</string>
+    <string name="rewatchedAnime">I\'ve recently rewatched \"{title}\" one more time - {link}</string>
+    <string name="ratedAnime">I\'ve recently rated the anime \"{title}\", My score: {score}/10 - {link}</string>
+    <string name="changedTagsAnime">My notes about the anime \"{title}\": \"{tags}\" - {link}</string>
+
+    <string name="startedToReadManga">I\'ve recently started reading \"{title}\" - {link}</string>
+    <string name="resumedToReadChaptersManga">I\'ve recently resumed reading \"{title}\" from the {read_chapters?} chapter - {link}</string>
+    <string name="resumedToReadVolumesManga">I\'ve recently resumed reading \"{title}\" from the {read_volumes?} volume - {link}</string>
+    <string name="planToReadManga">I plan to read \"{title}\" - {link}</string>
+    <string name="readingChapterManga">I\'ve recently read the {read_chapters?} chapter of \"{title}\" - {link}</string>
+    <string name="readingChapterWithSeriesChapterManga">I\'ve recently read the {read_chapters?} of {series_chapters} chapters of \"{title}\" - {link}</string>
+    <string name="readingVolumeManga">I\'ve recently read the {read_volumes?} volumes of \"{title}\" - {link}</string>
+    <string name="readingVolumesWithSeriesVolumesManga">I\'ve recently read the {read_volumes?} of {series_volumes} volumes of \"{title}\" - {link}</string>
+    <string name="completedManga">I\'ve recently completed reading \"{title}\" - {link}</string>
+    <string name="completedWithScoreManga">I\'ve recently completed reading \"{title}\", My final score: {score}/10 - {link}</string>
+    <string name="droppedManga">I\'ve recently dropped the manga \"{title}\" after the {read_chapters?} chapter - {link}</string>
+    <string name="droppedVolumesManga">I\'ve recently dropped the manga \"{title}\" after the {read_volumes?} volume - {link}</string>
+    <string name="onHoldManga">I\'ve temporarily stopped reading \"{title}\" after the {read_chapters?} chapter - {link}</string>
+    <string name="onHoldVolumesManga">I\'ve temporarily stopped reading \"{title}\" after the {read_volumes?} volume - {link}</string>
+    <string name="rereadManga">I\'ve recently reread \"{title}\" one more time - {link}</string>
+    <string name="ratedManga">I\'ve recently rated the manga \"{title}\", My score: {score}/10 - {link}</string>
+    <string name="changedTagsManga">My notes about the manga \"{title}\": \"{tags}\" - {link}</string>
+
+    <string name="sharing_pattern__from">\n\n#Pocket_MAL</string>
+
+    <string name="sharing_pattern__name_rated">Rated</string>
+    <string name="sharing_pattern__name_tags">Updated tags</string>
+    <string name="sharing_pattern__name_completed">Completed</string>
+    <string name="sharing_pattern__name_completed_and_scored">Completed and scores</string>
+    <string name="sharing_pattern__name_on_hold">Put on hold</string>
+    <string name="sharing_pattern__name_on_hold_with_volumes">Put on hold (with volumes)</string>
+    <string name="sharing_pattern__name_dropped">Dropped</string>
+    <string name="sharing_pattern__name_dropped_with_volumes">Dropped (with volumes)</string>
+    <string name="sharing_pattern__name_started">Started</string>
+    <string name="sharing_pattern__name_started_from_episode">Started from not first progress</string>
+    <string name="sharing_pattern__name_started_from_chapter">Started from not first chapter</string>
+    <string name="sharing_pattern__name_started_from_volume">Started from not first volume</string>
+    <string name="sharing_pattern__name_planned">Planned</string>
+
+    <string name="sharing_pattern__name_rewatched">Rewatched</string>
+    <string name="sharing_pattern__name_watched_with_episodes">Watched progress when quantity of series episodes is defined</string>
+    <string name="sharing_pattern__name_watched">Watched progress when quantity of series episodes is undefined</string>
+
+    <string name="sharing_pattern__name_reread">Reread</string>
+    <string name="sharing_pattern__name_read_chapters_with_chapters">Read chapter when quantity of series chapters is defined</string>
+    <string name="sharing_pattern__name_read_chapters">Read chapter when quantity of series chapters is undefined</string>
+    <string name="sharing_pattern__name_read_volumes_with_volumes">Read volume when quantity of series volumes is defined</string>
+    <string name="sharing_pattern__name_read_volumes">Read volume when quantity of series volumes is undefined</string>
+
+    <string name="sharing_pattern__help">
+        Followed expressions will be replaced with appropriate values in runtime:\n\n\n
+        <b>{title}</b> - Series title\n\n
+        <b>{link}</b> - Series link\n\n
+        <b>{score}</b> - Your score\n\n
+        <!--<b>{tags}</b> - Your tags\n\n-->
+        <b>{watched_episodes}</b> - Your watched episodes (e.g 4)\n\n
+        <b>{watched_episodes?}</b> - Your watched episodes with number suffix (e.g 4th)\n\n
+        <b>{read_chapters}</b> - Your read chapters (e.g 4)\n\n
+        <b>{read_chapters?}</b> - Your read chapters with number suffix (e.g 4th)\n\n
+        <b>{read_volumes}</b> - Your read volumes (e.g 4)\n\n
+        <b>{read_volumes?}</b> - Your read volumes with number suffix (e.g 4th)\n\n
+        <b>{series_episodes}</b> - Series episodes\n\n
+        <b>{series_chapters}</b> - Series chapters\n\n
+        <b>{series_volumes}</b> - Series volumes
+    </string>
+
+    <string name="reminder__title">Reminder: %s</string>
+    <string name="reminder__continue_watching">Continue watching: %1$s\n%2$s</string>
+    <string name="reminder__plan_to_watch">I plan to watch: %1$s\n%2$s</string>
+    <string name="reminder__continue_reading">Continue reading: %1$s\n%2$s</string>
+    <string name="reminder__plan_to_read">I plan to read: %1$s\n%2$s</string>
+    <!-- action popup end -->
+
+    <!-- content descriptors (accessibility) -->
+    <!-- These ones are descriptors of some UI elements for people with poor vision -->
+    <string name="episodesPopupDescription">Show progress count manager</string>
+    <string name="updateFromPopupDescription">Update number of episodes/chapters</string>
+    <string name="poster">Poster</string>
+    <string name="detailsLoading">Loading details</string>
+    <string name="avatarDescription">Your avatar</string>
+
+    <!-- arrays -->
+    <string-array name="defaultListArray">
+        <item>Anime</item>
+        <item>Manga</item>
+        <item>Last opened</item>
+    </string-array>
+
+    <string-array name="popupCasesArray">
+        <item>Watching/Reading update</item>
+        <item>Score</item>
+        <item>Status</item>
+    </string-array>
+
+    <string-array name="themesArray">
+        <item>Light</item>
+        <item>Dark</item>
+        <item>Black</item>
+    </string-array>
+
+    <string-array name="tagsLocationArray">
+        <item>In details</item>
+        <item>In list</item>
+    </string-array>
+
+    <string-array name="search__anime_statuses">
+        <item>Airing</item>
+        <item>Finished</item>
+        <item>Not Yet Aired</item>
+    </string-array>
+
+    <string-array name="search__manga_statuses">
+        <item>Publishing</item>
+        <item>Finished</item>
+        <item>Not Yet Published</item>
+    </string-array>
+
+    <string-array name="search__anime_types">
+        <item>TV</item>
+        <item>OVA</item>
+        <item>Movie</item>
+        <item>Special</item>
+        <item>ONA</item>
+        <item>Music</item>
+    </string-array>
+
+    <string-array name="search__manga_types">
+        <item>Manga</item>
+        <item>Novel</item>
+        <item>One Shot</item>
+        <item>Doujin</item>
+        <item>Manhwa</item>
+        <item>Manhua</item>
+    </string-array>
+
+    <string-array name="search__anime_ratings">
+        <item>G - All Ages</item>
+        <item>PG - Children</item>
+        <item>PG-13 - Teens 13 or older</item>
+        <item>R - 17+ (violence + profanity)</item>
+        <item>R+ - Mild Nudity</item>
+        <item>Rx - Hentai</item>
+    </string-array>
+
+    <string-array name="search__anime_genres">
+        <item>Action</item>
+        <item>Adventure</item>
+        <item>Cars</item>
+        <item>Comedy</item>
+        <item>Dementia</item>
+        <item>Demons</item>
+        <item>Drama</item>
+        <item>Ecchi</item>
+        <item>Fantasy</item>
+        <item>Game</item>
+        <item>Harem</item>
+        <item>Hentai</item>
+        <item>Historical</item>
+        <item>Horror</item>
+        <item>Josei</item>
+        <item>Kids</item>
+        <item>Magic</item>
+        <item>Martial Arts</item>
+        <item>Mecha</item>
+        <item>Military</item>
+        <item>Music</item>
+        <item>Mystery</item>
+        <item>Parody</item>
+        <item>Police</item>
+        <item>Psychological</item>
+        <item>Romance</item>
+        <item>Samurai</item>
+        <item>School</item>
+        <item>Sci-Fi</item>
+        <item>Seinen</item>
+        <item>Shoujo</item>
+        <item>Shoujo Ai</item>
+        <item>Shounen</item>
+        <item>Shounen Ai</item>
+        <item>Slice of Life</item>
+        <item>Space</item>
+        <item>Sports</item>
+        <item>Super Power</item>
+        <item>Supernatural</item>
+        <item>Thriller</item>
+        <item>Vampire</item>
+        <item>Yaoi</item>
+        <item>Yuri</item>
+    </string-array>
+
+    <string-array name="search__manga_genres">
+        <item>Action</item>
+        <item>Adventure</item>
+        <item>Cars</item>
+        <item>Comedy</item>
+        <item>Dementia</item>
+        <item>Demons</item>
+        <item>Doujinshi</item>
+        <item>Drama</item>
+        <item>Ecchi</item>
+        <item>Fantasy</item>
+        <item>Game</item>
+        <item>Gender Bender</item>
+        <item>Harem</item>
+        <item>Hentai</item>
+        <item>Historical</item>
+        <item>Horror</item>
+        <item>Josei</item>
+        <item>Kids</item>
+        <item>Magic</item>
+        <item>Martial Arts</item>
+        <item>Mecha</item>
+        <item>Military</item>
+        <item>Music</item>
+        <item>Mystery</item>
+        <item>Parody</item>
+        <item>Police</item>
+        <item>Psychological</item>
+        <item>Romance</item>
+        <item>Samurai</item>
+        <item>School</item>
+        <item>Sci-Fi</item>
+        <item>Seinen</item>
+        <item>Shoujo</item>
+        <item>Shoujo Ai</item>
+        <item>Shounen</item>
+        <item>Shounen Ai</item>
+        <item>Slice of Life</item>
+        <item>Space</item>
+        <item>Sports</item>
+        <item>Super Power</item>
+        <item>Supernatural</item>
+        <item>Thriller</item>
+        <item>Vampire</item>
+        <item>Yaoi</item>
+        <item>Yuri</item>
+    </string-array>
+
+    <string-array name="search__anime_sorting">
+        <item>Type</item>
+        <item>Episodes</item>
+        <item>Score</item>
+    </string-array>
+
+    <string-array name="search__manga_sorting">
+        <item>Type</item>
+        <item>Volumes</item>
+        <item>Score</item>
+    </string-array>
+
+    <string name="anime_rating_g">G - All Ages</string>
+    <string name="anime_rating_pg">PG - Children</string>
+    <string name="anime_rating_pg13">PG-13 - Teens 13 or older</string>
+    <string name="anime_rating_r">R - 17+ (violence + profanity)</string>
+    <string name="anime_rating_rplus">R+ - Mild Nudity</string>
+    <string name="anime_rating_rx">Rx - Hentai</string>
+
+    <!-- related title type -->
+    <string name="adaptation">Adaptation</string>
+    <string name="prequel">Prequel</string>
+    <string name="sideStory">Side story</string>
+    <string name="alternativeSetting">Alternative setting</string>
+    <string name="alternativeVersion">Alternative version</string>
+    <string name="other">Other</string>
+    <string name="sequel">Sequel</string>
+    <string name="spinOff">Spin-off</string>
+    <string name="summary">Summary</string>
+    <string name="character">Character</string>
+    <string name="parentStory">Parent story</string>
+    <string name="fullStory">Full story</string>
+
+    <!-- profile -->
+    <string name="male">Male</string>
+    <string name="female">Female</string>
+    <string name="notSpecified">Not specified</string>
+    <string name="user_profile__empty_username">Username is empty, please relaunch the app&#8230;</string>
+
+    <string name="member">Member</string>
+    <string name="siteAdministrator">Site Administrator</string>
+    <string name="dataBaseAdministrator">Database Administrator</string>
+    <string name="animeDbModerator">Anime DB Moderator</string>
+    <string name="mangaDbModerator">Manga DB Moderator</string>
+    <string name="newsModerator">News Moderator</string>
+    <string name="forumModerator">Forum Moderator</string>
+
+    <string name="january">January</string>
+    <string name="february">February</string>
+    <string name="march">March</string>
+    <string name="april">April</string>
+    <string name="may">May</string>
+    <string name="june">June</string>
+    <string name="july">July</string>
+    <string name="august">August</string>
+    <string name="september">September</string>
+    <string name="october">October</string>
+    <string name="november">November</string>
+    <string name="december">December</string>
+    <string name="rewatching">Rewatching</string>
+    <string name="rereading">Rereading</string>
+
+    <string name="forceLogout">Unable to restore your session, please login again or check your user profile on the MAL website</string>
+    <string name="notLoggedIn">You are not logged it</string>
+    <string name="credentialsWereChanged">Your username or password was changed</string>
+
+    <!-- about -->
+    <string name="developedBy">Developed by Vasyl Glodan</string>
+    <string name="developerMal">https://myanimelist.net/profile/G-Lodan</string>
+    <string name="supportInfo">Pocket MAL is an unofficial client for MyAnimeList.\n\nIf you need support please distinguish between MyAnimeList service and Pocket MAL application.\n\nPlease read MyAnimeList FAQ before asking your question.</string>
+    <string name="pocketMalSupport">Pocket MAL Support</string>
+    <string name="malSupport">MyAnimeList Support</string>
+    <string name="malFaq">MyAnimeList FAQ</string>
+    <string name="about__help_explanation">Pocket MAL is going to open E-Mail client on your device, please type down your problem and send it. Please, don\'t leave e-mail empty!</string>
+
+    <!-- rewatching -->
+    <string name="rewatching__rewatched_times_message">You\'ve just rewatched this anime for the %s time</string>
+    <string name="rewatching__rereading_times_message">You\'ve just reread this manga for the %s time</string>
+    <string name="rewatchedTimes">Rewatched times</string>
+    <string name="rereadTimes">Reread times</string>
+    <string name="totalTimesRewatched">Total times rewatched* :</string>
+    <string name="totalTimesReread">Total times reread* :</string>
+    <string name="thisFieldCannotBeEmpty">This field cannot be empty</string>
+    <string name="rewatchingDialogHelp">Due the MyAnimeList API limitation Pocket MAL cannot obtain number of rewatched/reread times and increase it automatically, so you have to manage it manually\n\nIf you are not sure what to enter here please click \"CANCEL\" on previous dialog and finish rewatching/rereading from website</string>
+    <string name="rewatchingTip">* - this number should NOT include the first time you completed this series</string>
+    <string name="help">Help</string>
+    <string name="rewatchingHelp">Due the MyAnimeList API limitation Pocket MAL cannot obtain number of rewatched/reread times and increase it automatically, so you have to manage it manually\n\nThis field doesn\'t show you rewatched/reread times, only allows you to enter it</string>
+
+    <!-- base -->
+    <string name="topAnime">Top Anime</string>
+    <string name="topManga">Top Manga</string>
+    <string name="mostPopularAnime">Most Popular Anime</string>
+    <string name="mostPopularManga">Most Popular Manga</string>
+    <string name="top">Top</string>
+    <string name="mostPopular">Most Popular</string>
+    <string name="getTopFail">Unable to load data, check your connection or try again later&#8230;</string>
+    <string name="upcoming">Upcoming</string>
+    <string name="justAdded">Just Added</string>
+    <string name="upcomingAnime">Upcoming Anime</string>
+    <string name="upcomingManga">Upcoming Manga</string>
+    <string name="airingAnime">Airing Anime</string>
+    <string name="publishingManga">Publishing Manga</string>
+    <string name="justAddedAnime">Just added Anime</string>
+    <string name="justAddedManga">Just added Manga</string>
+    <string name="others">Others</string>
+    <string name="noRecommendations">No recommendations have been made yet.</string>
+    <string name="noReviews">No reviews have been added yet.</string>
+    <string name="getRecommendationsFailed">Unable to get the recommendation, check your connection or try again later&#8230;</string>
+    <string name="getReviewsFailed">Unable to get reviews, check your connection or try again later&#8230;</string>
+    <string name="reviews__empty_title">Unable to get title name, please relaunch the app&#8230;</string>
+    <string name="recommendations__empty_title">Unable to get title name, please relaunch the app&#8230;</string>
+    <string name="recommendations">Recommendations</string>
+    <string name="readRecommendations">Recommended by %d users</string>
+    <string name="readRecommendation">Recommended by 1 user</string>
+
+    <string name="emptyTags"><i>Empty tags</i></string>
+    <string name="details_info__popularity">Popularity</string>
+    <string name="details_info__members">Members</string>
+    <string name="details_info__favorites">Favorites</string>
+    <string name="details_info__ranked">Ranked</string>
+    <string name="details__invalid_link">Invalid link</string>
+
+    <string name="need_help"><u>Need help?</u></string>
+    <string name="social_login"><u>Twitter, G+, Facebook login</u></string>
+
+    <string name="social_login_body">Pocket MAL doesn\'t support logging in via social networks, please go to the MAL website and create a password for your existing account to be able to use this app.</string>
+
+    <string name="help__help">Help</string>
+    <string name="help__body_1"><![CDATA[
+        <b>Pocket MAL is not a standalone application it\'s just an UNOFFICIAL client for https://myanimelist.net</b><br/><br/><br/>
+        <b>1. I can\'t login</b><br/><br/>
+        If you are constantly getting message that your username or password is incorrect, but you are totally sure they are not, please try to reset your password on the website, this may solve your issue. Please understand that this is most likely problem on MAL\'s side, MAL API is quite bad and it could just tell the app that you credentials are wrong even if they are right.<br/><br/>
+        <b>2. I forgot my password/username</b><br/><br/>
+        You can recover you password or username on myanimelist website.
+        ]]></string>
+    <string name="help__body_2">
+        <![CDATA[
+        <b>3. I want to login via my social network account</b><br/><br/>
+        Sorry, but you cannot do that. Unfortunately MAL doesn\'t allow developers to integrate login via social networks in third-party apps, but you can go to the desktop website and create password for your existing account, after that you will be able to use Pocket MAL.<br/><br/>
+        <b>4. I cannot login into the app, app says my username or password is wrong but I\'m sure it isn\'t</b><br/><br/>
+        Make sure you are able to log in on the website.<br/>
+        Make sure your password doesn\'t contain \", \', &lt;, &gt;, : symbols, MAL has some problems with this symbol in third-party applications. If your password contains these symbols please go to the MAL website and change your password to be able to use Pocket MAL. Also, try to avoid any special symbols in your password.<br/>
+        Also, try to login in other third-party MAL apps for Android, iOS or desktop, and contact support if you cannot login only in Pocket MAL.<br/><br/>
+        <b>5. I cannot register</b><br/><br/>
+        Pocket MAL just redirects you to the MAL website so if you have some problem with registration it\'s not Pocket MAL\'s problem, please go to the desktop website and try to register your account there.
+        ]]>
+    </string>
+    <string name="help__no_email_client">There are no email clients installed</string>
+
+    <string name="edit_details__invalid_quantity">Quantity your have entered is not valid</string>
+    <string name="edit_details__title_not_found">Unable to load the title, please synchronize your list</string>
+
+    <string name="home__registration_alert">Attention!\n\nThis app doesn\'t support login via social networks. Please create regular account with \"username\" and \"password\" to be able to use this app.</string>
+    <string name="more_info__more_info">More Info</string>
+    <string name="more_info__fail_message">Unable to get more info, check your Internet connection or try again later…</string>
+
+    <string name="series_episodes_label">" / %s"</string>
+    <string name="filter__type">"Type: %s"</string>
+    <string name="filter__start_date">"Start Date: %s"</string>
+
+    <string name="top__number">#%s</string>
+    <string name="top__score">"%1$s, Score: %2$s"</string>
+
+    <string name="stats__total_entries">Total entries: %d</string>
+    <string name="stats__days_spent">Days spent: %s</string>
+    <string name="stats__mean_score">Mean score: %s</string>
+    <string name="stats__rewatched">Rewatched: %d</string>
+    <string name="stats__reread">Reread: %d</string>
+    <string name="stats__episodes">Episodes: %s</string>
+    <string name="stats__chapters">Chapters: %s</string>
+    <string name="stats__volumes">Volumes: %s</string>
+
+    <string name="about__no_google_play">Unable to find Google Play application</string>
+    <string name="about__no_email_client">There are no email clients installed</string>
+    <string name="about__website">For more information about updates, developer or donation visit Pocket MAL website →</string>
+
+    <string name="help__recover_username">Recover Username</string>
+    <string name="help__recover_password">Recover Password</string>
+
+    <string name="db_downgrade_notification">Something went wrong with the local data base, please reinstall the app…</string>
+
+    <string name="support__support">Support</string>
+    <string name="support__send">Send</string>
+    <string name="support__explanation">Describe your problem in 15 or more characters. Please use English, Russian or Ukrainian, emails in other languages won\'t be responded.</string>
+    <string name="support__hint">Describe your problem</string>
+
+    <string name="reviews__reviews">Reviews</string>
+    <string name="reviews__review">Review</string>
+    <string name="reviews__overall_rating">Overall Rating</string>
+    <string name="reviews__helpful">Helpful for %s people</string>
+
+    <string name="general__share_via">Share via</string>
+    <string name="user_profile__favorites">FAVORITES</string>
+    <string name="history__no_history_found">No history found</string>
+
+    <string name="seasonal__title">Seasonal Anime</string>
+    <string name="seasonal__seasonal">Seasonal</string>
+    <string name="seasonal__season">Season</string>
+    <string name="seasonal__fail">Unable to connect to MAL, check your connection or try again later&#8230;</string>
+    <string name="seasonal__loading">Loading a huge piece of information, it may take a few seconds, please wait&#8230;</string>
+    <string name="seasonal__wait">Please wait until current loading completion</string>
+    <string name="seasonal__year">Year</string>
+    <string name="seasonal__load">Load</string>
+    <string name="seasonal__empty_season">No titles in this season.</string>
+
+    <string name="browse">Discover</string>
+    <string name="search__advanced_search">Advanced search</string>
+
+    <string name="poster__title">Image</string>
+    <string name="poster__empty_url">Unable to load this image, please try again&#8230;</string>
+    <string name="poster__share">Share Image</string>
+    <string name="poster__download">Download Image</string>
+    <string name="poster__permission_explanation_storage">To be able to download this image this app requires STORAGE permission</string>
+    <string name="poster__downloading_title">Downloading</string>
+    <string name="poster__downloading_description">Downloading an image</string>
+    <string name="poster__downloading_completed">Image has been downloaded, check your \"Downloads\" directory</string>
+
+    <string name="themes__title">Opening/Ending Themes</string>
+    <string name="themes__opening">Opening Themes</string>
+    <string name="themes__ending">Ending Themes</string>
+    <string name="themes__empty">Not Found</string>
+    <string name="themes__unable_to_load">Unable to load songs list</string>
+    <string name="themes__youtube">YouTube Search</string>
+    <string name="themes__copy">Copy</string>
+
+</resources>

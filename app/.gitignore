@@ -1,0 +1,17 @@
+.project
+.settings
+.DS_Store
+.classpath
+.idea
+.gradle
+
+build/
+
+src/main/res/values/com_crashlytics_export_strings.xml
+src/main/assets/crashlytics-build.properties
+
+app.iml
+gradlew
+gradlew.bat
+local.properties
+google-services.json

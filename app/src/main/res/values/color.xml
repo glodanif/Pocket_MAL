@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="main_dark">#234596</color>
+    <color name="main">#2e51a2</color>
+    <color name="main_light">#33b5e5</color>
+    <color name="main_light_pressed">#99e4ff</color>
+
+    <color name="error_message">#ff6464</color>
+
+    <color name="main_background">#e5e5e5</color>
+    <color name="main_background_dark">#222222</color>
+    <color name="main_background_black">#000000</color>
+
+    <color name="card_view_background">#ffffff</color>
+    <color name="card_view_background_dark">#313131</color>
+    <color name="card_view_background_black">#000000</color>
+
+    <color name="text_color_primary">#636363</color>
+    <color name="text_color_primary_dark">#ffffff</color>
+
+    <color name="text_color_secondary">#696969</color>
+    <color name="text_color_secondary_dark">#dddddd</color>
+
+    <color name="text_color_tertiary">#333333</color>
+    <color name="text_color_tertiary_dark">#dddddd</color>
+    
+    <color name="text_regular">#333333</color>
+    <color name="text_regular_dark">#dddddd</color>
+
+    <color name="divider">#aaaaaa</color>
+    <color name="unselected">#aaaaaa</color>
+    <color name="general_sub_text">#aaaaaa</color>
+
+    <color name="hint_login">#999999</color>
+
+    <color name="border_website">#cccccc</color>
+
+    <color name="poster_background">#eeeeee</color>
+
+    <color name="in_progress_graph">#2db039</color>
+    <color name="completed_graph">#26448f</color>
+    <color name="on_hold_graph">#f9d457</color>
+    <color name="dropped_graph">#a12f31</color>
+    <color name="planned_graph">#c3c3c3</color>
+
+    <color name="hashtag_selector">#8fff</color>
+
+</resources>

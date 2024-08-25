@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/tv_increment_button"
+        android:layout_width="@dimen/increment_popup_width"
+        android:layout_height="wrap_content"
+        android:layout_margin="4dp"
+        android:background="@drawable/blue_button"
+        android:clickable="true"
+        android:elevation="2dp"
+        android:gravity="center"
+        android:padding="16dp"
+        android:text="@string/plusOne"
+        android:textColor="@android:color/white"
+        android:textSize="20sp"
+        android:visibility="invisible"
+        tools:visibility="visible" />
+</FrameLayout>

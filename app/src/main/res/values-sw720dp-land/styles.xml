@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="DrawerCollapsingContent">
+        <item name="android:visibility">visible</item>
+    </style>
+
+    <style name="LoginForm">
+        <item name="android:layout_width">500dp</item>
+        <item name="android:layout_marginTop">42dp</item>
+    </style>
+
+</resources>

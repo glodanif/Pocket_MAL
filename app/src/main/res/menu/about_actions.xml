@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/action_rate"
+        android:icon="@drawable/ic_baseline_star_24"
+        app:showAsAction="ifRoom"
+        android:title="@string/rateApp"/>
+
+    <item
+        android:id="@+id/action_share"
+        android:icon="@drawable/ic_baseline_share_24"
+        app:showAsAction="ifRoom"
+        android:title="@string/recent__share"/>
+</menu>

@@ -1,0 +1,52 @@
+<resources>
+
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+
+    <dimen name="activity_login_horizontal_margin">16dp</dimen>
+    <dimen name="activity_login_vertical_margin">16dp</dimen>
+
+    <dimen name="details_horizontal_padding">12dp</dimen>
+    <dimen name="details_vertical_padding">12dp</dimen>
+
+    <dimen name="drawer_width">288dp</dimen>
+
+    <dimen name="action_popup_offset">20dp</dimen>
+
+    <dimen name="related_big_padding">8dp</dimen>
+    <dimen name="related_little_padding">4dp</dimen>
+    <dimen name="related_padding_side">10dp</dimen>
+
+    <dimen name="min_dialog_width">320dp</dimen>
+
+    <dimen name="list_popup_width">220dp</dimen>
+    <dimen name="list_popup_padding">4dp</dimen>
+    <dimen name="episodes_popup_padding">4dp</dimen>
+    <dimen name="increment_popup_width">90dp</dimen>
+
+    <dimen name="episode_text_size">16sp</dimen>
+    <dimen name="episode_home_text_size">16sp</dimen>
+    <dimen name="episode_label_text_size">10sp</dimen>
+    <dimen name="seasonal_bottom_info">10sp</dimen>
+
+    <dimen name="fap_margin">4dp</dimen>
+
+    <dimen name="min_item_width">0dp</dimen>
+    <dimen name="default_text_size">14sp</dimen>
+    <dimen name="default_item_margin">2dp</dimen>
+    <dimen name="default_item_padding">4dp</dimen>
+    <dimen name="default_row_margin">2dp</dimen>
+
+    <dimen name="seasonal_column_width">320dp</dimen>
+
+    <dimen name="streak_thickness">3dp</dimen>
+    <dimen name="streak_circle_radius">6dp</dimen>
+    <dimen name="streak_text_shift">8dp</dimen>
+    <dimen name="streak_text_size">14sp</dimen>
+    <dimen name="streak_text_padding">2dp</dimen>
+
+    <dimen name="hashtag_margin">4dp</dimen>
+    <dimen name="hashtag_startend_padding">6dp</dimen>
+    <dimen name="hashtag_topbottom_padding">2dp</dimen>
+</resources>

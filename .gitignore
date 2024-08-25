@@ -1,0 +1,14 @@
+.project
+.settings
+.DS_Store
+.classpath
+.idea
+.gradle
+
+build/
+captures/
+
+pocket-mal.iml
+local.properties
+gradle.properties
+pocketmal.properties

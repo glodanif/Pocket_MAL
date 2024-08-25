@@ -1,0 +1,8 @@
+<resources>
+
+    <dimen name="episode_text_size">20sp</dimen>
+    <dimen name="episode_home_text_size">20sp</dimen>
+    <dimen name="episode_label_text_size">12sp</dimen>
+    <dimen name="seasonal_bottom_info">12sp</dimen>
+
+</resources>

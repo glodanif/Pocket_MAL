@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="Theme.Mal" parent="Theme.AppCompat.Light.NoActionBar">
+
+        <item name="colorPrimary">@color/main</item>
+        <item name="colorPrimaryDark">@color/main_dark</item>
+        <item name="colorAccent">@color/main_light</item>
+
+        <item name="android:dialogTheme">@style/Theme.Dialog</item>
+        <item name="actionBarStyle">@style/Mal.ActionBarStyle</item>
+        <item name="android:actionBarItemBackground">@drawable/selectable_background_mal</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowBackground">@color/main_background</item>
+        <item name="android:colorBackground">@android:color/white</item>
+
+        <item name="android:textColorPrimary">@color/text_color_primary</item>
+        <item name="android:textColorSecondary">@color/text_color_secondary</item>
+        <item name="android:textColorTertiary">@color/text_color_tertiary</item>
+        <item name="cardViewStyle">@style/CardViewStyle.Light</item>
+        <item name="cardBorderDrawable">@null</item>
+    </style>
+
+    <style name="Theme.Mal.Dark" parent="Theme.AppCompat.NoActionBar">
+
+        <item name="colorPrimary">@color/main</item>
+        <item name="colorPrimaryDark">@color/main_dark</item>
+        <item name="colorAccent">@color/main_light</item>
+
+        <item name="android:dialogTheme">@style/Theme.Dialog</item>
+        <item name="actionBarStyle">@style/Mal.ActionBarStyle.Dark</item>
+        <item name="android:actionBarItemBackground">@drawable/selectable_background_mal</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowBackground">@color/main_background_dark</item>
+        <item name="android:colorBackground">@color/main_background_dark</item>
+
+        <item name="android:textColorPrimary">@color/text_color_primary_dark</item>
+        <item name="android:textColorSecondary">@color/text_color_secondary_dark</item>
+        <item name="android:textColorTertiary">@color/text_color_tertiary_dark</item>
+        <item name="cardViewStyle">@style/CardViewStyle.Dark</item>
+        <item name="cardBorderDrawable">@null</item>
+    </style>
+
+    <style name="Theme.Mal.Black" parent="Theme.Mal.Dark">
+        <item name="android:windowBackground">@color/main_background_black</item>
+        <item name="android:colorBackground">@color/main_background_black</item>
+        <item name="cardViewStyle">@style/CardViewStyle.Black</item>
+        <item name="cardBorderDrawable">@drawable/border_black_card</item>
+    </style>
+
+    <style name="Theme.Mal.NativeDialog.WhiteBackground.DialogWhenLarge" parent="Theme.AppCompat.Light.DialogWhenLarge">
+
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+
+        <item name="android:dialogTheme">@style/Theme.AppCompat.Light.Dialog</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowBackground">@android:color/white</item>
+
+        <item name="android:textColor">@color/text_regular</item>
+        <item name="android:textColorPrimary">@color/text_color_primary</item>
+        <item name="android:textColorSecondary">@color/text_color_secondary</item>
+        <item name="android:textColorTertiary">@color/text_color_tertiary</item>
+
+        <item name="colorPrimary">@color/main</item>
+        <item name="colorPrimaryDark">@color/main_dark</item>
+        <item name="colorAccent">@color/main_light</item>
+        <item name="cardBorderDrawable">@null</item>
+    </style>
+
+    <style name="Theme.Mal.Dark.NativeDialog.DialogWhenLarge" parent="Theme.AppCompat.DialogWhenLarge">
+
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+
+        <item name="android:dialogTheme">@style/Theme.AppCompat.Light.Dialog</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowBackground">@color/main_background_dark</item>
+
+        <item name="android:textColor">@color/text_regular_dark</item>
+        <item name="android:textColorPrimary">@color/text_color_primary_dark</item>
+        <item name="android:textColorSecondary">@color/text_color_secondary_dark</item>
+        <item name="android:textColorTertiary">@color/text_color_tertiary_dark</item>
+
+        <item name="colorPrimary">@color/main</item>
+        <item name="colorPrimaryDark">@color/main_dark</item>
+        <item name="colorAccent">@color/main_light</item>
+        <item name="cardBorderDrawable">@null</item>
+    </style>
+
+    <style name="Theme.Mal.Black.NativeDialog.DialogWhenLarge" parent="Theme.Mal.Dark.NativeDialog.DialogWhenLarge">
+        <item name="android:windowBackground">@color/main_background_black</item>
+        <item name="android:colorBackground">@color/main_background_black</item>
+        <item name="cardViewStyle">@style/CardViewStyle.Black</item>
+        <item name="cardBorderDrawable">@drawable/border_black_card</item>
+
+    </style>
+
+    <style name="Theme.Mal.WhiteBackground" parent="@style/Theme.Mal">
+        <item name="android:windowBackground">@android:color/white</item>
+    </style>
+
+    <style name="Theme.Mal.NativeDialog.WhiteBackground" parent="@style/Theme.Mal.NativeDialog">
+        <item name="android:windowBackground">@android:color/white</item>
+    </style>
+
+    <style name="Theme.Mal.NativeDialog" parent="@style/Theme.Mal">
+        <item name="android:dialogTheme">@style/Theme.AppCompat.Light.Dialog</item>
+    </style>
+
+    <style name="Theme.Mal.Dark.NativeDialog" parent="@style/Theme.Mal.Dark">
+        <item name="android:dialogTheme">@style/Theme.AppCompat.Light.Dialog</item>
+    </style>
+
+    <style name="Theme.Mal.Black.NativeDialog" parent="@style/Theme.Mal.Black">
+        <item name="android:dialogTheme">@style/Theme.AppCompat.Light.Dialog</item>
+    </style>
+
+    <style name="Theme.Mal.LoginScreen" parent="@style/Theme.AppCompat.Light.NoActionBar">
+        <item name="android:dialogTheme">@style/Theme.Dialog</item>
+        <item name="android:windowBackground">@color/main</item>
+
+        <item name="colorPrimary">@color/main</item>
+        <item name="colorPrimaryDark">@color/main_dark</item>
+        <item name="colorAccent">@color/main_light</item>
+    </style>
+
+    <attr name="cardViewStyle" format="reference" />
+
+    <style name="CardViewStyle.Light" parent="CardView">
+        <item name="cardBackgroundColor">@color/card_view_background</item>
+    </style>
+
+    <style name="CardViewStyle.Dark" parent="CardView">
+        <item name="cardBackgroundColor">@color/card_view_background_dark</item>
+    </style>
+
+    <style name="CardViewStyle.Black" parent="CardView">
+        <item name="cardBackgroundColor">@color/card_view_background_black</item>
+    </style>
+
+    <style name="Mal.ActionBarStyle" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
+        <item name="titleTextStyle">@style/Mal.ActionBar.TitleTextStyle</item>
+        <item name="subtitleTextStyle">@style/Mal.ActionBar.SubTitleTextStyle</item>
+    </style>
+
+    <style name="Mal.ActionBarStyle.Dark" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
+        <item name="titleTextStyle">@style/Mal.ActionBar.TitleTextStyle</item>
+        <item name="subtitleTextStyle">@style/Mal.ActionBar.SubTitleTextStyle</item>
+    </style>
+
+    <style name="Mal.ActionBar.PopupStyle" parent="ThemeOverlay.AppCompat.Light">
+        <item name="android:textColor">@color/text_regular</item>
+    </style>
+
+    <style name="Mal.ActionBar.TitleTextStyle" parent="TextAppearance.AppCompat.Widget.ActionBar.Title">
+        <item name="android:textColor">#ffffff</item>
+        <item name="android:textSize">18sp</item>
+    </style>
+
+    <style name="Mal.ActionBar.SubTitleTextStyle" parent="TextAppearance.AppCompat.Widget.ActionBar.Subtitle">
+        <item name="android:textColor">#ffffff</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+
+    <style name="Theme.Dialog" parent="@style/Theme.AppCompat.Dialog">
+        <item name="android:windowNoTitle">true</item>
+        <item name="colorAccent">@color/main_light</item>
+        <item name="colorControlNormal">#727272</item>
+        <item name="android:windowBackground">@drawable/dialog_background</item>
+        <item name="android:background">@android:color/transparent</item>
+    </style>
+
+    <style name="Animation" />
+
+    <style name="Animation.DropDownDown">
+        <item name="android:windowEnterAnimation">@anim/grow_fade_in</item>
+        <item name="android:windowExitAnimation">@anim/shrink_fade_out</item>
+    </style>
+
+    <style name="Animation.DropDownUp">
+        <item name="android:windowEnterAnimation">@anim/grow_fade_in_from_bottom</item>
+        <item name="android:windowExitAnimation">@anim/shrink_fade_out_from_bottom</item>
+    </style>
+
+    <style name="Animation.DropDownCenter">
+        <item name="android:windowEnterAnimation">@anim/grow_fade_in_center</item>
+        <item name="android:windowExitAnimation">@anim/shrink_fade_out_center</item>
+    </style>
+
+    <style name="Animation.ActionPopupAnimation">
+        <item name="android:windowEnterAnimation">@anim/popup_open_sliding</item>
+        <item name="android:windowExitAnimation">@anim/popup_close_sliding</item>
+    </style>
+
+</resources>

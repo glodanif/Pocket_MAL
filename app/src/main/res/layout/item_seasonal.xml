@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <com.g.pocketmal.ui.widget.BorderCardView
+        style="?attr/cardViewStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginBottom="4dp"
+        card_view:cardCornerRadius="2dp"
+        card_view:cardPreventCornerOverlap="false"
+        card_view:elevation="8dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <FrameLayout
+                    android:layout_width="106dp"
+                    android:layout_height="136dp">
+
+                    <ImageView
+                        android:id="@+id/iv_poster"
+                        android:layout_width="106dp"
+                        android:layout_height="136dp"
+                        android:contentDescription="@string/poster"
+                        android:scaleType="centerCrop"
+                        tools:background="@color/poster_background" />
+
+                    <TextView
+                        android:id="@+id/tv_score"
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:layout_gravity="bottom"
+                        android:background="@drawable/background_rating"
+                        android:gravity="bottom|start"
+                        android:paddingStart="4dp"
+                        android:paddingLeft="4dp"
+                        android:paddingEnd="4dp"
+                        android:paddingRight="4dp"
+                        android:textColor="@android:color/white"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        tools:text="10" />
+
+                </FrameLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/tv_title"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:ellipsize="end"
+                        android:gravity="center"
+                        android:maxLines="1"
+                        android:padding="8dp"
+                        android:textColor="?android:textColorPrimary"
+                        android:textSize="16sp"
+                        tools:text="Kakegurui" />
+
+                    <TextView
+                        android:id="@+id/tv_info"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:fontFamily="sans-serif-light"
+                        android:paddingLeft="8dp"
+                        android:paddingRight="8dp"
+                        android:textColor="?android:textColorSecondary"
+                        android:textSize="12sp"
+                        android:maxLines="1"
+                        android:ellipsize="end"
+                        tools:text="12 eps x Manga x Rx" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1px"
+                        android:layout_marginLeft="8dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginRight="8dp"
+                        android:background="#cccccc" />
+
+                    <TextView
+                        android:id="@+id/tv_genres"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="4dp"
+                        android:layout_marginLeft="4dp"
+                        android:layout_marginEnd="4dp"
+                        android:layout_marginRight="4dp"
+                        android:gravity="center"
+                        android:maxLines="2"
+                        android:padding="4dp"
+                        android:textColor="@color/main_light"
+                        android:textSize="12sp"
+                        android:textStyle="bold"
+                        tools:text="Game, Mystery, Psychological, Drama, School" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1px"
+                        android:layout_marginLeft="8dp"
+                        android:layout_marginRight="8dp"
+                        android:background="#cccccc" />
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginLeft="8dp"
+                        android:layout_marginEnd="8dp"
+                        android:layout_marginRight="8dp"
+                        android:layout_marginBottom="8dp">
+
+                        <TextView
+                            android:id="@+id/tv_airing"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentStart="true"
+                            android:layout_alignParentLeft="true"
+                            android:layout_alignParentBottom="true"
+                            android:layout_marginEnd="8dp"
+                            android:layout_marginRight="8dp"
+                            android:layout_toStartOf="@+id/iv_members"
+                            android:layout_toLeftOf="@+id/iv_members"
+                            android:ellipsize="end"
+                            android:fontFamily="sans-serif-light"
+                            android:maxLines="1"
+                            android:textColor="?android:textColorSecondary"
+                            android:textSize="@dimen/seasonal_bottom_info"
+                            tools:text="TV - Jul 4, 2017, 23:15 (JST)" />
+
+                        <ImageView
+                            android:id="@+id/iv_members"
+                            android:layout_width="16dp"
+                            android:layout_height="16dp"
+                            android:layout_marginRight="4dp"
+                            android:layout_alignParentBottom="true"
+                            android:layout_toLeftOf="@+id/tv_members"
+                            android:src="@drawable/ic_baseline_people_alt_24" />
+
+                        <TextView
+                            android:id="@+id/tv_members"
+                            android:layout_width="wrap_content"
+                            android:layout_height="16dp"
+                            android:layout_alignParentEnd="true"
+                            android:layout_alignParentRight="true"
+                            android:layout_alignParentBottom="true"
+                            android:fontFamily="sans-serif-light"
+                            android:gravity="center"
+                            android:maxLines="5"
+                            android:textColor="?android:textColorSecondary"
+                            android:textSize="@dimen/seasonal_bottom_info"
+                            tools:text="145,315" />
+                    </RelativeLayout>
+                </LinearLayout>
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#cccccc" />
+
+            <TextView
+                android:id="@+id/tv_synopsis"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:fontFamily="sans-serif-light"
+                android:maxLines="5"
+                android:padding="8dp"
+                android:textColor="?android:textColorSecondary"
+                android:textSize="14sp"
+                tools:text="Unlike many schools, attending Hyakkaou Private Academy prepares students for their time in the real world. Since many of the students are the children of the richest people in the world, the academy has its quirks that separate it from all the others. By day, it is a normal school, educating its pupils in history, languages, and the like/" />
+        </LinearLayout>
+    </com.g.pocketmal.ui.widget.BorderCardView>
+</LinearLayout>

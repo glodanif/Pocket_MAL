@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="HashtagView">
+        <attr name="tagTextColor" format="color|reference"/>
+        <attr name="tagTextSize" format="dimension"/>
+        <attr name="tagTextGravity" format="enum">
+            <enum name="left" value="3"/>
+            <enum name="right" value="5"/>
+            <enum name="center" value="17"/>
+        </attr>
+        <attr name="tagEllipsize" format="enum">
+            <enum name="start" value="0"/>
+            <enum name="middle" value="1"/>
+            <enum name="end" value="2"/>
+            <enum name="marquee" value="3"/>
+        </attr>
+        <attr name="tagBackground" format="color|reference"/>
+        <attr name="tagForeground" format="color|reference"/>
+        <attr name="tagDrawableLeft" format="reference"/>
+        <attr name="tagSelectedDrawableLeft" format="reference"/>
+        <attr name="tagDrawableRight" format="reference"/>
+        <attr name="tagSelectedDrawableRight" format="reference"/>
+        <attr name="tagDrawablePadding" format="dimension"/>
+        <attr name="tagMargin" format="dimension"/>
+        <attr name="tagPaddingLeft" format="dimension"/>
+        <attr name="tagPaddingRight" format="dimension"/>
+        <attr name="tagPaddingTop" format="dimension"/>
+        <attr name="tagPaddingBottom" format="dimension"/>
+        <attr name="tagMinWidth" format="dimension"/>
+        <attr name="tagMaxWidth" format="dimension"/>
+        <attr name="rowMargin" format="dimension"/>
+        <attr name="rowGravity" format="enum">
+            <enum name="left" value="3"/>
+            <enum name="right" value="5"/>
+            <enum name="center" value="17"/>
+        </attr>
+        <attr name="rowDistribution" format="enum">
+            <enum name="none" value="-1"/>
+            <enum name="left" value="0"/>
+            <enum name="middle" value="1"/>
+            <enum name="right" value="2"/>
+            <enum name="random" value="3"/>
+        </attr>
+        <attr name="rowMode" format="enum">
+            <enum name="wrap" value="0"/>
+            <enum name="stretch" value="1"/>
+            <enum name="equal" value="2"/>
+        </attr>
+        <attr name="rowsQuantity" format="integer"/>
+        <attr name="selectionMode" format="boolean"/>
+        <attr name="dynamicMode" format="boolean"/>
+        <attr name="radioMode" format="boolean"/>
+    </declare-styleable>
+
+    <attr name="cardBorderDrawable" format="reference" />
+
+</resources>
