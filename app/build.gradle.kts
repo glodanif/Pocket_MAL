@@ -35,6 +35,7 @@ android {
     buildFeatures {
         viewBinding = true
         buildConfig = true
+        compose = true
     }
 
     compileOptions {
@@ -105,6 +106,16 @@ android {
     dependencies {
         implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
         implementation(kotlin("stdlib-jdk7", KotlinCompilerVersion.VERSION))
+
+
+        val composeBom = platform("androidx.compose:compose-bom:2024.06.00")
+        implementation(composeBom)
+        androidTestImplementation(composeBom)
+        implementation("androidx.compose.material3:material3")
+        implementation("androidx.compose.ui:ui-tooling-preview")
+        debugImplementation("androidx.compose.ui:ui-tooling")
+        androidTestImplementation("androidx.compose.ui:ui-test-junit4")
+        debugImplementation("androidx.compose.ui:ui-test-manifest")
 
         implementation("androidx.appcompat:appcompat:1.7.0")
         implementation("androidx.recyclerview:recyclerview:1.3.2")
