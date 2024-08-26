@@ -16,6 +16,7 @@ import com.g.pocketmal.R
 import com.g.pocketmal.bind
 import com.g.pocketmal.ui.fragment.EntityListFragment
 import com.g.pocketmal.data.keyvalue.MainSettings
+import com.g.pocketmal.ui.externallinks.ExternalLinksActivity
 import com.google.android.material.snackbar.Snackbar
 
 class SettingsActivity : SkeletonToolbarActivity() {
@@ -67,6 +68,11 @@ class SettingsActivity : SkeletonToolbarActivity() {
 
             findPreference("textPatterns").setOnPreferenceClickListener {
                 SharingPatternsActivity.startActivity(activity)
+                true
+            }
+
+            findPreference("externalLinks").setOnPreferenceClickListener {
+                ExternalLinksActivity.startActivity(activity)
                 true
             }
 

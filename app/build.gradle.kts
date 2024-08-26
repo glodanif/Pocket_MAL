@@ -25,11 +25,9 @@ android {
         multiDexEnabled = true
         vectorDrawables.useSupportLibrary = true
         //testInstrumentationRunner("androidx.test.runner.AndroidJUnitRunner")
-        /*kapt {
-            arguments {
-                arg('room.schemaLocation', "$projectDir/schemas".toString())
-            }
-        }*/
+        ksp {
+            arg("room.schemaLocation", "$projectDir/schemas")
+        }
     }
 
     buildFeatures {
@@ -107,8 +105,7 @@ android {
         implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
         implementation(kotlin("stdlib-jdk7", KotlinCompilerVersion.VERSION))
 
-
-        val composeBom = platform("androidx.compose:compose-bom:2024.06.00")
+        val composeBom = platform("androidx.compose:compose-bom:2024.08.00")
         implementation(composeBom)
         androidTestImplementation(composeBom)
         implementation("androidx.compose.material3:material3")
@@ -116,6 +113,13 @@ android {
         debugImplementation("androidx.compose.ui:ui-tooling")
         androidTestImplementation("androidx.compose.ui:ui-test-junit4")
         debugImplementation("androidx.compose.ui:ui-test-manifest")
+        implementation("androidx.compose.ui:ui-text-google-fonts:1.6.8")
+
+        configurations.all {
+            resolutionStrategy {
+                force("androidx.compose.compiler:compiler:1.5.15")
+            }
+        }
 
         implementation("androidx.appcompat:appcompat:1.7.0")
         implementation("androidx.recyclerview:recyclerview:1.3.2")
@@ -124,8 +128,6 @@ android {
         implementation("androidx.browser:browser:1.8.0")
         implementation("androidx.constraintlayout:constraintlayout:2.1.4")
         implementation("com.google.android.material:material:1.12.0")
-
-        implementation("com.android.support:customtabs:28.0.0")
 
         implementation(platform("com.google.firebase:firebase-bom:33.2.0"))
         implementation("com.google.firebase:firebase-crashlytics")
@@ -143,18 +145,23 @@ android {
         implementation("com.squareup.retrofit2:retrofit:2.9.0")
         implementation("com.squareup.retrofit2:converter-gson:2.9.0")
         implementation("com.squareup.retrofit2:converter-scalars:2.9.0")
-        implementation("com.squareup.okhttp3:okhttp:4.8.0")
-        implementation("com.squareup.okhttp3:logging-interceptor:4.8.0")
-        implementation("com.google.code.gson:gson:2.8.6")
-        //implementation("com.google.guava:guava-collections:r03")
+        implementation("com.squareup.okhttp3:okhttp:4.12.0")
+        implementation("com.squareup.okhttp3:logging-interceptor:4.12.0")
+        implementation("com.google.code.gson:gson:2.11.0")
+        implementation("androidx.core:core-ktx:1.13.1")
 
-        implementation("com.google.android.gms:play-services-oss-licenses:17.0.0")
+        implementation("com.google.android.gms:play-services-oss-licenses:17.1.0")
 
         implementation("at.favre.lib:armadillo:1.0.0")
 
         implementation("androidx.room:room-runtime:2.6.1")
         implementation("androidx.room:room-ktx:2.6.1")
         ksp("androidx.room:room-compiler:2.6.1")
+
+        val activityVersion = "1.9.1"
+        implementation("androidx.activity:activity:$activityVersion")
+        implementation("androidx.activity:activity-ktx:$activityVersion")
+        implementation("androidx.activity:activity-compose:$activityVersion")
 
         /*androidTestImplementation "com.android.support:support-annotations:$ANDROID_SUPPORT_VERSION"
         androidTestImplementation "com.android.support.test.espresso:espresso-core:$ESPRESSO_VERSION"
@@ -170,6 +177,6 @@ android {
         androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
         androidTestImplementation 'junit:junit:4.13.1'*/
 
-        implementation("androidx.core:core-ktx:1.3.2")
+
     }
 }
