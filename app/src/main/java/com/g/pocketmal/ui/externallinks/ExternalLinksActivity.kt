@@ -6,7 +6,6 @@ import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -17,9 +16,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.Button
-import androidx.compose.material3.ElevatedButton
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -27,11 +24,12 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -41,26 +39,21 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.g.pocketmal.data.keyvalue.MainSettings
 import com.g.pocketmal.ui.PocketMalTheme
 import com.g.pocketmal.ui.SkeletonActivity
 import com.g.pocketmal.ui.ThemeMode
+import dagger.hilt.android.AndroidEntryPoint
 import org.koin.android.ext.android.inject
 
+@AndroidEntryPoint
 class ExternalLinksActivity : SkeletonActivity() {
-
-    private val settings: MainSettings by inject()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            PocketMalTheme(theme = ThemeMode.fromTheme(settings.getTheme())) {
-                ExternalLinksScreen(
-                    onBackPressed = {
-                        finish()
-                    }
-                )
-            }
+            ExternalLinksContent(onBackPressed = { finish() })
         }
     }
 
@@ -71,12 +64,38 @@ class ExternalLinksActivity : SkeletonActivity() {
     }
 }
 
+@Composable
+fun ExternalLinksContent(
+    onBackPressed: () -> Unit = {},
+    viewModel: ExternalLinksViewModel = hiltViewModel(),
+) {
+    val themeMode by viewModel.themeMode.collectAsState()
+    val currentPattern by viewModel.pattern.collectAsState()
+
+    PocketMalTheme(theme = themeMode) {
+        ExternalLinksScreen(
+            currentPattern = currentPattern,
+            onBackPressed = onBackPressed,
+            onPatternSaveClick = { pattern ->
+                viewModel.saveNewPattern(pattern)
+                onBackPressed()
+            }
+        )
+    }
+}
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ExternalLinksScreen(
+    currentPattern: String,
+    onPatternSaveClick: (String) -> Unit = {},
     onBackPressed: () -> Unit = {}
 ) {
-    var enteredPattern by remember { mutableStateOf("") }
+    var enteredPattern by remember { mutableStateOf(currentPattern) }
+
+    LaunchedEffect(currentPattern) {
+        enteredPattern = currentPattern
+    }
 
     Scaffold(
         topBar = {
@@ -115,11 +134,10 @@ fun ExternalLinksScreen(
                 onValueChange = { newValue ->
                     enteredPattern = newValue
                 },
-                prefix = {Text(text = "https://")},
+                prefix = { Text(text = "https://") },
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Uri)
             )
             Spacer(modifier = Modifier.height(12.dp))
-
             AnimatedVisibility(visible = enteredPattern.isNotEmpty()) {
                 Column(
                     modifier = Modifier
@@ -128,7 +146,10 @@ fun ExternalLinksScreen(
                         .background(color = MaterialTheme.colorScheme.inversePrimary)
                         .padding(12.dp)
                 ) {
-                    Text(text = "Your links will look like this", style = MaterialTheme.typography.bodySmall)
+                    Text(
+                        text = "Your links will look like this",
+                        style = MaterialTheme.typography.bodySmall
+                    )
                     val linkBody = enteredPattern
                         .replace("{type}", "anime")
                         .replace("{id}", "73510")
@@ -146,18 +167,32 @@ fun ExternalLinksScreen(
             Spacer(modifier = Modifier.height(4.dp))
             Button(
                 modifier = Modifier.fillMaxWidth(),
-                onClick = { onBackPressed() }) {
+                onClick = {
+                    onPatternSaveClick(enteredPattern)
+                }) {
                 Text(text = "Save")
             }
         }
     }
 }
 
+@Composable
+fun PrefilledTextField(text: String, onTextChange: (String) -> Unit) {
+    TextField(
+        value = text,
+        onValueChange = onTextChange,
+        label = { Text("Enter text") },
+        modifier = Modifier
+            .padding(16.dp)
+            .fillMaxWidth()
+    )
+}
+
 @Preview
 @Composable
 fun PreviewLight() {
     PocketMalTheme(theme = ThemeMode.LIGHT) {
-        ExternalLinksScreen()
+        ExternalLinksScreen(currentPattern = "")
     }
 }
 
@@ -165,7 +200,7 @@ fun PreviewLight() {
 @Composable
 fun PreviewDark() {
     PocketMalTheme(theme = ThemeMode.DARK) {
-        ExternalLinksScreen()
+        ExternalLinksScreen(currentPattern = "")
     }
 }
 
@@ -173,6 +208,6 @@ fun PreviewDark() {
 @Composable
 fun PreviewBlack() {
     PocketMalTheme(theme = ThemeMode.BLACK) {
-        ExternalLinksScreen()
+        ExternalLinksScreen(currentPattern = "")
     }
 }

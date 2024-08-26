@@ -7,6 +7,7 @@ plugins {
     id("com.google.devtools.ksp")
     id("kotlin-parcelize")
     id("com.google.android.gms.oss-licenses-plugin")
+    id("com.google.dagger.hilt.android")
     kotlin("android")
 }
 
@@ -114,6 +115,7 @@ android {
         androidTestImplementation("androidx.compose.ui:ui-test-junit4")
         debugImplementation("androidx.compose.ui:ui-test-manifest")
         implementation("androidx.compose.ui:ui-text-google-fonts:1.6.8")
+        implementation("androidx.hilt:hilt-navigation-compose:1.2.0")
 
         configurations.all {
             resolutionStrategy {
@@ -128,6 +130,7 @@ android {
         implementation("androidx.browser:browser:1.8.0")
         implementation("androidx.constraintlayout:constraintlayout:2.1.4")
         implementation("com.google.android.material:material:1.12.0")
+        implementation("androidx.datastore:datastore-preferences:1.1.1")
 
         implementation(platform("com.google.firebase:firebase-bom:33.2.0"))
         implementation("com.google.firebase:firebase-crashlytics")
@@ -162,6 +165,10 @@ android {
         implementation("androidx.activity:activity:$activityVersion")
         implementation("androidx.activity:activity-ktx:$activityVersion")
         implementation("androidx.activity:activity-compose:$activityVersion")
+
+        val hilt = "2.51.1"
+        implementation("com.google.dagger:hilt-android:$hilt")
+        ksp("com.google.dagger:hilt-compiler:$hilt")
 
         /*androidTestImplementation "com.android.support:support-annotations:$ANDROID_SUPPORT_VERSION"
         androidTestImplementation "com.android.support.test.espresso:espresso-core:$ESPRESSO_VERSION"
