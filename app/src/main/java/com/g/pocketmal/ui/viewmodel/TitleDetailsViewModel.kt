@@ -32,5 +32,5 @@ class TitleDetailsViewModel(
         val airingStats: String?,
         val episodesLabel: String,
         val subEpisodesLabel: String,
-        val withSubEpisodes: Boolean
+        val withSubEpisodes: Boolean,
 )

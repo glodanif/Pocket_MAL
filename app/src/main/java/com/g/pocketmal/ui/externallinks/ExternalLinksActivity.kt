@@ -125,7 +125,7 @@ fun ExternalLinksScreen(
         ) {
             Text(text = "In order to open external links you need to create your link pattern manually")
             Spacer(modifier = Modifier.height(12.dp))
-            Text(text = "Use {type} to set a title type (anime or manga), and {id} - title id")
+            Text(text = "Use {type} to set a title type (anime or manga), and {id} - title id on MAL")
             Spacer(modifier = Modifier.height(24.dp))
             TextField(
                 modifier = Modifier.fillMaxWidth(),

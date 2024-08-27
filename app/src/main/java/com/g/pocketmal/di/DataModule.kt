@@ -11,6 +11,7 @@ import com.g.pocketmal.data.keyvalue.UserPreferencesSerializer
 import com.google.gson.Gson
 import dagger.Module
 import dagger.Provides
+import dagger.hilt.EntryPoint
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
@@ -56,5 +57,11 @@ object DataModule {
     @Provides
     fun providesMainSettings(@ApplicationContext appContext: Context): MainSettings {
         return MainSettings(appContext)
+    }
+
+    @EntryPoint
+    @InstallIn(SingletonComponent::class)
+    interface DataStoreEntryPoint {
+        fun getUserPreferencesDataStore(): DataStore<UserPreferences>
     }
 }
