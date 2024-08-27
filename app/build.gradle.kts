@@ -20,8 +20,8 @@ android {
     defaultConfig {
         minSdkVersion(21)
         targetSdkVersion(34)
-        versionCode = 215
-        versionName = "5.0.5"
+        versionCode = 216
+        versionName = "5.0.6"
         applicationId = "com.g.pocketmal"
         multiDexEnabled = true
         vectorDrawables.useSupportLibrary = true
