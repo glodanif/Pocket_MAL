@@ -43,4 +43,6 @@ interface TitleDetailsView: BaseSessionView {
 
     fun showCopied()
     fun unableToCopy()
+
+    fun externalLinksPatternChanged(pattern: String)
 }

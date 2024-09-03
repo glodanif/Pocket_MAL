@@ -5,10 +5,11 @@
 .idea
 .gradle
 
+*.hprof
+
 build/
 captures/
 
 pocket-mal.iml
 local.properties
-gradle.properties
 pocketmal.properties

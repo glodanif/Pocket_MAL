@@ -1,5 +1,6 @@
 package com.g.pocketmal.di
 
+import androidx.datastore.core.DataStore
 import com.g.pocketmal.data.api.ApiService
 import com.g.pocketmal.data.api.MalApiService
 import com.g.pocketmal.data.api.request.OAuthConfig
@@ -13,7 +14,9 @@ import com.g.pocketmal.data.keyvalue.MainSettings
 import com.g.pocketmal.data.keyvalue.SessionManager
 import com.g.pocketmal.data.platform.*
 import com.g.pocketmal.data.keyvalue.SharingPatternDispatcher
+import com.g.pocketmal.data.keyvalue.UserPreferences
 import com.g.pocketmal.util.list.ListsManager
+import dagger.hilt.android.EntryPointAccessors
 import org.koin.android.ext.koin.androidContext
 import org.koin.dsl.module
 

@@ -1,15 +1,24 @@
 package com.g.pocketmal.ui.presenter
 
-import android.text.TextUtils
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.OnLifecycleEvent
 import com.g.pocketmal.R
 import com.g.pocketmal.data.api.SessionExpiredException
 import com.g.pocketmal.data.api.UpdateParams
+import com.g.pocketmal.data.common.Status
 import com.g.pocketmal.data.database.model.DbListRecord
+import com.g.pocketmal.data.keyvalue.MainSettings
 import com.g.pocketmal.data.platform.ClipboardManager
 import com.g.pocketmal.data.util.TitleType
-import com.g.pocketmal.domain.interactor.*
+import com.g.pocketmal.di.DataModule
+import com.g.pocketmal.domain.exception.NotApprovedTitleException
+import com.g.pocketmal.domain.exception.UnsynchronizedListException
+import com.g.pocketmal.domain.interactor.AddTitleToListInteractor
+import com.g.pocketmal.domain.interactor.GetRecordFromDbInteractor
+import com.g.pocketmal.domain.interactor.GetTitleDetailsInteractor
+import com.g.pocketmal.domain.interactor.LogoutInteractor
+import com.g.pocketmal.domain.interactor.RemoveTitleFromListInteractor
+import com.g.pocketmal.domain.interactor.UpdateTitleInteractor
 import com.g.pocketmal.ordinal
 import com.g.pocketmal.ui.route.TitleDetailsRoute
 import com.g.pocketmal.ui.view.TitleDetailsView
@@ -18,51 +27,70 @@ import com.g.pocketmal.ui.viewmodel.converter.ListItemConverter
 import com.g.pocketmal.ui.viewmodel.converter.TitleDetailsConverter
 import com.g.pocketmal.util.Action
 import com.g.pocketmal.util.EpisodeType
-import com.g.pocketmal.data.common.Status
-import com.g.pocketmal.data.keyvalue.MainSettings
-import com.g.pocketmal.domain.exception.NotApprovedTitleException
-import com.g.pocketmal.domain.exception.UnsynchronizedListException
 import com.g.pocketmal.util.list.ListsManager
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.launch
 
-class TitleDetailsPresenter(private var recordId: Int,
-                            private var titleType: TitleType,
-                            private val view: TitleDetailsView,
-                            private val route: TitleDetailsRoute,
-                            private val listsManager: ListsManager,
-                            private val settings: MainSettings,
-                            private val recordConverter: ListItemConverter,
-                            private val detailsConverter: TitleDetailsConverter,
-                            private val clipboardManager: ClipboardManager,
-                            private val getTitleDetailsInteractor: GetTitleDetailsInteractor,
-                            private val addTitleToListInteractor: AddTitleToListInteractor,
-                            private val removeTitleFromListInteractor: RemoveTitleFromListInteractor,
-                            private val getRecordFromDbInteractor: GetRecordFromDbInteractor,
-                            private val updateTitleInteractor: UpdateTitleInteractor,
-                            private val logoutInteractor: LogoutInteractor
+class TitleDetailsPresenter(
+    private var recordId: Int,
+    private var titleType: TitleType,
+    private val view: TitleDetailsView,
+    private val route: TitleDetailsRoute,
+    private val listsManager: ListsManager,
+    private val settings: MainSettings,
+    private val recordConverter: ListItemConverter,
+    private val detailsConverter: TitleDetailsConverter,
+    private val clipboardManager: ClipboardManager,
+    private val getTitleDetailsInteractor: GetTitleDetailsInteractor,
+    private val addTitleToListInteractor: AddTitleToListInteractor,
+    private val removeTitleFromListInteractor: RemoveTitleFromListInteractor,
+    private val getRecordFromDbInteractor: GetRecordFromDbInteractor,
+    private val updateTitleInteractor: UpdateTitleInteractor,
+    private val logoutInteractor: LogoutInteractor,
+    private val userPreferences: DataModule.DataStoreEntryPoint,
 ) : BaseUpdatingPresenter(
-        view,
-        route,
-        listsManager,
-        logoutInteractor,
-        updateTitleInteractor
+    view,
+    route,
+    listsManager,
+    logoutInteractor,
+    updateTitleInteractor
 ) {
+
+    private val coroutineScope = CoroutineScope(Dispatchers.Main + Job())
 
     //FIXME get rid of state!
     private var currentRecord: RecordViewModel? = null
     var notLoadedAnythingLastTime = false
 
+    private var externalLinksPattern = ""
+
+    init {
+        watchUserPreferences()
+    }
+
+    private fun watchUserPreferences() {
+        coroutineScope.launch {
+            userPreferences.getUserPreferencesDataStore().data.collect { preferences ->
+                externalLinksPattern = preferences.externalLinkPattern
+                view.externalLinksPatternChanged(externalLinksPattern)
+            }
+        }
+    }
 
     fun loadRecord(networkUpdate: Boolean) {
 
         getRecordFromDbInteractor.execute(GetRecordFromDbInteractor.Params(recordId, titleType),
-                onResult = { record ->
-                    currentRecord = recordConverter.transform(record)
-                    currentRecord?.let { view.displayRecord(it) }
-                    view.resetToolbarMenu()
-                },
-                onError = {
-                    view.showNotInListLayout()
-                }
+            onResult = { record ->
+                currentRecord = recordConverter.transform(record)
+                currentRecord?.let { view.displayRecord(it) }
+                view.resetToolbarMenu()
+            },
+            onError = {
+                view.showNotInListLayout()
+            }
         )
 
         loadDetails(networkUpdate)
@@ -83,59 +111,59 @@ class TitleDetailsPresenter(private var recordId: Int,
         val useEnglishTitles = settings.showEnglishTitles()
 
         getTitleDetailsInteractor.execute(GetTitleDetailsInteractor.Params(recordId, titleType),
-                skipNetwork = !networkUpdate,
-                onCacheResult = { result ->
+            skipNetwork = !networkUpdate,
+            onCacheResult = { result ->
 
-                    view.hideUnableToLoadAnything()
-                    val viewModel = detailsConverter.transform(result.details)
-                    view.displayDetails(viewModel, useEnglishTitles)
+                view.hideUnableToLoadAnything()
+                val viewModel = detailsConverter.transform(result.details)
+                view.displayDetails(viewModel, useEnglishTitles)
 
-                    if (currentRecord == null) {
-                        val currentRecord = recordConverter.createFrame(recordId, titleType, viewModel)
-                        view.displayRecord(currentRecord, viewModel, useEnglishTitles)
-                    }
-                    wasPreviouslyLoaded = true
-                    view.hideDetailsLoading()
-                },
-                onNetworkResult = { result ->
-
-                    view.hideUnableToLoadAnything()
-                    val viewModel = detailsConverter.transform(result.details)
-                    view.displayDetails(viewModel, useEnglishTitles)
-
-                    if (result.record != null) {
-
-                        val record = result.record
-                        val viewRecord = recordConverter.transform(record)
-                        currentRecord = viewRecord
-                        view.displayRecord(viewRecord, viewModel, useEnglishTitles)
-                        listsManager.remove(recordId, titleType)
-                        listsManager.add(record)
-                    } else {
-                        val viewRecord = recordConverter.createFrame(recordId, titleType, viewModel)
-                        currentRecord = viewRecord
-                        view.displayRecord(viewRecord, viewModel, useEnglishTitles)
-                    }
-
-                },
-                onNetworkError = { throwable ->
-
-                    if (throwable is SessionExpiredException) {
-                        view.notifyUserAboutForceLogout()
-                        route.redirectToLoginScreen()
-                    } else {
-                        if (wasPreviouslyLoaded) {
-                            view.showFailedToUpdateTitleThroughNetwork()
-                        } else {
-                            notLoadedAnythingLastTime = true
-                            view.showUnableToLoadAnything()
-                        }
-                    }
-                },
-                onComplete = {
-                    view.hideSyncIndicator()
-                    view.hideDetailsLoading()
+                if (currentRecord == null) {
+                    val currentRecord = recordConverter.createFrame(recordId, titleType, viewModel)
+                    view.displayRecord(currentRecord, viewModel, useEnglishTitles)
                 }
+                wasPreviouslyLoaded = true
+                view.hideDetailsLoading()
+            },
+            onNetworkResult = { result ->
+
+                view.hideUnableToLoadAnything()
+                val viewModel = detailsConverter.transform(result.details)
+                view.displayDetails(viewModel, useEnglishTitles)
+
+                if (result.record != null) {
+
+                    val record = result.record
+                    val viewRecord = recordConverter.transform(record)
+                    currentRecord = viewRecord
+                    view.displayRecord(viewRecord, viewModel, useEnglishTitles)
+                    listsManager.remove(recordId, titleType)
+                    listsManager.add(record)
+                } else {
+                    val viewRecord = recordConverter.createFrame(recordId, titleType, viewModel)
+                    currentRecord = viewRecord
+                    view.displayRecord(viewRecord, viewModel, useEnglishTitles)
+                }
+
+            },
+            onNetworkError = { throwable ->
+
+                if (throwable is SessionExpiredException) {
+                    view.notifyUserAboutForceLogout()
+                    route.redirectToLoginScreen()
+                } else {
+                    if (wasPreviouslyLoaded) {
+                        view.showFailedToUpdateTitleThroughNetwork()
+                    } else {
+                        notLoadedAnythingLastTime = true
+                        view.showUnableToLoadAnything()
+                    }
+                }
+            },
+            onComplete = {
+                view.hideSyncIndicator()
+                view.hideDetailsLoading()
+            }
         )
     }
 
@@ -218,27 +246,27 @@ class TitleDetailsPresenter(private var recordId: Int,
         view.showLoadingDialog(R.string.adding)
 
         addTitleToListInteractor.execute(AddTitleToListInteractor.Params(recordId, titleType),
-                onResult = { dbRecord ->
+            onResult = { dbRecord ->
 
-                    listsManager.add(dbRecord)
-                    val justAddedViewModel = recordConverter.transform(dbRecord)
-                    currentRecord = justAddedViewModel
+                listsManager.add(dbRecord)
+                val justAddedViewModel = recordConverter.transform(dbRecord)
+                currentRecord = justAddedViewModel
 
-                    view.displayNewlyAddedTitle(justAddedViewModel)
-                    view.showActions(justAddedViewModel, Action.ACTION_STATUS)
-                    view.resetToolbarMenu()
-                },
-                onError = { throwable ->
-                    if (throwable is NotApprovedTitleException) {
-                        view.showAddingFailureBecauseNotApproved()
-                    } else {
-                        view.showAddingFailure()
-                    }
-                    view.showNotInListLayout()
-                },
-                onComplete = {
-                    view.hideLoadingDialog()
+                view.displayNewlyAddedTitle(justAddedViewModel)
+                view.showActions(justAddedViewModel, Action.ACTION_STATUS)
+                view.resetToolbarMenu()
+            },
+            onError = { throwable ->
+                if (throwable is NotApprovedTitleException) {
+                    view.showAddingFailureBecauseNotApproved()
+                } else {
+                    view.showAddingFailure()
                 }
+                view.showNotInListLayout()
+            },
+            onComplete = {
+                view.hideLoadingDialog()
+            }
         )
     }
 
@@ -246,28 +274,38 @@ class TitleDetailsPresenter(private var recordId: Int,
 
         view.showLoadingDialog(R.string.removing)
 
-        removeTitleFromListInteractor.execute(RemoveTitleFromListInteractor.Params(recordId, titleType),
-                onResult = {
-                    listsManager.remove(recordId, titleType)
-                    currentRecord = recordConverter.createFrame(recordId, titleType)
-                    view.showNotInListLayout()
-                    view.resetToolbarMenu()
-                },
-                onError = {
-                    view.showRemovingFailure()
-                },
-                onComplete = {
-                    view.hideLoadingDialog()
-                }
+        removeTitleFromListInteractor.execute(RemoveTitleFromListInteractor.Params(
+            recordId,
+            titleType
+        ),
+            onResult = {
+                listsManager.remove(recordId, titleType)
+                currentRecord = recordConverter.createFrame(recordId, titleType)
+                view.showNotInListLayout()
+                view.resetToolbarMenu()
+            },
+            onError = {
+                view.showRemovingFailure()
+            },
+            onComplete = {
+                view.hideLoadingDialog()
+            }
         )
     }
 
     //FIXME don't call presenter from view?
     fun isInMyList() = currentRecord != null && currentRecord?.myStatus != Status.NOT_IN_LIST
 
-    fun onMalLinkClick() {
+    fun onExternalLinkClick() {
         currentRecord?.let {
-            route.openMalLink(it.malLink)
+            if (externalLinksPattern.isEmpty()) {
+                route.openExternalLinkSetup()
+            } else {
+                val externalLink = "https://" + externalLinksPattern
+                    .replace("{type}", if (titleType == TitleType.ANIME) "anime" else "manga")
+                    .replace("{id}", recordId.toString())
+                route.openExternalLink(externalLink)
+            }
         }
     }
 
