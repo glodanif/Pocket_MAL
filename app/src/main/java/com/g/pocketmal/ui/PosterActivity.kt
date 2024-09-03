@@ -8,6 +8,7 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.content.pm.PackageManager
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.os.Environment
 import android.text.TextUtils
@@ -56,8 +57,13 @@ class PosterActivity : SkeletonToolbarActivity() {
 
     override fun onStart() {
         super.onStart()
-        registerReceiver(downloadingReceiver,
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            registerReceiver(downloadingReceiver,
+                IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE), RECEIVER_EXPORTED)
+        } else {
+            registerReceiver(downloadingReceiver,
                 IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE))
+        }
     }
 
     override fun onStop() {
@@ -79,54 +85,13 @@ class PosterActivity : SkeletonToolbarActivity() {
                 true
             }
             R.id.action_download -> {
-                checkWriteStoragePermission()
+                downloadPoster()
                 true
             }
             else -> super.onOptionsItemSelected(item)
         }
     }
 
-    private fun checkWriteStoragePermission() {
-
-        if (ContextCompat.checkSelfPermission(this,
-                        Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
-            downloadPoster()
-        } else {
-            if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
-                explainAskingStoragePermission()
-            } else {
-                ActivityCompat.requestPermissions(this,
-                        arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE), REQUEST_STORAGE_PERMISSION)
-            }
-        }
-    }
-
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
-
-        if (requestCode == REQUEST_STORAGE_PERMISSION) {
-            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                downloadPoster()
-            } else {
-                explainAskingStoragePermission()
-            }
-        }
-    }
-
-    private fun explainAskingStoragePermission() {
-
-        AlertDialog.Builder(this)
-                .setMessage(R.string.poster__permission_explanation_storage)
-                .setPositiveButton(R.string.ok
-                ) { _, _ ->
-                    ActivityCompat.requestPermissions(this@PosterActivity,
-                            arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE),
-                            REQUEST_STORAGE_PERMISSION
-                    )
-                }
-                .show()
-    }
-
-    @RequiresPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)
     private fun downloadPoster() {
 
         val isValidUrl = posterUrl?.startsWith("http", false) ?: false
@@ -155,7 +120,6 @@ class PosterActivity : SkeletonToolbarActivity() {
     companion object {
 
         private const val EXTRA_POSTER_URL = "extra.poster_url"
-        private const val REQUEST_STORAGE_PERMISSION = 101
 
         fun start(context: Context, url: String?) {
             val intent = Intent(context, PosterActivity::class.java)
