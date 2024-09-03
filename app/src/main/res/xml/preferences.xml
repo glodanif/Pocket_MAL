@@ -43,10 +43,10 @@
 
         <ListPreference
             android:defaultValue="1"
-            android:icon="@null"
-            android:key="theme"
             android:entries="@array/themesArray"
             android:entryValues="@array/themesValues"
+            android:icon="@null"
+            android:key="theme"
             android:summary="@string/settings__theme_description"
             android:title="@string/settings__theme" />
 
@@ -63,6 +63,10 @@
             android:key="externalBrowser"
             android:summary="@string/settings__simple_external_browser_description"
             android:title="@string/settings__simple_external_browser" />
+        <Preference
+            android:key="externalLinks"
+            android:summary="Choose how you want to open links"
+            android:title="External links" />
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/settings__action_popup_section">
@@ -73,9 +77,10 @@
             android:summary="@string/settings__action_popup_description"
             android:title="@string/settings__action_popup" />
 
-        <Preference android:title="Text Patterns"
+        <Preference
             android:key="textPatterns"
-            android:summary="Manage predefined sharing text"/>
+            android:summary="Manage predefined sharing text"
+            android:title="Text Patterns" />
 
         <com.g.pocketmal.ui.widget.MultiSelectListPreference
             android:defaultValue="1|2|3"

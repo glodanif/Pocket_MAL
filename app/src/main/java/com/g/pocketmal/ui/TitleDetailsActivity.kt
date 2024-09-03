@@ -31,6 +31,7 @@ import com.g.pocketmal.util.Action
 import com.g.pocketmal.ui.viewmodel.RecordViewModel
 import com.g.pocketmal.ui.viewmodel.TitleDetailsViewModel
 import com.g.pocketmal.data.common.Status
+import com.g.pocketmal.ui.externallinks.ExternalLinksActivity
 import com.g.pocketmal.util.list.updaters.AnimeUpdatingFlow
 import com.g.pocketmal.util.list.updaters.MangaUpdatingFlow
 import org.koin.android.ext.android.inject
@@ -52,6 +53,7 @@ class TitleDetailsActivity : SkeletonToolbarActivity(), TitleDetailsView, TitleD
     private val noConnection: LinearLayout by bind(R.id.ll_no_connection)
     private val synopsisLabel: TextView by bind(R.id.tv_synopsis)
     private val topBar: LinearLayout? by bind(R.id.ll_top_bar)
+    private val externalLinkButton: TextView by bind(R.id.tv_go_to_website)
 
     private lateinit var recordFragment: RecordFragment
     private lateinit var detailsFragment: DetailsFragment
@@ -85,9 +87,9 @@ class TitleDetailsActivity : SkeletonToolbarActivity(), TitleDetailsView, TitleD
         setActionBarTitle(getString(if (titleType == TitleType.ANIME)
             R.string.animeDetailsTitle else R.string.mangaDetailsTitle))
 
-        /*findViewById<View>(R.id.tv_go_to_website).setOnClickListener {
-            presenter.onMalLinkClick()
-        }*/
+        externalLinkButton.setOnClickListener {
+            presenter.onExternalLinkClick()
+        }
 
         setupFragments()
 
@@ -104,6 +106,14 @@ class TitleDetailsActivity : SkeletonToolbarActivity(), TitleDetailsView, TitleD
 
         Handler().post {
             presenter.loadRecord(networkUpdate = !hasPreviousState)
+        }
+    }
+
+    override fun externalLinksPatternChanged(pattern: String) {
+        if (pattern.isEmpty()) {
+            externalLinkButton.text = "Setup external links"
+        } else {
+            externalLinkButton.text = "Open external link"
         }
     }
 
@@ -207,7 +217,7 @@ class TitleDetailsActivity : SkeletonToolbarActivity(), TitleDetailsView, TitleD
         EditDetailsActivity.startActivityForResult(this, id, titleType, EDIT_DETAILS)
     }
 
-    override fun openMalLink(link: String) {
+    override fun openExternalLink(link: String) {
         openLink(link)
     }
 
@@ -322,6 +332,10 @@ class TitleDetailsActivity : SkeletonToolbarActivity(), TitleDetailsView, TitleD
 
     override fun openDiscussion(link: String) {
         openLink(link)
+    }
+
+    override fun openExternalLinkSetup() {
+        ExternalLinksActivity.startActivity(this)
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
