@@ -49,8 +49,8 @@ import coil.compose.AsyncImage
 import com.g.pocketmal.argument
 import com.g.pocketmal.data.util.TitleType
 import com.g.pocketmal.transformedArgument
-import com.g.pocketmal.ui.SkeletonActivity
-import com.g.pocketmal.ui.TitleDetailsActivity
+import com.g.pocketmal.ui.legacy.SkeletonActivity
+import com.g.pocketmal.ui.legacy.TitleDetailsActivity
 import com.g.pocketmal.ui.theme.PocketMalTheme
 import dagger.hilt.android.AndroidEntryPoint
 

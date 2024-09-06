@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.g.pocketmal.ui.widget.BorderCardView xmlns:android="http://schemas.android.com/apk/res/android"
+<com.g.pocketmal.ui.legacy.widget.BorderCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     style="?attr/cardViewStyle"
@@ -55,7 +55,7 @@
 
         </RelativeLayout>
 
-        <com.g.pocketmal.ui.widget.MultiProgressBar
+        <com.g.pocketmal.ui.legacy.widget.MultiProgressBar
             android:id="@+id/mpb_progress"
             android:layout_width="match_parent"
             android:layout_height="48dp"
@@ -258,4 +258,4 @@
 
         </RelativeLayout>
     </LinearLayout>
-</com.g.pocketmal.ui.widget.BorderCardView>
+</com.g.pocketmal.ui.legacy.widget.BorderCardView>

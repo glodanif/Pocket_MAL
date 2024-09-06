@@ -5,9 +5,9 @@ import com.g.pocketmal.R
 import com.g.pocketmal.data.api.UpdateParams
 import com.g.pocketmal.data.common.Status
 import com.g.pocketmal.data.database.model.DbListRecord
-import com.g.pocketmal.ui.SkeletonActivity
-import com.g.pocketmal.ui.dialog.ScoreDialog
-import com.g.pocketmal.ui.dialog.YesNoDialog
+import com.g.pocketmal.ui.legacy.SkeletonActivity
+import com.g.pocketmal.ui.legacy.dialog.ScoreDialog
+import com.g.pocketmal.ui.legacy.dialog.YesNoDialog
 import com.g.pocketmal.util.Action
 
 class MangaUpdatingFlow(private val activity: SkeletonActivity, @StyleRes private val themeResId: Int) : RecordUpdatingFlow() {

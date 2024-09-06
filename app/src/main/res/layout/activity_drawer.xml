@@ -23,7 +23,7 @@
 
         <fragment
             android:id="@+id/fragment_side_menu"
-            android:name="com.g.pocketmal.ui.fragment.LeftMenuFragment"
+            android:name="com.g.pocketmal.ui.legacy.fragment.LeftMenuFragment"
             android:layout_width="@dimen/drawer_width"
             android:layout_height="match_parent"
             android:layout_gravity="start" />

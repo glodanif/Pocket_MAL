@@ -6,7 +6,6 @@ import android.preference.PreferenceManager
 import androidx.core.content.edit
 import androidx.annotation.StringDef
 import com.g.pocketmal.data.util.TitleType
-import com.g.pocketmal.ui.viewmodel.RecordViewModel
 import com.g.pocketmal.util.Action
 
 class MainSettings(context: Context) {
@@ -59,7 +58,7 @@ class MainSettings(context: Context) {
     fun displayNsfwInList(): Boolean =
             preferences.getBoolean(HENTAI_FILTER_LIST_KEY, true)
 
-    fun shouldShowPopup(actionType: Action, title: RecordViewModel): Boolean {
+    fun shouldShowPopup(actionType: Action, title: com.g.pocketmal.ui.legacy.viewmodel.RecordViewModel): Boolean {
 
         if (actionType == Action.ACTION_SHARE) {
             return true

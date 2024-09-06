@@ -13,7 +13,7 @@ import android.widget.NumberPicker;
 
 import com.g.pocketmal.database.helpers.AnimeDBHelper;
 import com.g.pocketmal.database.models.Anime;
-import com.g.pocketmal.ui.SplashActivity;
+import com.g.pocketmal.ui.legacy.SplashActivity;
 import com.g.pocketmal.util.EpisodeType;
 import com.g.pocketmal.util.helpers.DateHelper;
 import com.g.pocketmal.data.common.ListCounts;

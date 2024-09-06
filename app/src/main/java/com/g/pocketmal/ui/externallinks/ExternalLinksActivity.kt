@@ -41,8 +41,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.g.pocketmal.ui.theme.PocketMalTheme
-import com.g.pocketmal.ui.SkeletonActivity
-import com.g.pocketmal.ui.theme.ThemeMode
+import com.g.pocketmal.ui.legacy.SkeletonActivity
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

@@ -20,7 +20,7 @@
         android:theme="@style/Theme.Mal">
 
         <activity
-            android:name=".ui.SplashActivity"
+            android:name=".ui.legacy.SplashActivity"
             android:label="@string/app_name"
             android:exported="true"
             android:noHistory="true"
@@ -33,12 +33,12 @@
         </activity>
 
         <activity
-            android:name=".ui.LoginActivity"
+            android:name=".ui.legacy.LoginActivity"
             android:label="@string/app_name"
             android:theme="@style/Theme.Mal.LoginScreen" />
 
         <activity
-            android:name=".ui.ListActivity"
+            android:name=".ui.legacy.ListActivity"
             android:label="@string/app_name"
             android:exported="true"
             android:windowSoftInputMode="stateHidden">
@@ -57,7 +57,7 @@
         </activity>
 
         <activity
-            android:name=".ui.TitleDetailsActivity"
+            android:name=".ui.legacy.TitleDetailsActivity"
             android:theme="@style/Theme.Mal.WhiteBackground"
             android:windowSoftInputMode="stateAlwaysHidden" />
 
@@ -68,61 +68,61 @@
             android:theme="@style/Theme.Mal" />
 
         <activity
-            android:name=".ui.UserProfileActivity"
+            android:name=".ui.legacy.UserProfileActivity"
             android:label="User Profile"
             android:theme="@style/Theme.Mal" />
 
         <activity
-            android:name=".ui.SearchActivity"
+            android:name=".ui.legacy.SearchActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:label="Search"
             android:theme="@style/Theme.Mal.NativeDialog"
             android:windowSoftInputMode="stateHidden|stateAlwaysHidden" />
 
         <activity
-            android:name=".ui.RankedActivity"
+            android:name=".ui.legacy.RankedActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:label="Top"
             android:theme="@style/Theme.Mal" />
 
         <activity
-            android:name=".ui.BrowseActivity"
+            android:name=".ui.legacy.BrowseActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:label="Browse"
             android:theme="@style/Theme.Mal" />
 
         <activity
-            android:name=".ui.EditDetailsActivity"
+            android:name=".ui.legacy.EditDetailsActivity"
             android:label="Edit Details"
             android:theme="@style/Theme.Mal.NativeDialog.WhiteBackground.DialogWhenLarge" />
 
         <activity
-            android:name=".ui.AboutActivity"
+            android:name=".ui.legacy.AboutActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:label="About"
             android:theme="@style/Theme.Mal.NativeDialog.WhiteBackground.DialogWhenLarge" />
 
         <activity
-            android:name=".ui.SettingsActivity"
+            android:name=".ui.legacy.SettingsActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:label="@string/settings__settings"
             android:theme="@style/Theme.Mal.NativeDialog.WhiteBackground" />
 
         <activity
-            android:name=".ui.SharingPatternsActivity"
+            android:name=".ui.legacy.SharingPatternsActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:label="Sharing Text Patterns"
             android:theme="@style/Theme.Mal.NativeDialog.WhiteBackground"
             android:windowSoftInputMode="stateHidden" />
 
         <activity
-            android:name=".ui.SeasonalActivity"
+            android:name=".ui.legacy.SeasonalActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:label="@string/seasonal__title"
             android:theme="@style/Theme.Mal" />
 
         <activity
-            android:name=".ui.PosterActivity"
+            android:name=".ui.poster.PosterActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:label="@string/poster__title"
             android:theme="@style/Theme.Mal.NativeDialog.WhiteBackground.DialogWhenLarge" />

@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.g.pocketmal.ui.widget.BorderCardView
+    <com.g.pocketmal.ui.legacy.widget.BorderCardView
         android:id="@+id/cv_container"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -29,7 +29,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/seasonal__season" />
 
-            <com.g.pocketmal.ui.widget.hashtagview.HashtagView
+            <com.g.pocketmal.ui.legacy.widget.hashtagview.HashtagView
                 android:id="@+id/hv_season"
                 style="@style/HashtagView"
                 android:layout_marginBottom="8dp"
@@ -80,5 +80,5 @@
                 android:text="@string/seasonal__load" />
         </LinearLayout>
 
-    </com.g.pocketmal.ui.widget.BorderCardView>
+    </com.g.pocketmal.ui.legacy.widget.BorderCardView>
 </FrameLayout>

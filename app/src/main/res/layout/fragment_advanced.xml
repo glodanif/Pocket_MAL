@@ -36,7 +36,7 @@
                 android:text="@string/search__type"
                 android:textColor="?android:textColorPrimary" />
 
-            <com.g.pocketmal.ui.widget.hashtagview.HashtagView
+            <com.g.pocketmal.ui.legacy.widget.hashtagview.HashtagView
                 android:id="@+id/hv_type_selector"
                 style="@style/HashtagView"
                 android:layout_marginBottom="8dp"
@@ -58,7 +58,7 @@
                 android:text="@string/search__score"
                 android:textColor="?android:textColorPrimary" />
 
-            <com.g.pocketmal.ui.widget.hashtagview.HashtagView
+            <com.g.pocketmal.ui.legacy.widget.hashtagview.HashtagView
                 android:id="@+id/hv_score_selector"
                 style="@style/HashtagView"
                 android:layout_marginBottom="8dp"
@@ -80,7 +80,7 @@
                 android:text="@string/search__status"
                 android:textColor="?android:textColorPrimary" />
 
-            <com.g.pocketmal.ui.widget.hashtagview.HashtagView
+            <com.g.pocketmal.ui.legacy.widget.hashtagview.HashtagView
                 android:id="@+id/hv_status_selector"
                 style="@style/HashtagView"
                 android:layout_marginBottom="8dp"
@@ -108,7 +108,7 @@
                     android:text="@string/search__rated"
                     android:textColor="?android:textColorPrimary" />
 
-                <com.g.pocketmal.ui.widget.hashtagview.HashtagView
+                <com.g.pocketmal.ui.legacy.widget.hashtagview.HashtagView
                     android:id="@+id/hv_rating_selector"
                     style="@style/HashtagView"
                     android:layout_marginBottom="8dp"
@@ -176,7 +176,7 @@
                 android:text="@string/search__genres"
                 android:textColor="?android:textColorPrimary" />
 
-            <com.g.pocketmal.ui.widget.hashtagview.HashtagView
+            <com.g.pocketmal.ui.legacy.widget.hashtagview.HashtagView
                 android:id="@+id/hv_genres_selector"
                 style="@style/HashtagView"
                 app:rowMode="stretch"
@@ -207,7 +207,7 @@
                 android:textColor="?android:textColorPrimary" />
 
 
-            <com.g.pocketmal.ui.widget.hashtagview.HashtagView
+            <com.g.pocketmal.ui.legacy.widget.hashtagview.HashtagView
                 android:id="@+id/hv_sorting_selector"
                 style="@style/HashtagView"
                 app:radioMode="true"

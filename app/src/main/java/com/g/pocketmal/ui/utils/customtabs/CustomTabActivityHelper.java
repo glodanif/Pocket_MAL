@@ -29,7 +29,7 @@ import androidx.browser.customtabs.CustomTabsServiceConnection;
 import androidx.browser.customtabs.CustomTabsSession;
 
 import com.g.pocketmal.R;
-import com.g.pocketmal.ui.SkeletonActivity;
+import com.g.pocketmal.ui.legacy.SkeletonActivity;
 
 import java.util.List;
 

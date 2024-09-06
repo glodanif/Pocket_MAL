@@ -82,7 +82,7 @@
             android:summary="Manage predefined sharing text"
             android:title="Text Patterns" />
 
-        <com.g.pocketmal.ui.widget.MultiSelectListPreference
+        <com.g.pocketmal.ui.legacy.widget.MultiSelectListPreference
             android:defaultValue="1|2|3"
             android:entries="@array/popupCasesArray"
             android:entryValues="@array/popupCasesValues"

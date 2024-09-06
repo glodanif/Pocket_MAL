@@ -1,14 +1,12 @@
 package com.g.pocketmal.domain.comparator
 
-import com.g.pocketmal.ui.viewmodel.RecordListViewModel
-
 import java.util.Comparator
 
-class RecordComparator(val sortingType: SortingType = SortingType.TITLE, val reverse: Boolean = false) : Comparator<RecordListViewModel> {
+class RecordComparator(val sortingType: SortingType = SortingType.TITLE, val reverse: Boolean = false) : Comparator<com.g.pocketmal.ui.legacy.viewmodel.RecordListViewModel> {
 
     private val typesOrder = listOf("tv", "ova", "movie", "special", "ona", "music", "manga", "one_shot", "doujin", "novel", "manhwa", "manhua")
 
-    override fun compare(item1: RecordListViewModel, item2: RecordListViewModel): Int {
+    override fun compare(item1: com.g.pocketmal.ui.legacy.viewmodel.RecordListViewModel, item2: com.g.pocketmal.ui.legacy.viewmodel.RecordListViewModel): Int {
 
         when (sortingType) {
             SortingType.TITLE ->
@@ -36,7 +34,7 @@ class RecordComparator(val sortingType: SortingType = SortingType.TITLE, val rev
         }
     }
 
-    private fun applyTitleSorting(firstComparing: Int, item1: RecordListViewModel, item2: RecordListViewModel): Int {
+    private fun applyTitleSorting(firstComparing: Int, item1: com.g.pocketmal.ui.legacy.viewmodel.RecordListViewModel, item2: com.g.pocketmal.ui.legacy.viewmodel.RecordListViewModel): Int {
         return if (firstComparing != 0) {
             (if (reverse) -1 else +1) * firstComparing
         } else {

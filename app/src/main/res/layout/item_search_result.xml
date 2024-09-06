@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <com.g.pocketmal.ui.widget.BorderCardView
+    <com.g.pocketmal.ui.legacy.widget.BorderCardView
         style="?attr/cardViewStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -106,5 +106,5 @@
                 android:textColorLink="@color/main_light"
                 android:textSize="13sp" />
         </LinearLayout>
-    </com.g.pocketmal.ui.widget.BorderCardView>
+    </com.g.pocketmal.ui.legacy.widget.BorderCardView>
 </FrameLayout>

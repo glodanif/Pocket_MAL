@@ -41,7 +41,7 @@
         android:layout_marginRight="92dp"
         android:layout_marginStart="92dp">
 
-        <com.g.pocketmal.ui.widget.EventScrollView
+        <com.g.pocketmal.ui.legacy.widget.EventScrollView
             android:id="@+id/esv_content"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -58,7 +58,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="54dp" />
 
-                <com.g.pocketmal.ui.widget.BorderCardView
+                <com.g.pocketmal.ui.legacy.widget.BorderCardView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginBottom="24dp"
@@ -83,8 +83,8 @@
                         <include layout="@layout/include_synopsis" />
                     </LinearLayout>
 
-                </com.g.pocketmal.ui.widget.BorderCardView>
+                </com.g.pocketmal.ui.legacy.widget.BorderCardView>
             </LinearLayout>
-        </com.g.pocketmal.ui.widget.EventScrollView>
+        </com.g.pocketmal.ui.legacy.widget.EventScrollView>
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 </RelativeLayout>

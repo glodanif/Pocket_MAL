@@ -120,7 +120,7 @@
                 android:layout_marginBottom="8dp"
                 android:orientation="vertical">
 
-                <com.g.pocketmal.ui.widget.AiringStreakView
+                <com.g.pocketmal.ui.legacy.widget.AiringStreakView
                     android:id="@+id/asv_dates_streak"
                     android:layout_width="match_parent"
                     android:layout_height="16dp"
@@ -152,7 +152,7 @@
             android:layout_marginTop="8dp"
             android:background="@android:color/darker_gray" />
 
-        <com.g.pocketmal.ui.widget.GenresLayout
+        <com.g.pocketmal.ui.legacy.widget.GenresLayout
             android:id="@+id/gl_genres"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

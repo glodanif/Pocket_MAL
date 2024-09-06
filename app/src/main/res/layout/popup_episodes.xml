@@ -8,7 +8,7 @@
     android:visibility="invisible"
     tools:visibility="visible">
 
-    <com.g.pocketmal.ui.widget.BorderCardView
+    <com.g.pocketmal.ui.legacy.widget.BorderCardView
         style="?attr/cardViewStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -152,5 +152,5 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:src="?cardBorderDrawable" />
-    </com.g.pocketmal.ui.widget.BorderCardView>
+    </com.g.pocketmal.ui.legacy.widget.BorderCardView>
 </FrameLayout>
