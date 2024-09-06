@@ -152,6 +152,7 @@ android {
         implementation("com.squareup.okhttp3:logging-interceptor:4.12.0")
         implementation("com.google.code.gson:gson:2.11.0")
         implementation("androidx.core:core-ktx:1.13.1")
+        implementation("io.coil-kt:coil-compose:2.7.0")
 
         implementation("com.google.android.gms:play-services-oss-licenses:17.1.0")
 
@@ -161,7 +162,7 @@ android {
         implementation("androidx.room:room-ktx:2.6.1")
         ksp("androidx.room:room-compiler:2.6.1")
 
-        val activityVersion = "1.9.1"
+        val activityVersion = "1.9.2"
         implementation("androidx.activity:activity:$activityVersion")
         implementation("androidx.activity:activity-ktx:$activityVersion")
         implementation("androidx.activity:activity-compose:$activityVersion")

@@ -62,7 +62,7 @@
             android:windowSoftInputMode="stateAlwaysHidden" />
 
         <activity
-            android:name=".ui.RecommendationsActivity"
+            android:name=".ui.recommendations.RecommendationsActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:label="Recommendations"
             android:theme="@style/Theme.Mal" />
@@ -103,22 +103,10 @@
             android:theme="@style/Theme.Mal.NativeDialog.WhiteBackground.DialogWhenLarge" />
 
         <activity
-            android:name=".ui.HelpActivity"
-            android:configChanges="orientation|screenSize|keyboardHidden"
-            android:label="@string/help__help"
-            android:theme="@style/Theme.Mal.NativeDialog.WhiteBackground.DialogWhenLarge" />
-
-        <activity
             android:name=".ui.SettingsActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:label="@string/settings__settings"
             android:theme="@style/Theme.Mal.NativeDialog.WhiteBackground" />
-
-        <activity
-            android:name=".ui.SupportActivity"
-            android:configChanges="orientation|screenSize|keyboardHidden"
-            android:label="@string/support__support"
-            android:theme="@style/Theme.Mal.WhiteBackground" />
 
         <activity
             android:name=".ui.SharingPatternsActivity"

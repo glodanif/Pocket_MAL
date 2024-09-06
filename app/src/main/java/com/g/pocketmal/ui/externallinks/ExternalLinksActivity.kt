@@ -40,12 +40,10 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.g.pocketmal.data.keyvalue.MainSettings
-import com.g.pocketmal.ui.PocketMalTheme
+import com.g.pocketmal.ui.theme.PocketMalTheme
 import com.g.pocketmal.ui.SkeletonActivity
-import com.g.pocketmal.ui.ThemeMode
+import com.g.pocketmal.ui.theme.ThemeMode
 import dagger.hilt.android.AndroidEntryPoint
-import org.koin.android.ext.android.inject
 
 @AndroidEntryPoint
 class ExternalLinksActivity : SkeletonActivity() {
@@ -53,7 +51,9 @@ class ExternalLinksActivity : SkeletonActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            ExternalLinksContent(onBackPressed = { finish() })
+            PocketMalTheme {
+                ExternalLinksContent(onBackPressed = { finish() })
+            }
         }
     }
 
@@ -65,28 +65,25 @@ class ExternalLinksActivity : SkeletonActivity() {
 }
 
 @Composable
-fun ExternalLinksContent(
+internal fun ExternalLinksContent(
     onBackPressed: () -> Unit = {},
     viewModel: ExternalLinksViewModel = hiltViewModel(),
 ) {
-    val themeMode by viewModel.themeMode.collectAsState()
     val currentPattern by viewModel.pattern.collectAsState()
 
-    PocketMalTheme(theme = themeMode) {
-        ExternalLinksScreen(
-            currentPattern = currentPattern,
-            onBackPressed = onBackPressed,
-            onPatternSaveClick = { pattern ->
-                viewModel.saveNewPattern(pattern)
-                onBackPressed()
-            }
-        )
-    }
+    ExternalLinksScreen(
+        currentPattern = currentPattern,
+        onBackPressed = onBackPressed,
+        onPatternSaveClick = { pattern ->
+            viewModel.saveNewPattern(pattern)
+            onBackPressed()
+        }
+    )
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ExternalLinksScreen(
+internal fun ExternalLinksScreen(
     currentPattern: String,
     onPatternSaveClick: (String) -> Unit = {},
     onBackPressed: () -> Unit = {}
@@ -176,38 +173,10 @@ fun ExternalLinksScreen(
     }
 }
 
-@Composable
-fun PrefilledTextField(text: String, onTextChange: (String) -> Unit) {
-    TextField(
-        value = text,
-        onValueChange = onTextChange,
-        label = { Text("Enter text") },
-        modifier = Modifier
-            .padding(16.dp)
-            .fillMaxWidth()
-    )
-}
-
 @Preview
 @Composable
-fun PreviewLight() {
-    PocketMalTheme(theme = ThemeMode.LIGHT) {
-        ExternalLinksScreen(currentPattern = "")
-    }
-}
-
-@Preview
-@Composable
-fun PreviewDark() {
-    PocketMalTheme(theme = ThemeMode.DARK) {
-        ExternalLinksScreen(currentPattern = "")
-    }
-}
-
-@Preview
-@Composable
-fun PreviewBlack() {
-    PocketMalTheme(theme = ThemeMode.BLACK) {
+fun ExternalLinksPreview() {
+    PocketMalTheme {
         ExternalLinksScreen(currentPattern = "")
     }
 }

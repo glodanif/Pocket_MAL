@@ -8,11 +8,11 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.g.pocketmal.R
 import com.g.pocketmal.loadUrl
-import com.g.pocketmal.ui.viewmodel.RecommendedTitleViewModel
+import com.g.pocketmal.ui.recommendations.RecommendedTitleViewEntity
 
 class RecommendationsAdapter : RecyclerView.Adapter<RecommendationsAdapter.RecommendationViewHolder>() {
 
-    var recommendations = listOf<RecommendedTitleViewModel>()
+    var recommendations = listOf<RecommendedTitleViewEntity>()
     var listener: ((Int) -> Unit)? = null
 
     override fun getItemCount(): Int {

@@ -5,7 +5,11 @@ import androidx.datastore.core.DataStore
 import androidx.datastore.core.DataStoreFactory
 import androidx.datastore.core.handlers.ReplaceFileCorruptionHandler
 import androidx.datastore.dataStoreFile
+import com.g.pocketmal.data.api.ApiService
+import com.g.pocketmal.data.api.MalApiService
+import com.g.pocketmal.data.api.request.OAuthConfig
 import com.g.pocketmal.data.keyvalue.MainSettings
+import com.g.pocketmal.data.keyvalue.SessionManager
 import com.g.pocketmal.data.keyvalue.UserPreferences
 import com.g.pocketmal.data.keyvalue.UserPreferencesSerializer
 import com.google.gson.Gson
@@ -63,5 +67,29 @@ object DataModule {
     @InstallIn(SingletonComponent::class)
     interface DataStoreEntryPoint {
         fun getUserPreferencesDataStore(): DataStore<UserPreferences>
+    }
+
+
+    @Singleton
+    @Provides
+    fun providesOAuthConfig(): OAuthConfig {
+        return OAuthConfig()
+    }
+
+    @Singleton
+    @Provides
+    fun providesSessionManager(
+        @ApplicationContext appContext: Context,
+    ): SessionManager {
+        return SessionManager(appContext)
+    }
+
+    @Singleton
+    @Provides
+    fun providesApiService(
+        sessionManager: SessionManager,
+        oAuthConfig: OAuthConfig,
+    ): ApiService {
+        return MalApiService(sessionManager, oAuthConfig)
     }
 }

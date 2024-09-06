@@ -37,9 +37,6 @@ val applicationModule = module {
         SearchPresenter(params[0], params[1], params[1], get(), get(), get())
     }
     factory { params ->
-        RecommendationsPresenter(params[0], params[1], params[2], params[2], get(), get(), get())
-    }
-    factory { params ->
         EditDetailsPresenter(params[0], params[1], params[2], params[2], get(), get())
     }
 }
@@ -54,5 +51,4 @@ val viewConverterModule = module {
     single { SeasonalSectionConverter(get()) }
     single { TitleDetailsConverter(androidContext()) }
     single { SearchResultConverter(androidContext()) }
-    single { RecommendedTitleConverter(androidContext()) }
 }

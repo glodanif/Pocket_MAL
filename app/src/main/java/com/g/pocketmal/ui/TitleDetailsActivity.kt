@@ -1,6 +1,7 @@
 package com.g.pocketmal.ui
 
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
@@ -32,6 +33,7 @@ import com.g.pocketmal.ui.viewmodel.RecordViewModel
 import com.g.pocketmal.ui.viewmodel.TitleDetailsViewModel
 import com.g.pocketmal.data.common.Status
 import com.g.pocketmal.ui.externallinks.ExternalLinksActivity
+import com.g.pocketmal.ui.recommendations.RecommendationsActivity
 import com.g.pocketmal.util.list.updaters.AnimeUpdatingFlow
 import com.g.pocketmal.util.list.updaters.MangaUpdatingFlow
 import org.koin.android.ext.android.inject
@@ -397,7 +399,7 @@ class TitleDetailsActivity : SkeletonToolbarActivity(), TitleDetailsView, TitleD
 
         const val EDIT_DETAILS = 101
 
-        fun start(context: Activity, id: Int, type: TitleType) {
+        fun start(context: Context, id: Int, type: TitleType) {
             val intent = Intent(context, TitleDetailsActivity::class.java)
                     .putExtra(EXTRA_ID, id)
                     .putExtra(EXTRA_TITLE_TYPE, type.type)

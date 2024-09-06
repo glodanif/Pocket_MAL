@@ -1,9 +1,9 @@
 package com.g.pocketmal.ui.view
 
-import com.g.pocketmal.ui.viewmodel.RecommendedTitleViewModel
+import com.g.pocketmal.ui.recommendations.RecommendedTitleViewEntity
 
 interface RecommendationsView: BaseSessionView {
-    fun displayRecommendations(items: List<RecommendedTitleViewModel>)
+    fun displayRecommendations(items: List<RecommendedTitleViewEntity>)
     fun displayNoRecommendations()
     fun displayError()
     fun showProgress()
