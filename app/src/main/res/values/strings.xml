@@ -214,10 +214,17 @@
     <string name="mangaSearch">Manga Search</string>
     <string name="searchFailed">Unable to load data. Please check your connection or try again later&#8230;</string>
     <string name="emptySearchResult">No titles matching your query were found</string>
-    <string name="episodesSearchList">Episodes: %s</string>
-    <string name="chaptersSearchList">Chapters: %s</string>
     <string name="volumesSearchList">Volumes: %s</string>
     <string name="queryIsTooShort">Query must be at least 3 characters long</string>
+    <plurals name="shortEpisodes">
+        <item quantity="one">%s EP</item>
+        <item quantity="other">%s EPS</item>
+    </plurals>
+    <plurals name="shortChapters">
+        <item quantity="one">%s CHAP</item>
+        <item quantity="other">%s CHAPS</item>
+    </plurals>
+
 
     <!-- recent activity -->
     <string name="recent__failed">Unable to connect to MAL, check your connection or try again later&#8230;</string>

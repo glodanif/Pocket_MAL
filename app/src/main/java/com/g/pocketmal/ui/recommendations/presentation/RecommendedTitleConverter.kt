@@ -1,7 +1,6 @@
 package com.g.pocketmal.ui.recommendations.presentation
 
 import android.content.Context
-import android.text.TextUtils
 import com.g.pocketmal.R
 import com.g.pocketmal.data.util.TitleType
 import com.g.pocketmal.domain.entity.RecommendationEntity
@@ -17,44 +16,41 @@ class RecommendedTitleConverter(private val context: Context) {
             context.getString(R.string.readRecommendations, title.numRecommendations)
         }
 
-        val details = getDetailsLine(title, titleType)
+        val score = if (title.score != null && title.score > .01) title.score.toString() else "—"
+
+        val mediaType = DataInterpreter.getMediaTypeLabelFromNetworkConst(title.mediaType)
+        val episodes = title.episodes
+
+        val episodesLabel = context.resources.getQuantityString(
+            (if (titleType == TitleType.ANIME)
+                R.plurals.shortEpisodes else R.plurals.shortChapters), episodes, episodes
+        )
+
+        val details = when {
+            mediaType == "Unknown" && episodes == 0 -> ""
+            mediaType == "Unknown" && episodes > 0 -> episodesLabel
+            mediaType != "Unknown" && episodes == 0 -> mediaType
+            else -> "$mediaType • $episodesLabel"
+        }
 
         return RecommendedTitleViewEntity(
-                title.id,
-                title.title,
-                title.picture,
-                numRecommendations,
-                details
+            title.id,
+            title.title,
+            title.picture,
+            numRecommendations,
+            details,
+            score,
         )
     }
 
-    fun transform(titles: List<RecommendationEntity>, titleType: TitleType): List<RecommendedTitleViewEntity> {
+    fun transform(
+        titles: List<RecommendationEntity>,
+        titleType: TitleType
+    ): List<RecommendedTitleViewEntity> {
         val viewModels: MutableList<RecommendedTitleViewEntity> = ArrayList()
         for (title in titles) {
             viewModels.add(transform(title, titleType))
         }
         return viewModels
-    }
-
-    private fun getDetailsLine(details: RecommendationEntity, titleType: TitleType): String {
-
-        val stats = ArrayList<String>()
-        if (details.score != null) {
-            stats.add(context.getString(R.string.score) + ": " + details.score)
-        }
-
-        val mediaType = DataInterpreter.getMediaTypeLabelFromNetworkConst(details.mediaType)
-        stats.add(mediaType)
-
-        val episodesTypeLabel = context.getString(
-                if (titleType == TitleType.ANIME) R.string.episodes else R.string.chapters)
-        val episodesPlural = episodesTypeLabel.lowercase()
-                .substring(0, episodesTypeLabel.length - if (details.episodes == 1) 1 else 0)
-        val episodesLabel = (if (details.episodes == 0)
-            "?" else details.episodes.toString()) + " " + episodesPlural
-
-        stats.add(episodesLabel)
-
-        return if (stats.isNotEmpty()) TextUtils.join(" • ", stats) else "?"
     }
 }

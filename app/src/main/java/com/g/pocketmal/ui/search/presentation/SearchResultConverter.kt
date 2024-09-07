@@ -11,31 +11,30 @@ class SearchResultConverter(private val context: Context) {
     fun transform(item: SearchEntity, titleType: TitleType): SearchResultViewEntity {
 
         val score = if (item.score != null && item.score > .01) item.score.toString() else "—"
-        val scoreLabel = context.getString(R.string.scoreList, score)
 
         val mediaType = DataInterpreter.getMediaTypeLabelFromNetworkConst(item.mediaType)
-        val mediaTypeLabel = context.getString(R.string.typeList, mediaType)
+        val episodes = if (titleType == TitleType.ANIME) item.episodes else item.chapters
 
-        val episodes = if (titleType == TitleType.ANIME) {
-            if (item.episodes > 0) item.episodes.toString() else "—"
-        } else {
-            if (item.chapters > 0) item.chapters.toString() else "—"
+        val episodesLabel = context.resources.getQuantityString(
+            (if (titleType == TitleType.ANIME)
+                R.plurals.shortEpisodes else R.plurals.shortChapters), episodes, episodes)
+
+        val details = when {
+            mediaType == "Unknown" && episodes == 0 -> ""
+            mediaType == "Unknown" && episodes > 0 -> episodesLabel
+            mediaType != "Unknown" && episodes == 0 -> mediaType
+            else -> "$mediaType • $episodesLabel"
         }
-        val episodesLabel = context.getString(
-                (if (titleType == TitleType.ANIME)
-                    R.string.episodesSearchList else R.string.chaptersSearchList), episodes
-        )
 
         val synopsis = item.synopsis ?: context.getString(R.string.emptySynopsis)
 
         return SearchResultViewEntity(
             item.id,
             item.title,
-            scoreLabel,
+            score,
             item.picture,
             synopsis,
-            mediaTypeLabel,
-            episodesLabel
+            details,
         )
     }
 

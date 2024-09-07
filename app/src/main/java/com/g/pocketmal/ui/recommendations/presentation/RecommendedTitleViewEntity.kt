@@ -5,5 +5,6 @@ class RecommendedTitleViewEntity(
         val title: String,
         val poster: String?,
         val recommendationsCount: String,
-        val details: String
+        val details: String,
+        val score: String,
 )

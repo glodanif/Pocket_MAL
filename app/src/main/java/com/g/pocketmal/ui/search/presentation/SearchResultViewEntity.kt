@@ -6,6 +6,5 @@ class SearchResultViewEntity(
         val score: String,
         val poster: String?,
         val synopsis: String,
-        val type: String,
-        val episodes: String
+        val details: String,
 )

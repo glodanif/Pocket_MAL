@@ -42,7 +42,9 @@ import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
@@ -54,6 +56,7 @@ import com.g.pocketmal.ui.legacy.TitleDetailsActivity
 import com.g.pocketmal.ui.recommendations.presentation.RecommendationsState
 import com.g.pocketmal.ui.recommendations.presentation.RecommendationsViewModel
 import com.g.pocketmal.ui.recommendations.presentation.RecommendedTitleViewEntity
+import com.g.pocketmal.ui.search.SmallDetailsRow
 import com.g.pocketmal.ui.theme.PocketMalTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -223,21 +226,23 @@ private fun RecommendationItem(
             Column(
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(horizontal = 16.dp, vertical = 4.dp),
+                    .padding(horizontal = 16.dp, vertical = 8.dp),
             ) {
                 Text(
                     text = recommendation.title,
-                    style = MaterialTheme.typography.titleMedium,
+                    style = MaterialTheme.typography.titleMedium
+                        .copy(fontWeight = FontWeight.SemiBold),
                     maxLines = 2,
+                    overflow = TextOverflow.Ellipsis,
                 )
                 Text(
                     text = recommendation.recommendationsCount,
                     style = MaterialTheme.typography.labelSmall
                 )
-                Spacer(modifier = Modifier.height(12.dp))
-                Text(
-                    text = recommendation.details,
-                    style = MaterialTheme.typography.labelLarge
+                Spacer(modifier = Modifier.height(4.dp))
+                SmallDetailsRow(
+                    score = recommendation.score,
+                    details = recommendation.details,
                 )
             }
         }

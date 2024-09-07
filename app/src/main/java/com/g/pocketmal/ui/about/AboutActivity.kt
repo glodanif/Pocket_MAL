@@ -92,7 +92,7 @@ private fun AboutContent(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Image") },
+                title = { Text("About") },
                 colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
                     containerColor = MaterialTheme.colorScheme.primary,
                     titleContentColor = MaterialTheme.colorScheme.onPrimary
