@@ -1,6 +1,7 @@
 package com.g.pocketmal.di
 
 import android.content.Context
+import com.g.pocketmal.ui.editdetails.presentation.RecordExtraDetailsConverter
 import com.g.pocketmal.ui.recommendations.presentation.RecommendedTitleConverter
 import com.g.pocketmal.ui.search.presentation.SearchResultConverter
 import dagger.Module
@@ -23,4 +24,9 @@ object PresentationModule {
     @Provides
     fun providesSearchConverter(@ApplicationContext context: Context) =
         SearchResultConverter(context)
+
+    @Singleton
+    @Provides
+    fun providesRecordExtraDetailsConverter(@ApplicationContext context: Context) =
+        RecordExtraDetailsConverter(context)
 }

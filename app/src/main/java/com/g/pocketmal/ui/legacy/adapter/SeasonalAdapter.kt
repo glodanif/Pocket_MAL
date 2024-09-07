@@ -13,9 +13,9 @@ import java.util.*
 
 class SeasonalAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    private var seasonalList: List<com.g.pocketmal.ui.legacy.viewmodel.SeasonalSectionViewModel> = ArrayList()
+    private var seasonalList: List<com.g.pocketmal.ui.legacy.viewentity.SeasonalSectionViewModel> = ArrayList()
 
-    var listener: ((com.g.pocketmal.ui.legacy.viewmodel.SeasonalAnimeViewModel) -> Unit)? = null
+    var listener: ((com.g.pocketmal.ui.legacy.viewentity.SeasonalAnimeViewModel) -> Unit)? = null
 
     private var size: Int = 0
 
@@ -97,7 +97,7 @@ class SeasonalAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         return TYPE_ITEM
     }
 
-    fun setItems(seasonalList: List<com.g.pocketmal.ui.legacy.viewmodel.SeasonalSectionViewModel>?) {
+    fun setItems(seasonalList: List<com.g.pocketmal.ui.legacy.viewentity.SeasonalSectionViewModel>?) {
 
         this.seasonalList = seasonalList ?: ArrayList()
 
@@ -107,7 +107,7 @@ class SeasonalAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         }
     }
 
-    private fun bindTitle(holder: ItemViewHolder, title: com.g.pocketmal.ui.legacy.viewmodel.SeasonalAnimeViewModel) {
+    private fun bindTitle(holder: ItemViewHolder, title: com.g.pocketmal.ui.legacy.viewentity.SeasonalAnimeViewModel) {
 
         holder.title.text = Html.fromHtml(title.title)
         holder.info.text = title.info

@@ -3,7 +3,7 @@ package com.g.pocketmal.data.repository
 import com.g.pocketmal.data.api.ApiService
 import com.g.pocketmal.data.keyvalue.MainSettings
 import com.g.pocketmal.data.util.TitleType
-import com.g.pocketmal.domain.entity.converter.SearchEntityConverter
+import com.g.pocketmal.data.converter.SearchEntityConverter
 
 class SearchRepository(
     private val apiService: ApiService,

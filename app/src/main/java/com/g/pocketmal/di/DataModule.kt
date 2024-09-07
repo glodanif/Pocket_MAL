@@ -8,14 +8,19 @@ import androidx.datastore.dataStoreFile
 import com.g.pocketmal.data.api.ApiService
 import com.g.pocketmal.data.api.MalApiService
 import com.g.pocketmal.data.api.request.OAuthConfig
+import com.g.pocketmal.data.converter.ListRecordEntityConverter
 import com.g.pocketmal.data.keyvalue.MainSettings
 import com.g.pocketmal.data.keyvalue.SessionManager
 import com.g.pocketmal.data.keyvalue.UserPreferences
 import com.g.pocketmal.data.keyvalue.UserPreferencesSerializer
 import com.g.pocketmal.data.repository.RecommendationsRepository
 import com.g.pocketmal.data.repository.SearchRepository
-import com.g.pocketmal.domain.entity.converter.RecommendationEntityConverter
-import com.g.pocketmal.domain.entity.converter.SearchEntityConverter
+import com.g.pocketmal.data.converter.RecommendationEntityConverter
+import com.g.pocketmal.data.converter.SearchEntityConverter
+import com.g.pocketmal.data.database.ListDbStorage
+import com.g.pocketmal.data.database.datasource.RecordDataSource
+import com.g.pocketmal.data.database.datasource.RecordDataSourceImpl
+import com.g.pocketmal.data.repository.RecordRepository
 import com.google.gson.Gson
 import dagger.Module
 import dagger.Provides
@@ -99,6 +104,18 @@ object DataModule {
 
     @Singleton
     @Provides
+    fun providesListDatabase(@ApplicationContext context: Context): ListDbStorage {
+        return ListDbStorage(context)
+    }
+
+    @Singleton
+    @Provides
+    fun providesRecordDataSource(listDbStorage: ListDbStorage): RecordDataSource {
+        return RecordDataSourceImpl(listDbStorage)
+    }
+
+    @Singleton
+    @Provides
     fun providesRecommendationsRepository(
         apiService: ApiService,
         converter: RecommendationEntityConverter,
@@ -114,5 +131,14 @@ object DataModule {
         converter: SearchEntityConverter,
     ): SearchRepository {
         return SearchRepository(apiService, settings, converter)
+    }
+
+    @Singleton
+    @Provides
+    fun providesRecordRepository(
+        recordStorage: RecordDataSource,
+        converter: ListRecordEntityConverter,
+    ): RecordRepository {
+        return RecordRepository(recordStorage, converter)
     }
 }

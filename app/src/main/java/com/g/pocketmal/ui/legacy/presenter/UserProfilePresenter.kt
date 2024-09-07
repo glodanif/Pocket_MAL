@@ -5,7 +5,7 @@ import androidx.lifecycle.OnLifecycleEvent
 import com.g.pocketmal.data.api.SessionExpiredException
 import com.g.pocketmal.domain.interactor.GetUserProfileInteractor
 import com.g.pocketmal.domain.interactor.LogoutInteractor
-import com.g.pocketmal.ui.legacy.viewmodel.converter.UserProfileConverter
+import com.g.pocketmal.ui.legacy.viewentity.converter.UserProfileConverter
 
 class UserProfilePresenter(
     private val userId: Int,
@@ -16,7 +16,7 @@ class UserProfilePresenter(
     private val logoutInteractor: LogoutInteractor
 ) : BasePresenter(view, route, logoutInteractor) {
 
-    private var viewModel: com.g.pocketmal.ui.legacy.viewmodel.UserProfileViewModel? = null
+    private var viewModel: com.g.pocketmal.ui.legacy.viewentity.UserProfileViewModel? = null
 
     fun loadUserProfile() {
 

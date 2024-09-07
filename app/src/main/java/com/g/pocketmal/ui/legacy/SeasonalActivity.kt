@@ -20,7 +20,7 @@ import com.g.pocketmal.ui.legacy.popup.SeasonsSelectorPopup
 import com.g.pocketmal.ui.legacy.presenter.SeasonalPresenter
 import com.g.pocketmal.ui.legacy.route.SeasonalRoute
 import com.g.pocketmal.ui.legacy.view.SeasonalView
-import com.g.pocketmal.ui.legacy.viewmodel.SeasonalSectionViewModel
+import com.g.pocketmal.ui.legacy.viewentity.SeasonalSectionViewModel
 import com.g.pocketmal.util.AnimeSeason
 import com.google.android.material.snackbar.Snackbar
 import org.koin.android.ext.android.inject

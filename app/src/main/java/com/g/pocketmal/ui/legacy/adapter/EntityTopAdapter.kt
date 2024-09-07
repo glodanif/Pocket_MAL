@@ -10,7 +10,7 @@ import com.g.pocketmal.R
 import com.g.pocketmal.loadUrl
 import java.util.*
 
-class EntityTopAdapter(context: Context) : com.g.pocketmal.ui.legacy.adapter.SkeletonAdapter<com.g.pocketmal.ui.legacy.viewmodel.RankedItemViewModel>(context) {
+class EntityTopAdapter(context: Context) : com.g.pocketmal.ui.legacy.adapter.SkeletonAdapter<com.g.pocketmal.ui.legacy.viewentity.RankedItemViewModel>(context) {
 
     override fun getItemId(position: Int): Long {
         return getItem(position).id.toLong()
@@ -41,7 +41,7 @@ class EntityTopAdapter(context: Context) : com.g.pocketmal.ui.legacy.adapter.Ske
         return convertView
     }
 
-    fun addList(data: List<com.g.pocketmal.ui.legacy.viewmodel.RankedItemViewModel>?) {
+    fun addList(data: List<com.g.pocketmal.ui.legacy.viewentity.RankedItemViewModel>?) {
         val list = data ?: ArrayList()
         getData().addAll(list)
     }

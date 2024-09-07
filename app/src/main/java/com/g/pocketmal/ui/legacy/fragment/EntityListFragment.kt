@@ -88,7 +88,7 @@ class EntityListFragment : Fragment() {
         }
     }
 
-    fun displayList(list: List<com.g.pocketmal.ui.legacy.viewmodel.RecordListViewModel>, editable: Boolean, simple: Boolean, withTags: Boolean) {
+    fun displayList(list: List<com.g.pocketmal.ui.legacy.viewentity.RecordListViewModel>, editable: Boolean, simple: Boolean, withTags: Boolean) {
 
         if (!isAdded) {
             return

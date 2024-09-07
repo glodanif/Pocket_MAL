@@ -8,7 +8,7 @@ import com.g.pocketmal.data.common.Status
 
 interface ListView: com.g.pocketmal.ui.legacy.view.BaseSessionView {
 
-    fun displayList(list: List<com.g.pocketmal.ui.legacy.viewmodel.RecordListViewModel>, filter: String?, editable: Boolean, simple: Boolean, withTags: Boolean)
+    fun displayList(list: List<com.g.pocketmal.ui.legacy.viewentity.RecordListViewModel>, filter: String?, editable: Boolean, simple: Boolean, withTags: Boolean)
     fun setupActionBar(@StringRes title: Int, @StringRes subTitle: Int)
     fun displayEmptyList(@StringRes label: Int)
     fun setupDrawer(type: TitleType)
@@ -27,7 +27,7 @@ interface ListView: com.g.pocketmal.ui.legacy.view.BaseSessionView {
 
     fun showRewatchedPopup(times: String, @StringRes text: Int)
     fun showUpdatingFailure()
-    fun showActions(viewModel: com.g.pocketmal.ui.legacy.viewmodel.RecordViewModel, action: Action)
+    fun showActions(viewModel: com.g.pocketmal.ui.legacy.viewentity.RecordViewModel, action: Action)
 
     fun showLoadingDialog(@StringRes text: Int)
     fun hideLoadingDialog()

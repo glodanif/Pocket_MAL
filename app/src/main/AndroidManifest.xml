@@ -92,7 +92,7 @@
             android:theme="@style/Theme.Mal" />
 
         <activity
-            android:name=".ui.legacy.EditDetailsActivity"
+            android:name=".ui.editdetails.EditDetailsActivity"
             android:label="Edit Details"
             android:theme="@style/Theme.Mal.NativeDialog.WhiteBackground.DialogWhenLarge" />
 

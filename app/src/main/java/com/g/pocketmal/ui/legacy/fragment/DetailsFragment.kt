@@ -35,7 +35,7 @@ class DetailsFragment : Fragment() {
         binding.pbProgress.visibility = View.GONE
     }
 
-    fun bindDetails(details: com.g.pocketmal.ui.legacy.viewmodel.TitleDetailsViewModel) {
+    fun bindDetails(details: com.g.pocketmal.ui.legacy.viewentity.TitleDetailsViewModel) {
 
         if (!isAdded) return
 
@@ -118,7 +118,7 @@ class DetailsFragment : Fragment() {
         }
     }
 
-    private fun setupStatsUi(item: com.g.pocketmal.ui.legacy.viewmodel.TitleDetailsViewModel) {
+    private fun setupStatsUi(item: com.g.pocketmal.ui.legacy.viewentity.TitleDetailsViewModel) {
         for (data in item.detailsList) {
             binding.llStatsHolder.addView(StatsItem(requireActivity(), data))
         }

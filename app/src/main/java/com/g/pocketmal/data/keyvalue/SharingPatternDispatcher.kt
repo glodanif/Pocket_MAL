@@ -206,7 +206,7 @@ class SharingPatternDispatcher(private val context: Context) {
         preferences.edit().putString(key, value).apply()
     }
 
-    fun getPattern(title: com.g.pocketmal.ui.legacy.viewmodel.RecordViewModel, action: Action): String {
+    fun getPattern(title: com.g.pocketmal.ui.legacy.viewentity.RecordViewModel, action: Action): String {
         return try {
             getFinalText(title, if (title.recordType === TitleType.ANIME)
                 getAnimePattern(title, action)
@@ -219,7 +219,7 @@ class SharingPatternDispatcher(private val context: Context) {
     }
 
     @SuppressLint("SwitchIntDef")
-    private fun getAnimePattern(title: com.g.pocketmal.ui.legacy.viewmodel.RecordViewModel, action: Action): String {
+    private fun getAnimePattern(title: com.g.pocketmal.ui.legacy.viewentity.RecordViewModel, action: Action): String {
 
         when (action) {
             Action.ACTION_SCORE -> return animeRatedPattern
@@ -235,7 +235,7 @@ class SharingPatternDispatcher(private val context: Context) {
     }
 
     @SuppressLint("SwitchIntDef")
-    private fun getMangaPattern(title: com.g.pocketmal.ui.legacy.viewmodel.RecordViewModel, action: Action): String {
+    private fun getMangaPattern(title: com.g.pocketmal.ui.legacy.viewentity.RecordViewModel, action: Action): String {
 
         return when (action) {
             Action.ACTION_SCORE -> mangaRatedPattern
@@ -254,7 +254,7 @@ class SharingPatternDispatcher(private val context: Context) {
         }
     }
 
-    private fun getStatusChangedPattern(title: com.g.pocketmal.ui.legacy.viewmodel.RecordViewModel): String {
+    private fun getStatusChangedPattern(title: com.g.pocketmal.ui.legacy.viewentity.RecordViewModel): String {
 
         val isAnime = title.recordType === TitleType.ANIME
         val isScored = title.myScore > 0
@@ -303,7 +303,7 @@ class SharingPatternDispatcher(private val context: Context) {
         }
     }
 
-    private fun getFinalText(title: com.g.pocketmal.ui.legacy.viewmodel.RecordViewModel, pattern: String): String {
+    private fun getFinalText(title: com.g.pocketmal.ui.legacy.viewentity.RecordViewModel, pattern: String): String {
 
         val myEpisodes = title.myEpisodes
         val mySubEpisodes = title.mySubEpisodes

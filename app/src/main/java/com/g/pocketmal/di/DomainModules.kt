@@ -1,6 +1,11 @@
 package com.g.pocketmal.di
 
-import com.g.pocketmal.domain.entity.converter.*
+import com.g.pocketmal.data.converter.ListRecordEntityConverter
+import com.g.pocketmal.data.converter.LoginEntityConverter
+import com.g.pocketmal.data.converter.RankingEntityConverter
+import com.g.pocketmal.data.converter.SearchEntityConverter
+import com.g.pocketmal.data.converter.SeasonEntityConverter
+import com.g.pocketmal.data.converter.UserProfileEntityConverter
 import com.g.pocketmal.domain.interactor.*
 import org.koin.dsl.module
 
@@ -15,7 +20,6 @@ val interactorModule = module {
     factory { AddTitleToListInteractor(get(), get(), get(), get()) }
     factory { GetTitleDetailsInteractor(get(), get(), get(), get()) }
     factory { UpdateTitleInteractor(get(), get()) }
-    factory { SearchInteractor(get(), get(), get()) }
     factory { GetListsFromDbInteractor(get()) }
     factory { GetRecordFromDbInteractor(get()) }
     factory { GetTopInteractor(get(), get(), get()) }

@@ -13,7 +13,7 @@ import com.g.pocketmal.transformedArgument
 import com.g.pocketmal.ui.legacy.presenter.BrowsePresenter
 import com.g.pocketmal.ui.legacy.route.BrowseRoute
 import com.g.pocketmal.ui.legacy.view.BrowseView
-import com.g.pocketmal.ui.legacy.viewmodel.BrowseItemViewModel
+import com.g.pocketmal.ui.legacy.viewentity.BrowseItemViewModel
 import com.g.pocketmal.ui.legacy.widget.LazyLoadFooter
 import com.g.pocketmal.ui.utils.LazyLoadOnScrollListener
 import com.google.android.material.snackbar.Snackbar

@@ -8,7 +8,7 @@ import com.g.pocketmal.data.util.Season
 import com.g.pocketmal.domain.exception.EmptyResponseException
 import com.g.pocketmal.domain.interactor.GetSeasonalAnimeInteractor
 import com.g.pocketmal.domain.interactor.LogoutInteractor
-import com.g.pocketmal.ui.legacy.viewmodel.converter.SeasonalSectionConverter
+import com.g.pocketmal.ui.legacy.viewentity.converter.SeasonalSectionConverter
 import com.g.pocketmal.util.AnimeSeason
 import java.util.*
 

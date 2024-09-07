@@ -11,8 +11,8 @@ import com.g.pocketmal.data.keyvalue.LocalStorage
 import com.g.pocketmal.data.keyvalue.MainSettings
 import com.g.pocketmal.data.keyvalue.SessionManager
 import com.g.pocketmal.data.util.TitleType
-import com.g.pocketmal.domain.comparator.RecordComparator
-import com.g.pocketmal.domain.comparator.SortingType
+import com.g.pocketmal.ui.legacy.comparator.RecordComparator
+import com.g.pocketmal.ui.legacy.comparator.SortingType
 import com.g.pocketmal.domain.exception.ListAccessException
 import com.g.pocketmal.domain.exception.MalDownException
 import com.g.pocketmal.domain.interactor.GetListsFromDbInteractor
@@ -21,8 +21,8 @@ import com.g.pocketmal.domain.interactor.LogoutInteractor
 import com.g.pocketmal.domain.interactor.UpdateTitleInteractor
 import com.g.pocketmal.getTimePeriod
 import com.g.pocketmal.ordinal
-import com.g.pocketmal.ui.legacy.viewmodel.converter.ListItemConverter
-import com.g.pocketmal.ui.legacy.viewmodel.converter.ListRecordConverter
+import com.g.pocketmal.ui.legacy.viewentity.converter.ListItemConverter
+import com.g.pocketmal.ui.legacy.viewentity.converter.ListRecordConverter
 import com.g.pocketmal.util.Action
 import com.g.pocketmal.util.EpisodeType
 import com.g.pocketmal.util.list.DataInterpreter

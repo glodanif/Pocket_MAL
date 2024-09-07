@@ -58,7 +58,7 @@ class MainSettings(context: Context) {
     fun displayNsfwInList(): Boolean =
             preferences.getBoolean(HENTAI_FILTER_LIST_KEY, true)
 
-    fun shouldShowPopup(actionType: Action, title: com.g.pocketmal.ui.legacy.viewmodel.RecordViewModel): Boolean {
+    fun shouldShowPopup(actionType: Action, title: com.g.pocketmal.ui.legacy.viewentity.RecordViewModel): Boolean {
 
         if (actionType == Action.ACTION_SHARE) {
             return true

@@ -4,7 +4,7 @@ import com.g.pocketmal.data.api.ApiService
 import com.g.pocketmal.data.api.NetworkException
 import com.g.pocketmal.data.api.response.ErrorResponse
 import com.g.pocketmal.data.keyvalue.SessionManager
-import com.g.pocketmal.domain.entity.converter.LoginEntityConverter
+import com.g.pocketmal.data.converter.LoginEntityConverter
 import com.g.pocketmal.domain.exception.NotApprovedTitleException
 import com.google.gson.Gson
 

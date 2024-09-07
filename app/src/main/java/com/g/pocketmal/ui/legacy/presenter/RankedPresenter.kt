@@ -5,7 +5,7 @@ import com.g.pocketmal.data.util.RankingType
 import com.g.pocketmal.data.util.TitleType
 import com.g.pocketmal.domain.interactor.GetTopInteractor
 import com.g.pocketmal.domain.interactor.LogoutInteractor
-import com.g.pocketmal.ui.legacy.viewmodel.converter.RankedItemConverter
+import com.g.pocketmal.ui.legacy.viewentity.converter.RankedItemConverter
 
 class RankedPresenter(
     private val rankingType: RankingType,

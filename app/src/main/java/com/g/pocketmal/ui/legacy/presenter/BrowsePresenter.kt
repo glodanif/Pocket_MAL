@@ -11,7 +11,7 @@ class BrowsePresenter(
     private val titleType: TitleType,
     private val view: com.g.pocketmal.ui.legacy.view.BrowseView,
     private val route: com.g.pocketmal.ui.legacy.route.BrowseRoute,
-    private val converter: com.g.pocketmal.ui.legacy.viewmodel.converter.BrowseItemConverter,
+    private val converter: com.g.pocketmal.ui.legacy.viewentity.converter.BrowseItemConverter,
     private val getTopInteractor: GetTopInteractor,
     private val logoutInteractor: LogoutInteractor
 ) : BasePresenter(view, route, logoutInteractor) {

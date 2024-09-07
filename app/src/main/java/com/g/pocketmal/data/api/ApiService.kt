@@ -1,15 +1,20 @@
 package com.g.pocketmal.data.api
 
 import com.g.pocketmal.data.api.request.AuthUrl
-import com.g.pocketmal.data.api.response.*
+import com.g.pocketmal.data.api.response.BasicUserResponse
+import com.g.pocketmal.data.api.response.ListResponse
+import com.g.pocketmal.data.api.response.ListStatus
+import com.g.pocketmal.data.api.response.RankingResponse
+import com.g.pocketmal.data.api.response.RecommendationsResponse
+import com.g.pocketmal.data.api.response.SearchResponse
+import com.g.pocketmal.data.api.response.SeasonResponse
+import com.g.pocketmal.data.api.response.TitleDetailsResponse
+import com.g.pocketmal.data.api.response.TokenResponse
+import com.g.pocketmal.data.api.response.UserResponse
 import com.g.pocketmal.data.util.PartOfYear
-import com.g.pocketmal.data.util.TitleType
 import com.g.pocketmal.data.util.RankingType
-import com.g.pocketmal.domain.DataOutput
-import com.g.pocketmal.domain.entity.RecommendationEntity
+import com.g.pocketmal.data.util.TitleType
 import retrofit2.Response
-
-import java.util.HashMap
 
 interface ApiService {
     fun getAuthUrl(): AuthUrl

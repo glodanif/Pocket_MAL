@@ -10,7 +10,7 @@ import com.g.pocketmal.R
 import com.g.pocketmal.loadUrl
 import java.util.*
 
-class BrowseAdapter(context: Context) : com.g.pocketmal.ui.legacy.adapter.SkeletonAdapter<com.g.pocketmal.ui.legacy.viewmodel.BrowseItemViewModel>(context) {
+class BrowseAdapter(context: Context) : com.g.pocketmal.ui.legacy.adapter.SkeletonAdapter<com.g.pocketmal.ui.legacy.viewentity.BrowseItemViewModel>(context) {
 
     override fun getItemId(position: Int): Long {
         return getItem(position).id.toLong()
@@ -41,7 +41,7 @@ class BrowseAdapter(context: Context) : com.g.pocketmal.ui.legacy.adapter.Skelet
         return convertView
     }
 
-    fun addList(data: List<com.g.pocketmal.ui.legacy.viewmodel.BrowseItemViewModel>?) {
+    fun addList(data: List<com.g.pocketmal.ui.legacy.viewentity.BrowseItemViewModel>?) {
         val list = data ?: ArrayList()
         getData().addAll(list)
     }

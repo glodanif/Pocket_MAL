@@ -20,7 +20,7 @@ import com.g.pocketmal.data.util.TitleType
 import com.g.pocketmal.ui.legacy.SkeletonActivity
 import com.g.pocketmal.ui.utils.StartEndAnimatorListener
 
-class EpisodesPopup(context: SkeletonActivity, private val viewModel: com.g.pocketmal.ui.legacy.viewmodel.RecordViewModel) : SkeletonPopupWindows(context) {
+class EpisodesPopup(context: SkeletonActivity, private val viewModel: com.g.pocketmal.ui.legacy.viewentity.RecordViewModel) : SkeletonPopupWindows(context) {
 
     private lateinit var rootView: View
     private val inputMethodManager: InputMethodManager?

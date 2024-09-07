@@ -16,7 +16,7 @@ class ListStatsFragment : Fragment() {
 
     private lateinit var binding: FragmentListStatsBinding
 
-    private var userData: com.g.pocketmal.ui.legacy.viewmodel.UserProfileViewModel? = null
+    private var userData: com.g.pocketmal.ui.legacy.viewentity.UserProfileViewModel? = null
 
     private var activity: Activity? = null
 
@@ -33,7 +33,7 @@ class ListStatsFragment : Fragment() {
         return binding.root
     }
 
-    fun setUserData(userData: com.g.pocketmal.ui.legacy.viewmodel.UserProfileViewModel, type: TitleType) {
+    fun setUserData(userData: com.g.pocketmal.ui.legacy.viewentity.UserProfileViewModel, type: TitleType) {
 
         if (!isAdded) return
 

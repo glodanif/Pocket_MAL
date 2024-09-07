@@ -6,10 +6,10 @@ import com.g.pocketmal.util.Action
 interface TitleDetailsView: com.g.pocketmal.ui.legacy.view.BaseSessionView {
 
     fun showNotInListLayout()
-    fun displayRecord(viewModel: com.g.pocketmal.ui.legacy.viewmodel.RecordViewModel)
-    fun displayDetails(viewModel: com.g.pocketmal.ui.legacy.viewmodel.TitleDetailsViewModel, englishPrimary: Boolean)
-    fun displayRecord(record: com.g.pocketmal.ui.legacy.viewmodel.RecordViewModel, details: com.g.pocketmal.ui.legacy.viewmodel.TitleDetailsViewModel, englishPrimary: Boolean)
-    fun displayNewlyAddedTitle(record: com.g.pocketmal.ui.legacy.viewmodel.RecordViewModel)
+    fun displayRecord(viewModel: com.g.pocketmal.ui.legacy.viewentity.RecordViewModel)
+    fun displayDetails(viewModel: com.g.pocketmal.ui.legacy.viewentity.TitleDetailsViewModel, englishPrimary: Boolean)
+    fun displayRecord(record: com.g.pocketmal.ui.legacy.viewentity.RecordViewModel, details: com.g.pocketmal.ui.legacy.viewentity.TitleDetailsViewModel, englishPrimary: Boolean)
+    fun displayNewlyAddedTitle(record: com.g.pocketmal.ui.legacy.viewentity.RecordViewModel)
 
     fun showRemovingFailure()
     fun showAddingFailure()
@@ -25,7 +25,7 @@ interface TitleDetailsView: com.g.pocketmal.ui.legacy.view.BaseSessionView {
     fun showAllEpisodesAlreadyCompleted(@StringRes text: Int)
     fun showRewatchedPopup(times: String, @StringRes text: Int)
 
-    fun showActions(viewModel: com.g.pocketmal.ui.legacy.viewmodel.RecordViewModel, action: Action)
+    fun showActions(viewModel: com.g.pocketmal.ui.legacy.viewentity.RecordViewModel, action: Action)
 
     fun showLoadingDialog(@StringRes text: Int)
     fun hideLoadingDialog()

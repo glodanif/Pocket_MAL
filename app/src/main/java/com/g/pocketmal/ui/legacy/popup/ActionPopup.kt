@@ -32,7 +32,7 @@ class ActionPopup(private val activity: SkeletonActivity) : SkeletonPopupWindows
 
     var id: Long = 0
 
-    private var title: com.g.pocketmal.ui.legacy.viewmodel.RecordViewModel? = null
+    private var title: com.g.pocketmal.ui.legacy.viewentity.RecordViewModel? = null
     private var action: Action = Action.ACTION_NONE
 
     init {
@@ -66,7 +66,7 @@ class ActionPopup(private val activity: SkeletonActivity) : SkeletonPopupWindows
         }
     }
 
-    fun show(title: com.g.pocketmal.ui.legacy.viewmodel.RecordViewModel, action: Action) {
+    fun show(title: com.g.pocketmal.ui.legacy.viewentity.RecordViewModel, action: Action) {
 
         this.title = title
         this.action = action
@@ -102,7 +102,7 @@ class ActionPopup(private val activity: SkeletonActivity) : SkeletonPopupWindows
         return actionType == Action.ACTION_STATUS && (status == Status.ON_HOLD || status == Status.PLANNED)
     }
 
-    private fun getReminderDescription(title: com.g.pocketmal.ui.legacy.viewmodel.RecordViewModel): String {
+    private fun getReminderDescription(title: com.g.pocketmal.ui.legacy.viewentity.RecordViewModel): String {
 
         val isAnime = title.recordType === TitleType.ANIME
 

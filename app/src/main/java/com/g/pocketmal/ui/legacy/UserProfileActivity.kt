@@ -20,7 +20,7 @@ import com.g.pocketmal.ui.legacy.fragment.ListStatsFragment
 import com.g.pocketmal.ui.legacy.presenter.UserProfilePresenter
 import com.g.pocketmal.ui.legacy.route.UserProfileRoute
 import com.g.pocketmal.ui.legacy.view.UserProfileView
-import com.g.pocketmal.ui.legacy.viewmodel.UserProfileViewModel
+import com.g.pocketmal.ui.legacy.viewentity.UserProfileViewModel
 import com.g.pocketmal.ui.poster.PosterActivity
 import com.g.pocketmal.ui.utils.CircleTransform
 import com.google.android.material.snackbar.Snackbar

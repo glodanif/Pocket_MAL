@@ -4,7 +4,7 @@ import androidx.annotation.StringRes
 
 interface BrowseView: com.g.pocketmal.ui.legacy.view.BaseSessionView {
     fun setToolbarTitle(@StringRes title: Int)
-    fun addItemsToList(items: List<com.g.pocketmal.ui.legacy.viewmodel.BrowseItemViewModel>)
+    fun addItemsToList(items: List<com.g.pocketmal.ui.legacy.viewentity.BrowseItemViewModel>)
     fun notifyLoadingFailure()
     fun displayFailPopup()
     fun showProgressFooter()

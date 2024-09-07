@@ -3,7 +3,6 @@ package com.g.pocketmal.domain.interactor
 import com.g.pocketmal.data.database.datasource.RecordDataSource
 import com.g.pocketmal.data.database.model.DbListRecord
 import com.g.pocketmal.data.util.TitleType
-import com.g.pocketmal.domain.entity.converter.ListRecordEntityConverter
 
 class GetRecordFromDbInteractor(
         private val recordStorage: RecordDataSource

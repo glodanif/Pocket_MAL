@@ -16,21 +16,14 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Search
-import androidx.compose.material.icons.rounded.Search
-import androidx.compose.material.icons.rounded.Star
-import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -49,7 +42,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
@@ -57,15 +49,16 @@ import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.semantics.traversalIndex
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
 import com.g.pocketmal.data.util.TitleType
 import com.g.pocketmal.transformedArgument
-import com.g.pocketmal.ui.common.ScoreLabel
-import com.g.pocketmal.ui.common.innerShadow
+import com.g.pocketmal.ui.common.ErrorMessageView
+import com.g.pocketmal.ui.common.ErrorMessageWithRetryView
+import com.g.pocketmal.ui.common.LoadingView
+import com.g.pocketmal.ui.common.SmallDetailsRow
 import com.g.pocketmal.ui.legacy.SkeletonActivity
 import com.g.pocketmal.ui.legacy.TitleDetailsActivity
 import com.g.pocketmal.ui.search.presentation.SearchResultViewEntity
@@ -181,19 +174,25 @@ private fun SearchScreen(
                         )
                     }
 
-                    is SearchState.FailedToLoad -> {
-                        FailedToLoadView(
-                            failedState = searchState,
-                            onRetryPressed = {
-                                onSearchPressed(query)
-                            },
+                    is SearchState.FailedToLoad ->
+                        ErrorMessageWithRetryView(
+                            message = searchState.errorMessage,
+                            onRetryClicked = { onSearchPressed(query) },
                         )
-                    }
 
-                    is SearchState.IncorrectInput -> IncorrectInputView(searchState.minQueryLength)
+                    is SearchState.IncorrectInput ->
+                        ErrorMessageView(
+                            message = "Query must be at least ${searchState.minQueryLength} characters long",
+                        )
+
+                    SearchState.NoSearchResult ->
+                        ErrorMessageView(
+                            message = "No result for this query...",
+                        )
+
                     SearchState.Initial -> Box {}
                     SearchState.Loading -> LoadingView()
-                    SearchState.NoSearchResult -> EmptySearchResultView()
+
                 }
             }
             SearchBar(
@@ -321,55 +320,6 @@ private fun SearchResultItem(
                     overflow = TextOverflow.Ellipsis,
                 )
             }
-        }
-    }
-}
-
-@Composable
-private fun LoadingView() {
-    CircularProgressIndicator(
-        modifier = Modifier.size(64.dp),
-        color = MaterialTheme.colorScheme.secondary,
-        trackColor = MaterialTheme.colorScheme.surfaceVariant,
-    )
-}
-
-@Composable
-private fun IncorrectInputView(minQueryLength: Int) {
-    Box(
-        modifier = Modifier.padding(32.dp),
-        contentAlignment = Alignment.Center,
-    ) {
-        Text(
-            text = "Query must be at least $minQueryLength characters long",
-            textAlign = TextAlign.Center,
-        )
-    }
-}
-
-@Composable
-private fun EmptySearchResultView() {
-    Box(
-        modifier = Modifier.padding(32.dp),
-        contentAlignment = Alignment.Center,
-    ) {
-        Text(text = "No recommendations for this title", textAlign = TextAlign.Center)
-    }
-}
-
-@Composable
-private fun FailedToLoadView(
-    failedState: SearchState.FailedToLoad,
-    onRetryPressed: () -> Unit = {},
-) {
-    Column(
-        modifier = Modifier.padding(32.dp),
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        Text(text = failedState.errorMessage, textAlign = TextAlign.Center)
-        Spacer(modifier = Modifier.height(12.dp))
-        Button(onClick = onRetryPressed) {
-            Text(text = "Try again")
         }
     }
 }

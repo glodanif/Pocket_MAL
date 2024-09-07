@@ -4,7 +4,7 @@ import com.g.pocketmal.data.api.ApiService
 import com.g.pocketmal.data.platform.CookieManager
 import com.g.pocketmal.data.platform.NetworkManager
 import com.g.pocketmal.domain.entity.AuthUrlEntity
-import com.g.pocketmal.domain.entity.converter.LoginEntityConverter
+import com.g.pocketmal.data.converter.LoginEntityConverter
 import kotlinx.coroutines.Dispatchers
 import java.io.IOException
 

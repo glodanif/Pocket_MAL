@@ -13,7 +13,7 @@ import com.g.pocketmal.transformedArgument
 import com.g.pocketmal.ui.legacy.presenter.RankedPresenter
 import com.g.pocketmal.ui.legacy.route.RankedRoute
 import com.g.pocketmal.ui.legacy.view.RankedView
-import com.g.pocketmal.ui.legacy.viewmodel.RankedItemViewModel
+import com.g.pocketmal.ui.legacy.viewentity.RankedItemViewModel
 import com.g.pocketmal.ui.legacy.widget.LazyLoadFooter
 import com.g.pocketmal.ui.utils.LazyLoadOnScrollListener
 import com.google.android.material.snackbar.Snackbar

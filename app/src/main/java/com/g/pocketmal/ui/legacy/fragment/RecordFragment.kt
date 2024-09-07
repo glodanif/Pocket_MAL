@@ -129,7 +129,7 @@ open class RecordFragment : Fragment() {
         binding.tvTags.setText(tags)
     }
 
-    fun showTitleInfo(viewModel: com.g.pocketmal.ui.legacy.viewmodel.RecordViewModel) {
+    fun showTitleInfo(viewModel: com.g.pocketmal.ui.legacy.viewentity.RecordViewModel) {
 
         if (!isAdded) {
             return
@@ -183,7 +183,7 @@ open class RecordFragment : Fragment() {
         binding.ivSeriesPoster.loadUrl(url)
     }
 
-    private fun setupChangeableViews(record: com.g.pocketmal.ui.legacy.viewmodel.RecordViewModel) {
+    private fun setupChangeableViews(record: com.g.pocketmal.ui.legacy.viewentity.RecordViewModel) {
 
         binding.tvEpisodes.text = record.fullEpisodesLabel
         binding.btnScore.text = record.myScoreLabel
@@ -212,7 +212,7 @@ open class RecordFragment : Fragment() {
         activity?.invalidateOptionsMenu()
     }
 
-    fun setAlternativeTitles(titleDetails: com.g.pocketmal.ui.legacy.viewmodel.TitleDetailsViewModel, englishPrimary: Boolean) {
+    fun setAlternativeTitles(titleDetails: com.g.pocketmal.ui.legacy.viewentity.TitleDetailsViewModel, englishPrimary: Boolean) {
 
         if (!isAdded) {
             return

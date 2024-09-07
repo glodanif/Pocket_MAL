@@ -41,7 +41,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
@@ -51,12 +50,15 @@ import coil.compose.AsyncImage
 import com.g.pocketmal.argument
 import com.g.pocketmal.data.util.TitleType
 import com.g.pocketmal.transformedArgument
+import com.g.pocketmal.ui.common.ErrorMessageView
+import com.g.pocketmal.ui.common.ErrorMessageWithRetryView
+import com.g.pocketmal.ui.common.LoadingView
 import com.g.pocketmal.ui.legacy.SkeletonActivity
 import com.g.pocketmal.ui.legacy.TitleDetailsActivity
 import com.g.pocketmal.ui.recommendations.presentation.RecommendationsState
 import com.g.pocketmal.ui.recommendations.presentation.RecommendationsViewModel
 import com.g.pocketmal.ui.recommendations.presentation.RecommendedTitleViewEntity
-import com.g.pocketmal.ui.search.SmallDetailsRow
+import com.g.pocketmal.ui.common.SmallDetailsRow
 import com.g.pocketmal.ui.theme.PocketMalTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -66,7 +68,7 @@ class RecommendationsActivity : SkeletonActivity() {
     private val type by transformedArgument<Int, TitleType>(EXTRA_TYPE, TitleType.ANIME) {
         TitleType.from(it)
     }
-    private val id by argument<Int>(EXTRA_ID)
+    private val id by argument<Int>(EXTRA_ID, 0)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -101,7 +103,7 @@ class RecommendationsActivity : SkeletonActivity() {
 
 @Composable
 private fun RecommendationsContent(
-    titleId: Int?,
+    titleId: Int,
     titleType: TitleType,
     viewModel: RecommendationsViewModel = hiltViewModel(),
     onRecommendationClicked: (Int) -> Unit,
@@ -120,7 +122,7 @@ private fun RecommendationsContent(
         onRetryPressed = {
             viewModel.loadRecommendations(titleId, titleType)
         },
-        onRecommendationClicked =  onRecommendationClicked,
+        onRecommendationClicked = onRecommendationClicked,
     )
 }
 
@@ -164,14 +166,19 @@ private fun RecommendationsScreen(
                     onRecommendationClicked = onRecommendationClicked,
                 )
 
-                RecommendationsState.NoRecommendations -> NoRecommendationsView()
-                RecommendationsState.Loading -> LoadingView()
-                is RecommendationsState.FailedToLoad -> FailedToLoadView(
-                    failedState = recommendationsState,
-                    onRetryPressed = onRetryPressed,
-                )
+                RecommendationsState.NoRecommendations ->
+                    ErrorMessageView(message = "No recommendations for this title")
 
-                RecommendationsState.IncorrectInput -> IncorrectInputView()
+                RecommendationsState.Loading -> LoadingView()
+
+                is RecommendationsState.FailedToLoad ->
+                    ErrorMessageWithRetryView(
+                        message = recommendationsState.errorMessage,
+                        onRetryClicked = onRetryPressed,
+                    )
+
+                RecommendationsState.IncorrectInput ->
+                    ErrorMessageView(message = "Unable to get the title id, please relaunch the app...")
             }
         }
     }
@@ -245,55 +252,6 @@ private fun RecommendationItem(
                     details = recommendation.details,
                 )
             }
-        }
-    }
-}
-
-@Composable
-private fun LoadingView() {
-    CircularProgressIndicator(
-        modifier = Modifier.size(64.dp),
-        color = MaterialTheme.colorScheme.secondary,
-        trackColor = MaterialTheme.colorScheme.surfaceVariant,
-    )
-}
-
-@Composable
-private fun IncorrectInputView() {
-    Box(
-        modifier = Modifier.padding(32.dp),
-        contentAlignment = Alignment.Center,
-    ) {
-        Text(
-            text = "Unable to get the title id, please relaunch the app...",
-            textAlign = TextAlign.Center,
-        )
-    }
-}
-
-@Composable
-private fun NoRecommendationsView() {
-    Box(
-        modifier = Modifier.padding(32.dp),
-        contentAlignment = Alignment.Center,
-    ) {
-        Text(text = "No recommendations for this title", textAlign = TextAlign.Center)
-    }
-}
-
-@Composable
-private fun FailedToLoadView(
-    failedState: RecommendationsState.FailedToLoad,
-    onRetryPressed: () -> Unit = {},
-) {
-    Column(
-        modifier = Modifier.padding(32.dp),
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        Text(text = failedState.errorMessage, textAlign = TextAlign.Center)
-        Spacer(modifier = Modifier.height(12.dp))
-        Button(onClick = onRetryPressed) {
-            Text(text = "Try again")
         }
     }
 }

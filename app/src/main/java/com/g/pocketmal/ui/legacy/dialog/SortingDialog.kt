@@ -9,7 +9,7 @@ import android.widget.RadioButton
 import androidx.annotation.StyleRes
 
 import com.g.pocketmal.R
-import com.g.pocketmal.domain.comparator.SortingType
+import com.g.pocketmal.ui.legacy.comparator.SortingType
 
 class SortingDialog(activity: Activity, @StyleRes themeResId: Int, sortingType: SortingType, reverse: Boolean, onSortType: (SortingType, Boolean) -> Unit) : Dialog(activity, themeResId) {
 

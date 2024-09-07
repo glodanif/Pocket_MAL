@@ -21,6 +21,7 @@ import com.g.pocketmal.data.api.UpdateParams
 import com.g.pocketmal.data.common.Status
 import com.g.pocketmal.data.util.TitleType
 import com.g.pocketmal.transformedArgument
+import com.g.pocketmal.ui.editdetails.EditDetailsActivity
 import com.g.pocketmal.ui.externallinks.ExternalLinksActivity
 import com.g.pocketmal.ui.legacy.dialog.YesNoDialog
 import com.g.pocketmal.ui.legacy.fragment.DetailsFragment
@@ -28,8 +29,8 @@ import com.g.pocketmal.ui.legacy.fragment.RecordFragment
 import com.g.pocketmal.ui.legacy.presenter.TitleDetailsPresenter
 import com.g.pocketmal.ui.legacy.route.TitleDetailsRoute
 import com.g.pocketmal.ui.legacy.view.TitleDetailsView
-import com.g.pocketmal.ui.legacy.viewmodel.RecordViewModel
-import com.g.pocketmal.ui.legacy.viewmodel.TitleDetailsViewModel
+import com.g.pocketmal.ui.legacy.viewentity.RecordViewModel
+import com.g.pocketmal.ui.legacy.viewentity.TitleDetailsViewModel
 import com.g.pocketmal.ui.legacy.widget.EventScrollView
 import com.g.pocketmal.ui.poster.PosterActivity
 import com.g.pocketmal.ui.recommendations.RecommendationsActivity

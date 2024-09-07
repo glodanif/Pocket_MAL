@@ -18,10 +18,10 @@ import com.g.pocketmal.util.EpisodeType
 import java.util.*
 
 //FIXME replace with RecyclerView
-class EntityAdapter(private val context: SkeletonActivity, titles: List<com.g.pocketmal.ui.legacy.viewmodel.RecordListViewModel>? = ArrayList()) : BaseAdapter() {
+class EntityAdapter(private val context: SkeletonActivity, titles: List<com.g.pocketmal.ui.legacy.viewentity.RecordListViewModel>? = ArrayList()) : BaseAdapter() {
 
-    var originalTitles: List<com.g.pocketmal.ui.legacy.viewmodel.RecordListViewModel>
-    var currentTitles: List<com.g.pocketmal.ui.legacy.viewmodel.RecordListViewModel>
+    var originalTitles: List<com.g.pocketmal.ui.legacy.viewentity.RecordListViewModel>
+    var currentTitles: List<com.g.pocketmal.ui.legacy.viewentity.RecordListViewModel>
 
     val filter: EntityFilter
 
@@ -77,7 +77,7 @@ class EntityAdapter(private val context: SkeletonActivity, titles: List<com.g.po
         return convertView
     }
 
-    private fun bindBasicLayout(holder: com.g.pocketmal.ui.legacy.adapter.EntityAdapter.ViewHolder, title: com.g.pocketmal.ui.legacy.viewmodel.RecordListViewModel) {
+    private fun bindBasicLayout(holder: com.g.pocketmal.ui.legacy.adapter.EntityAdapter.ViewHolder, title: com.g.pocketmal.ui.legacy.viewentity.RecordListViewModel) {
 
         holder.title.text = title.seriesTitle
         holder.status.text = title.seriesStatus
@@ -138,13 +138,13 @@ class EntityAdapter(private val context: SkeletonActivity, titles: List<com.g.po
         }
     }
 
-    fun setCurrentList(data: List<com.g.pocketmal.ui.legacy.viewmodel.RecordListViewModel>) {
+    fun setCurrentList(data: List<com.g.pocketmal.ui.legacy.viewentity.RecordListViewModel>) {
         this.currentTitles = data
     }
 
-    fun setOriginalList(data: List<com.g.pocketmal.ui.legacy.viewmodel.RecordListViewModel>) {
+    fun setOriginalList(data: List<com.g.pocketmal.ui.legacy.viewentity.RecordListViewModel>) {
         setCurrentList(data)
-        this.originalTitles = ArrayList<com.g.pocketmal.ui.legacy.viewmodel.RecordListViewModel>(data)
+        this.originalTitles = ArrayList<com.g.pocketmal.ui.legacy.viewentity.RecordListViewModel>(data)
     }
 
     fun setActionsEnabled(enabled: Boolean) {

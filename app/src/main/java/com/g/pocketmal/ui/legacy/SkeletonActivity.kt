@@ -23,7 +23,7 @@ import com.g.pocketmal.ui.legacy.dialog.MessageDialog
 import com.g.pocketmal.ui.legacy.popup.ActionPopup
 import com.g.pocketmal.ui.legacy.route.BaseSessionRoute
 import com.g.pocketmal.ui.legacy.view.BaseSessionView
-import com.g.pocketmal.ui.legacy.viewmodel.RecordViewModel
+import com.g.pocketmal.ui.legacy.viewentity.RecordViewModel
 import com.g.pocketmal.ui.utils.customtabs.CustomTabActivityHelper
 import com.g.pocketmal.util.Action
 import org.koin.android.ext.android.inject

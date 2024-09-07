@@ -5,7 +5,7 @@ import com.g.pocketmal.data.api.NetworkException
 import com.g.pocketmal.data.keyvalue.MainSettings
 import com.g.pocketmal.data.util.Season
 import com.g.pocketmal.domain.entity.SeasonEntity
-import com.g.pocketmal.domain.entity.converter.SeasonEntityConverter
+import com.g.pocketmal.data.converter.SeasonEntityConverter
 import com.g.pocketmal.domain.exception.EmptyResponseException
 
 class GetSeasonalAnimeInteractor(

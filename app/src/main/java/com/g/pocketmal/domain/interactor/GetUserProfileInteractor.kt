@@ -5,7 +5,7 @@ import com.g.pocketmal.data.api.NetworkException
 import com.g.pocketmal.data.database.converter.UserProfileDataConverter
 import com.g.pocketmal.data.database.datasource.UserProfileDataSource
 import com.g.pocketmal.domain.entity.UserProfileEntity
-import com.g.pocketmal.domain.entity.converter.UserProfileEntityConverter
+import com.g.pocketmal.data.converter.UserProfileEntityConverter
 import com.g.pocketmal.domain.exception.EmptyResponseException
 
 class GetUserProfileInteractor(

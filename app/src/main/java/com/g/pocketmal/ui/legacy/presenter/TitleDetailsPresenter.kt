@@ -20,8 +20,8 @@ import com.g.pocketmal.domain.interactor.LogoutInteractor
 import com.g.pocketmal.domain.interactor.RemoveTitleFromListInteractor
 import com.g.pocketmal.domain.interactor.UpdateTitleInteractor
 import com.g.pocketmal.ordinal
-import com.g.pocketmal.ui.legacy.viewmodel.converter.ListItemConverter
-import com.g.pocketmal.ui.legacy.viewmodel.converter.TitleDetailsConverter
+import com.g.pocketmal.ui.legacy.viewentity.converter.ListItemConverter
+import com.g.pocketmal.ui.legacy.viewentity.converter.TitleDetailsConverter
 import com.g.pocketmal.util.Action
 import com.g.pocketmal.util.EpisodeType
 import com.g.pocketmal.util.list.ListsManager
@@ -58,7 +58,7 @@ class TitleDetailsPresenter(
     private val coroutineScope = CoroutineScope(Dispatchers.Main + Job())
 
     //FIXME get rid of state!
-    private var currentRecord: com.g.pocketmal.ui.legacy.viewmodel.RecordViewModel? = null
+    private var currentRecord: com.g.pocketmal.ui.legacy.viewentity.RecordViewModel? = null
     var notLoadedAnythingLastTime = false
 
     private var externalLinksPattern = ""

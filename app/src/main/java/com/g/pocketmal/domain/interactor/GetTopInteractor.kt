@@ -7,7 +7,7 @@ import com.g.pocketmal.data.keyvalue.MainSettings
 import com.g.pocketmal.data.util.RankingType
 import com.g.pocketmal.data.util.TitleType
 import com.g.pocketmal.domain.entity.RankingEntity
-import com.g.pocketmal.domain.entity.converter.RankingEntityConverter
+import com.g.pocketmal.data.converter.RankingEntityConverter
 import com.g.pocketmal.domain.exception.EmptyResponseException
 
 class GetTopInteractor(

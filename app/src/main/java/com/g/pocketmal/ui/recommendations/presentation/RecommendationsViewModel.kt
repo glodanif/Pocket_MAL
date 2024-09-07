@@ -21,9 +21,9 @@ class RecommendationsViewModel @Inject constructor(
         MutableStateFlow<RecommendationsState>(RecommendationsState.Loading)
     val recommendationsState = _recommendationsState.asStateFlow()
 
-    fun loadRecommendations(titleId: Int?, titleType: TitleType) {
+    fun loadRecommendations(titleId: Int, titleType: TitleType) {
         _recommendationsState.value = RecommendationsState.Loading
-        if (titleId == null) {
+        if (titleId <= 0) {
             _recommendationsState.value = RecommendationsState.IncorrectInput
             return
         }

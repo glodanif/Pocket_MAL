@@ -19,11 +19,11 @@ class EntityFilter(private val adapter: com.g.pocketmal.ui.legacy.adapter.Entity
 
     override fun publishResults(constraint: CharSequence, results: FilterResults) {
 
-        val filteredData = ArrayList<com.g.pocketmal.ui.legacy.viewmodel.RecordListViewModel>()
+        val filteredData = ArrayList<com.g.pocketmal.ui.legacy.viewentity.RecordListViewModel>()
 
         val result = results.values as List<*>
         for (viewModel in result) {
-            if (viewModel is com.g.pocketmal.ui.legacy.viewmodel.RecordListViewModel) {
+            if (viewModel is com.g.pocketmal.ui.legacy.viewentity.RecordListViewModel) {
                 filteredData.add(viewModel)
             }
         }
@@ -32,9 +32,9 @@ class EntityFilter(private val adapter: com.g.pocketmal.ui.legacy.adapter.Entity
         adapter.notifyDataSetChanged()
     }
 
-    private fun getFilteredList(searchText: String): List<com.g.pocketmal.ui.legacy.viewmodel.RecordListViewModel> {
+    private fun getFilteredList(searchText: String): List<com.g.pocketmal.ui.legacy.viewentity.RecordListViewModel> {
 
-        val filteredData = ArrayList<com.g.pocketmal.ui.legacy.viewmodel.RecordListViewModel>()
+        val filteredData = ArrayList<com.g.pocketmal.ui.legacy.viewentity.RecordListViewModel>()
 
         return if (searchText.isNotEmpty()) {
             val d2 = ArrayList(adapter.originalTitles)
