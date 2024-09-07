@@ -7,20 +7,18 @@ import com.g.pocketmal.data.api.response.BasicUserResponse
 import com.g.pocketmal.data.api.response.ListResponse
 import com.g.pocketmal.data.api.response.ListStatus
 import com.g.pocketmal.data.api.response.RankingResponse
+import com.g.pocketmal.data.api.response.RecommendationsResponse
 import com.g.pocketmal.data.api.response.SearchResponse
 import com.g.pocketmal.data.api.response.SeasonResponse
 import com.g.pocketmal.data.api.response.TitleDetailsResponse
 import com.g.pocketmal.data.api.response.TokenResponse
 import com.g.pocketmal.data.api.response.UserResponse
-import com.g.pocketmal.data.api.response.toDomainEntities
 import com.g.pocketmal.data.keyvalue.SessionManager
 import com.g.pocketmal.data.util.PKCEHelper
 import com.g.pocketmal.data.util.PartOfYear
 import com.g.pocketmal.data.util.RankingType
 import com.g.pocketmal.data.util.TitleType
 import com.g.pocketmal.data.util.TitleType.ANIME
-import com.g.pocketmal.domain.DataOutput
-import com.g.pocketmal.domain.entity.RecommendationEntity
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Response
@@ -180,28 +178,9 @@ class MalApiService(sessionManager: SessionManager, private val oAuthConfig: OAu
         return apiService.getSeasonalAnime(year, partOfYear.season, includeNsfw)
     }
 
-    override suspend fun getRecommendations(
-        id: Int,
-        type: TitleType,
-    ): DataOutput<List<RecommendationEntity>> {
+    override suspend fun getRecommendations(id: Int, type: TitleType): Response<RecommendationsResponse> {
         val typeConst = if (type == ANIME) "anime" else "manga"
-        val url = MalApi.API_BASE_URL + typeConst + "/" + id +
-                "?fields=recommendations{mean,media_type,num_episodes,num_chapters}"
-        val response = apiService.getRecommendations(url)
-        val body = response.body()
-
-        if (response.isSuccessful && body != null) {
-            if (body.recommendations.isEmpty()) {
-                return DataOutput.Success(emptyList())
-            } else {
-                val domainEntity = body.toDomainEntities(type)
-                return DataOutput.Success(domainEntity)
-            }
-        } else {
-            return DataOutput.Error(
-                message = response.message(),
-                code = response.code(),
-            )
-        }
+        val url = MalApi.API_BASE_URL + typeConst + "/" + id + "?fields=recommendations{mean,media_type,num_episodes,num_chapters}"
+        return apiService.getRecommendations(url)
     }
 }

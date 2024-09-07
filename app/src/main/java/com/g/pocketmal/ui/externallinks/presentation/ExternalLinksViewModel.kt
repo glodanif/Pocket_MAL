@@ -1,11 +1,9 @@
-package com.g.pocketmal.ui.externallinks
+package com.g.pocketmal.ui.externallinks.presentation
 
 import androidx.datastore.core.DataStore
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.g.pocketmal.data.keyvalue.MainSettings
 import com.g.pocketmal.data.keyvalue.UserPreferences
-import com.g.pocketmal.ui.theme.ThemeMode
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow

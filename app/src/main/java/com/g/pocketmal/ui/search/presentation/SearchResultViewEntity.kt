@@ -1,6 +1,6 @@
-package com.g.pocketmal.ui.legacy.viewmodel
+package com.g.pocketmal.ui.search.presentation
 
-class SearchResultViewModel(
+class SearchResultViewEntity(
         val id: Int,
         val title: String,
         val score: String,

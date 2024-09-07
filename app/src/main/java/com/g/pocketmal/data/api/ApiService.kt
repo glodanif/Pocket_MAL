@@ -26,5 +26,5 @@ interface ApiService {
     suspend fun getRankingList(titleType: TitleType, rankingType: RankingType, includeNsfw: Boolean, limit: Int, offset: Int): Response<RankingResponse>
     suspend fun search(query: String, type: TitleType, includeNsfw: Boolean): Response<SearchResponse>
     suspend fun getSeasonalAnime(partOfYear: PartOfYear, year: Int, includeNsfw: Boolean): Response<SeasonResponse>
-    suspend fun getRecommendations(id: Int, type: TitleType): DataOutput<List<RecommendationEntity>>
+    suspend fun getRecommendations(id: Int, type: TitleType): Response<RecommendationsResponse>
 }

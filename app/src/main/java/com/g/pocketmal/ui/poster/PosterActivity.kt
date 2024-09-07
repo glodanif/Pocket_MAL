@@ -35,6 +35,7 @@ import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.g.pocketmal.R
 import com.g.pocketmal.argument
+import com.g.pocketmal.ui.legacy.SkeletonActivity
 import com.g.pocketmal.ui.legacy.SkeletonToolbarActivity
 import com.g.pocketmal.ui.theme.PocketMalTheme
 import dagger.hilt.android.AndroidEntryPoint
@@ -43,7 +44,7 @@ import net.engawapg.lib.zoomable.toggleScale
 import net.engawapg.lib.zoomable.zoomable
 
 @AndroidEntryPoint
-class PosterActivity : SkeletonToolbarActivity() {
+class PosterActivity : SkeletonActivity() {
 
     private val posterUrl by argument<String?>(EXTRA_POSTER_URL)
 
@@ -132,8 +133,9 @@ class PosterActivity : SkeletonToolbarActivity() {
         private const val EXTRA_POSTER_URL = "extra.poster_url"
 
         fun start(context: Context, url: String?) {
-            val intent = Intent(context, PosterActivity::class.java)
-                .putExtra(EXTRA_POSTER_URL, url)
+            val intent = Intent(context, PosterActivity::class.java).apply {
+                putExtra(EXTRA_POSTER_URL, url)
+            }
             context.startActivity(intent)
         }
     }
@@ -208,7 +210,9 @@ private fun PosterView(posterUrl: String) {
             .fillMaxSize()
             .zoomable(
                 zoomState = zoomState,
-                onDoubleTap = { position -> zoomState.toggleScale(2.5f, position) }
+                onDoubleTap = { position ->
+                    zoomState.toggleScale(2.5f, position)
+                }
             ),
         model = posterUrl,
         contentDescription = "",
@@ -231,8 +235,3 @@ private fun InvalidPosterUrlView() {
         )
     }
 }
-
-/*poster.minimumScale = .75f
-poster.maximumScale = 2f
-poster.post { poster.scale = .8f }*/
-

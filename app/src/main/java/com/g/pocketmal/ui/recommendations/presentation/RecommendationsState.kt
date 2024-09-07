@@ -1,4 +1,4 @@
-package com.g.pocketmal.ui.recommendations
+package com.g.pocketmal.ui.recommendations.presentation
 
 sealed class RecommendationsState {
 

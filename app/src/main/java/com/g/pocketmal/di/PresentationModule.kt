@@ -1,7 +1,8 @@
 package com.g.pocketmal.di
 
 import android.content.Context
-import com.g.pocketmal.ui.recommendations.RecommendedTitleConverter
+import com.g.pocketmal.ui.recommendations.presentation.RecommendedTitleConverter
+import com.g.pocketmal.ui.search.presentation.SearchResultConverter
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -17,4 +18,9 @@ object PresentationModule {
     @Provides
     fun providesRecommendationsConverter(@ApplicationContext context: Context) =
         RecommendedTitleConverter(context)
+
+    @Singleton
+    @Provides
+    fun providesSearchConverter(@ApplicationContext context: Context) =
+        SearchResultConverter(context)
 }

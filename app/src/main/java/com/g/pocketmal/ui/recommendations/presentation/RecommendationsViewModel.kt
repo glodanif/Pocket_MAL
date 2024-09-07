@@ -1,10 +1,10 @@
-package com.g.pocketmal.ui.recommendations
+package com.g.pocketmal.ui.recommendations.presentation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.g.pocketmal.data.api.ApiService
+import com.g.pocketmal.data.repository.RecommendationsRepository
+import com.g.pocketmal.data.repository.RecommendationsResult
 import com.g.pocketmal.data.util.TitleType
-import com.g.pocketmal.domain.DataOutput
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -13,7 +13,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class RecommendationsViewModel @Inject constructor(
-    private val apiService: ApiService,
+    private val repository: RecommendationsRepository,
     private val converter: RecommendedTitleConverter,
 ) : ViewModel() {
 
@@ -29,19 +29,20 @@ class RecommendationsViewModel @Inject constructor(
         }
 
         viewModelScope.launch {
-            val response = apiService.getRecommendations(titleId, titleType)
+            val response = repository.getRecommendations(titleId, titleType)
             when (response) {
-                is DataOutput.Success -> {
-                    val result = converter.transform(response.output, titleType)
-                    if (result.isNotEmpty()) {
-                        _recommendationsState.value = RecommendationsState.RecommendationsList(result)
-                    } else {
-                        _recommendationsState.value = RecommendationsState.NoRecommendations
-                    }
+                is RecommendationsResult.Result -> {
+                    val result = converter.transform(response.recommendations, titleType)
+                    _recommendationsState.value = RecommendationsState.RecommendationsList(result)
                 }
-                is DataOutput.Error -> {
-                    _recommendationsState.value = RecommendationsState
-                        .FailedToLoad("Recommendations request was not successful")
+
+                RecommendationsResult.EmptyResult -> {
+                    _recommendationsState.value = RecommendationsState.NoRecommendations
+                }
+
+                is RecommendationsResult.NetworkError -> {
+                    _recommendationsState.value =
+                        RecommendationsState.FailedToLoad("Recommendations request was not successful")
                 }
             }
         }

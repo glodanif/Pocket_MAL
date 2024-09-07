@@ -106,7 +106,7 @@ android {
         implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
         implementation(kotlin("stdlib-jdk7", KotlinCompilerVersion.VERSION))
 
-        val composeBom = platform("androidx.compose:compose-bom:2024.08.00")
+        val composeBom = platform("androidx.compose:compose-bom:2024.09.00")
         implementation(composeBom)
         androidTestImplementation(composeBom)
         implementation("androidx.compose.material3:material3")
@@ -132,6 +132,9 @@ android {
         implementation("androidx.constraintlayout:constraintlayout:2.1.4")
         implementation("com.google.android.material:material:1.12.0")
         implementation("androidx.datastore:datastore-preferences:1.1.1")
+
+        implementation("com.google.android.play:review:2.0.1")
+        implementation("com.google.android.play:review-ktx:2.0.1")
 
         implementation(platform("com.google.firebase:firebase-bom:33.2.0"))
         implementation("com.google.firebase:firebase-crashlytics")

@@ -1,4 +1,4 @@
-package com.g.pocketmal.ui.recommendations
+package com.g.pocketmal.ui.search
 
 import android.content.Context
 import android.content.Intent
@@ -20,6 +20,8 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.filled.Close
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -29,50 +31,53 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SearchBar
+import androidx.compose.material3.SearchBarDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.semantics.traversalIndex
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
-import com.g.pocketmal.argument
 import com.g.pocketmal.data.util.TitleType
 import com.g.pocketmal.transformedArgument
 import com.g.pocketmal.ui.legacy.SkeletonActivity
 import com.g.pocketmal.ui.legacy.TitleDetailsActivity
-import com.g.pocketmal.ui.recommendations.presentation.RecommendationsState
-import com.g.pocketmal.ui.recommendations.presentation.RecommendationsViewModel
-import com.g.pocketmal.ui.recommendations.presentation.RecommendedTitleViewEntity
+import com.g.pocketmal.ui.search.presentation.SearchResultViewEntity
+import com.g.pocketmal.ui.search.presentation.SearchState
+import com.g.pocketmal.ui.search.presentation.SearchViewModel
 import com.g.pocketmal.ui.theme.PocketMalTheme
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class RecommendationsActivity : SkeletonActivity() {
+class SearchActivity : SkeletonActivity() {
 
-    private val type by transformedArgument<Int, TitleType>(EXTRA_TYPE, TitleType.ANIME) {
+    private val type by transformedArgument<Int, TitleType>(EXTRA_SEARCH_TYPE, TitleType.ANIME) {
         TitleType.from(it)
     }
-    private val id by argument<Int>(EXTRA_ID)
 
-    override fun onCreate(savedInstanceState: Bundle?) {
+    public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             PocketMalTheme {
-                RecommendationsContent(
-                    titleId = id,
+                SearchContent(
                     titleType = type,
-                    onRecommendationClicked = { id ->
+                    onSearchItemClick = { id ->
                         TitleDetailsActivity.start(this, id, type)
                     },
                     onBackPressed = { finish() },
@@ -83,13 +88,11 @@ class RecommendationsActivity : SkeletonActivity() {
 
     companion object {
 
-        private const val EXTRA_ID = "extra.id"
-        private const val EXTRA_TYPE = "extra.type"
+        private const val EXTRA_SEARCH_TYPE = "extra.search_type"
 
-        fun start(context: Context, id: Int, type: TitleType) {
-            val intent = Intent(context, RecommendationsActivity::class.java).apply {
-                putExtra(EXTRA_ID, id)
-                putExtra(EXTRA_TYPE, type.type)
+        fun start(context: Context, type: TitleType) {
+            val intent = Intent(context, SearchActivity::class.java).apply {
+                putExtra(EXTRA_SEARCH_TYPE, type.type)
             }
             context.startActivity(intent)
         }
@@ -97,42 +100,40 @@ class RecommendationsActivity : SkeletonActivity() {
 }
 
 @Composable
-private fun RecommendationsContent(
-    titleId: Int?,
+private fun SearchContent(
     titleType: TitleType,
-    viewModel: RecommendationsViewModel = hiltViewModel(),
-    onRecommendationClicked: (Int) -> Unit,
+    viewModel: SearchViewModel = hiltViewModel(),
+    onSearchItemClick: (Int) -> Unit,
     onBackPressed: () -> Unit,
 ) {
-
-    val recommendationsState by viewModel.recommendationsState.collectAsState()
-
-    LaunchedEffect(Unit) {
-        viewModel.loadRecommendations(titleId, titleType)
-    }
-
-    RecommendationsScreen(
-        recommendationsState = recommendationsState,
+    val searchState by viewModel.searchState.collectAsState()
+    SearchScreen(
+        titleType = titleType,
+        searchState = searchState,
         onBackPressed = onBackPressed,
-        onRetryPressed = {
-            viewModel.loadRecommendations(titleId, titleType)
+        onSearchPressed = { query ->
+            viewModel.search(query, titleType)
         },
-        onRecommendationClicked =  onRecommendationClicked,
+        onSearchItemClick = onSearchItemClick,
     )
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun RecommendationsScreen(
-    recommendationsState: RecommendationsState,
-    onRetryPressed: () -> Unit,
+private fun SearchScreen(
+    titleType: TitleType,
+    searchState: SearchState,
+    onSearchPressed: (String) -> Unit,
     onBackPressed: () -> Unit,
-    onRecommendationClicked: (Int) -> Unit,
+    onSearchItemClick: (Int) -> Unit,
 ) {
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Recommendations") },
+                title = {
+                    val title = if (titleType == TitleType.ANIME) "Anime Search" else "Manga Search"
+                    Text(title)
+                },
                 colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
                     containerColor = MaterialTheme.colorScheme.primary,
                     titleContentColor = MaterialTheme.colorScheme.onPrimary
@@ -149,53 +150,110 @@ private fun RecommendationsScreen(
             )
         },
     ) { innerPaddings ->
+        var query: String by remember { mutableStateOf("") }
+        val keyboardController = LocalSoftwareKeyboardController.current
+
         Box(
             modifier = Modifier
                 .padding(innerPaddings)
                 .fillMaxSize(),
-            contentAlignment = Alignment.Center,
+            contentAlignment = Alignment.TopCenter,
         ) {
-            when (recommendationsState) {
-                is RecommendationsState.RecommendationsList -> RecommendationsList(
-                    recommendations = recommendationsState.recommendations,
-                    onRecommendationClicked = onRecommendationClicked,
-                )
+            Box(
+                modifier = Modifier.fillMaxSize(),
+                contentAlignment = Alignment.Center,
+            ) {
+                when (searchState) {
+                    is SearchState.SearchResult -> {
+                        SearchResultList(
+                            searchResults = searchState.result,
+                            onItemClicked = onSearchItemClick,
+                        )
+                    }
 
-                RecommendationsState.NoRecommendations -> NoRecommendationsView()
-                RecommendationsState.Loading -> LoadingView()
-                is RecommendationsState.FailedToLoad -> FailedToLoadView(
-                    failedState = recommendationsState,
-                    onRetryPressed = onRetryPressed,
-                )
+                    is SearchState.FailedToLoad -> {
+                        FailedToLoadView(
+                            failedState = searchState,
+                            onRetryPressed = {
+                                onSearchPressed(query)
+                            },
+                        )
+                    }
 
-                RecommendationsState.IncorrectInput -> IncorrectInputView()
+                    is SearchState.IncorrectInput -> IncorrectInputView(searchState.minQueryLength)
+                    SearchState.Initial -> Box {}
+                    SearchState.Loading -> LoadingView()
+                    SearchState.NoSearchResult -> EmptySearchResultView()
+                }
             }
+            SearchBar(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(start = 16.dp, end = 16.dp, top = 12.dp, bottom = 16.dp)
+                    .semantics { traversalIndex = 0f },
+                inputField = {
+                    SearchBarDefaults.InputField(
+                        query = query,
+                        onQueryChange = { query = it },
+                        onSearch = {
+                            keyboardController?.hide()
+                            onSearchPressed(it.trim())
+                        },
+                        expanded = false,
+                        onExpandedChange = { },
+                        placeholder = { Text("Search query") },
+                        leadingIcon = {
+                            Icon(
+                                Icons.Default.Search,
+                                tint = MaterialTheme.colorScheme.secondary,
+                                contentDescription = null,
+                            )
+                        },
+                        trailingIcon = {
+                            if (query.isNotEmpty()) {
+                                IconButton(
+                                    onClick = { query = "" },
+                                ) {
+                                    Icon(
+                                        Icons.Default.Close,
+                                        tint = MaterialTheme.colorScheme.secondary,
+                                        contentDescription = "Clear search field button",
+                                    )
+                                }
+                            }
+                        }
+                    )
+                },
+                expanded = false,
+                onExpandedChange = { },
+                shadowElevation = 12.dp,
+            ) {}
         }
     }
 }
 
 @Composable
-private fun RecommendationsList(
-    recommendations: List<RecommendedTitleViewEntity>,
-    onRecommendationClicked: (Int) -> Unit,
+private fun SearchResultList(
+    searchResults: List<SearchResultViewEntity>,
+    onItemClicked: (Int) -> Unit,
 ) {
     LazyColumn(
         modifier = Modifier.fillMaxSize(),
         verticalArrangement = Arrangement.spacedBy(16.dp),
-        contentPadding = PaddingValues(16.dp)
+        contentPadding = PaddingValues(horizontal = 16.dp, vertical = 116.dp)
     ) {
-        items(recommendations.size) { index ->
-            RecommendationItem(
-                recommendation = recommendations[index],
-                onClick = onRecommendationClicked,
+        items(searchResults.size) { index ->
+            SearchResultItem(
+                searchResultItem = searchResults[index],
+                onClick = onItemClicked,
             )
         }
     }
 }
 
 @Composable
-private fun RecommendationItem(
-    recommendation: RecommendedTitleViewEntity,
+private fun SearchResultItem(
+    searchResultItem: SearchResultViewEntity,
     onClick: (Int) -> Unit,
 ) {
     Card(
@@ -207,7 +265,7 @@ private fun RecommendationItem(
                 shape = CardDefaults.shape,
                 spotColor = Color.Black
             ),
-        onClick = { onClick(recommendation.id) }
+        onClick = { onClick(searchResultItem.id) }
     ) {
         Row(
             modifier = Modifier.fillMaxSize()
@@ -216,7 +274,7 @@ private fun RecommendationItem(
                 modifier = Modifier
                     .fillMaxHeight()
                     .width(88.dp),
-                model = recommendation.poster,
+                model = searchResultItem.poster,
                 contentScale = ContentScale.Crop,
                 contentDescription = null,
             )
@@ -226,18 +284,9 @@ private fun RecommendationItem(
                     .padding(horizontal = 16.dp, vertical = 4.dp),
             ) {
                 Text(
-                    text = recommendation.title,
+                    text = searchResultItem.title,
                     style = MaterialTheme.typography.titleMedium,
                     maxLines = 2,
-                )
-                Text(
-                    text = recommendation.recommendationsCount,
-                    style = MaterialTheme.typography.labelSmall
-                )
-                Spacer(modifier = Modifier.height(12.dp))
-                Text(
-                    text = recommendation.details,
-                    style = MaterialTheme.typography.labelLarge
                 )
             }
         }
@@ -254,20 +303,20 @@ private fun LoadingView() {
 }
 
 @Composable
-private fun IncorrectInputView() {
+private fun IncorrectInputView(minQueryLength: Int) {
     Box(
         modifier = Modifier.padding(32.dp),
         contentAlignment = Alignment.Center,
     ) {
         Text(
-            text = "Unable to get the title id, please relaunch the app...",
+            text = "Query must be at least $minQueryLength characters long",
             textAlign = TextAlign.Center,
         )
     }
 }
 
 @Composable
-private fun NoRecommendationsView() {
+private fun EmptySearchResultView() {
     Box(
         modifier = Modifier.padding(32.dp),
         contentAlignment = Alignment.Center,
@@ -278,7 +327,7 @@ private fun NoRecommendationsView() {
 
 @Composable
 private fun FailedToLoadView(
-    failedState: RecommendationsState.FailedToLoad,
+    failedState: SearchState.FailedToLoad,
     onRetryPressed: () -> Unit = {},
 ) {
     Column(

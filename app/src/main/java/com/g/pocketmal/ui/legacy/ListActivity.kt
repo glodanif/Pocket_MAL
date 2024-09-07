@@ -22,6 +22,7 @@ import com.g.pocketmal.data.common.ListCounts
 import com.g.pocketmal.data.common.Status
 import com.g.pocketmal.data.util.TitleType
 import com.g.pocketmal.domain.comparator.SortingType
+import com.g.pocketmal.ui.about.AboutActivity
 import com.g.pocketmal.ui.legacy.dialog.SortingDialog
 import com.g.pocketmal.ui.legacy.fragment.EntityListFragment
 import com.g.pocketmal.ui.legacy.fragment.LeftMenuFragment
@@ -30,6 +31,7 @@ import com.g.pocketmal.ui.legacy.route.ListRoute
 import com.g.pocketmal.ui.legacy.view.ListView
 import com.g.pocketmal.ui.legacy.viewmodel.RecordListViewModel
 import com.g.pocketmal.ui.legacy.viewmodel.RecordViewModel
+import com.g.pocketmal.ui.search.SearchActivity
 import com.g.pocketmal.util.Action
 import com.g.pocketmal.util.EpisodeType
 import com.g.pocketmal.util.list.updaters.AnimeUpdatingFlow

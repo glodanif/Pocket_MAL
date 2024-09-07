@@ -12,6 +12,10 @@ import com.g.pocketmal.data.keyvalue.MainSettings
 import com.g.pocketmal.data.keyvalue.SessionManager
 import com.g.pocketmal.data.keyvalue.UserPreferences
 import com.g.pocketmal.data.keyvalue.UserPreferencesSerializer
+import com.g.pocketmal.data.repository.RecommendationsRepository
+import com.g.pocketmal.data.repository.SearchRepository
+import com.g.pocketmal.domain.entity.converter.RecommendationEntityConverter
+import com.g.pocketmal.domain.entity.converter.SearchEntityConverter
 import com.google.gson.Gson
 import dagger.Module
 import dagger.Provides
@@ -91,5 +95,24 @@ object DataModule {
         oAuthConfig: OAuthConfig,
     ): ApiService {
         return MalApiService(sessionManager, oAuthConfig)
+    }
+
+    @Singleton
+    @Provides
+    fun providesRecommendationsRepository(
+        apiService: ApiService,
+        converter: RecommendationEntityConverter,
+    ): RecommendationsRepository {
+        return RecommendationsRepository(apiService, converter)
+    }
+
+    @Singleton
+    @Provides
+    fun providesSearchRepository(
+        apiService: ApiService,
+        settings: MainSettings,
+        converter: SearchEntityConverter,
+    ): SearchRepository {
+        return SearchRepository(apiService, settings, converter)
     }
 }

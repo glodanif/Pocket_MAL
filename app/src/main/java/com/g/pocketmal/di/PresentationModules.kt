@@ -5,7 +5,6 @@ import com.g.pocketmal.ui.legacy.presenter.EditDetailsPresenter
 import com.g.pocketmal.ui.legacy.presenter.ListPresenter
 import com.g.pocketmal.ui.legacy.presenter.LoginPresenter
 import com.g.pocketmal.ui.legacy.presenter.RankedPresenter
-import com.g.pocketmal.ui.legacy.presenter.SearchPresenter
 import com.g.pocketmal.ui.legacy.presenter.SeasonalPresenter
 import com.g.pocketmal.ui.legacy.presenter.SplashPresenter
 import com.g.pocketmal.ui.legacy.presenter.TitleDetailsPresenter
@@ -13,7 +12,7 @@ import com.g.pocketmal.ui.legacy.presenter.UserProfilePresenter
 import com.g.pocketmal.ui.legacy.viewmodel.converter.ListItemConverter
 import com.g.pocketmal.ui.legacy.viewmodel.converter.ListRecordConverter
 import com.g.pocketmal.ui.legacy.viewmodel.converter.RankedItemConverter
-import com.g.pocketmal.ui.legacy.viewmodel.converter.SearchResultConverter
+import com.g.pocketmal.ui.search.presentation.SearchResultConverter
 import com.g.pocketmal.ui.legacy.viewmodel.converter.SeasonalAnimeConverter
 import com.g.pocketmal.ui.legacy.viewmodel.converter.SeasonalSectionConverter
 import com.g.pocketmal.ui.legacy.viewmodel.converter.TitleDetailsConverter
@@ -48,9 +47,6 @@ val applicationModule = module {
     factory { params ->
         TitleDetailsPresenter(params[0], params[1], params[2], params[2], get(), get(),
                 get(), get(), get(), get(), get(), get(), get(), get(), get(), EntryPointAccessors.fromApplication(androidContext(), DataModule.DataStoreEntryPoint::class.java))
-    }
-    factory { params ->
-        SearchPresenter(params[0], params[1], params[1], get(), get(), get())
     }
     factory { params ->
         EditDetailsPresenter(params[0], params[1], params[2], params[2], get(), get())

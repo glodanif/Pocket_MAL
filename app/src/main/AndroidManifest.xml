@@ -73,7 +73,7 @@
             android:theme="@style/Theme.Mal" />
 
         <activity
-            android:name=".ui.legacy.SearchActivity"
+            android:name=".ui.search.SearchActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:label="Search"
             android:theme="@style/Theme.Mal.NativeDialog"
@@ -97,7 +97,7 @@
             android:theme="@style/Theme.Mal.NativeDialog.WhiteBackground.DialogWhenLarge" />
 
         <activity
-            android:name=".ui.legacy.AboutActivity"
+            android:name=".ui.about.AboutActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:label="About"
             android:theme="@style/Theme.Mal.NativeDialog.WhiteBackground.DialogWhenLarge" />
