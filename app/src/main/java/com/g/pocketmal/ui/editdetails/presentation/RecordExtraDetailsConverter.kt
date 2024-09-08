@@ -23,14 +23,16 @@ class RecordExtraDetailsConverter(
 
     fun transform(record: ListRecordEntity): RecordExtraDetailsViewEntity {
         return RecordExtraDetailsViewEntity(
-            startDate = parseDate(record.myStartDate),
-            startDateFormatted = transformDate(record.myStartDate),
-            finishDate = parseDate(record.myFinishDate),
-            finishDateFormatted = transformDate(record.myFinishDate)
+            titleType = record.titleType,
+            startDate = domainToDate(record.myStartDate),
+            startDateFormatted = domainToViewDate(record.myStartDate),
+            finishDate = domainToDate(record.myFinishDate),
+            finishDateFormatted = domainToViewDate(record.myFinishDate),
+            isRe = record.myRe,
         )
     }
 
-    private fun transformDate(date: String?): String? {
+    private fun domainToViewDate(date: String?): String? {
         if (date == null) {
             return null
         }
@@ -38,11 +40,27 @@ class RecordExtraDetailsConverter(
         return if (timestamp == null) null else viewFormatter.format(timestamp)
     }
 
-    private fun parseDate(date: String?): Date? {
+    private fun domainToDate(date: String?): Date? {
         return if (date == null) {
             null
         } else {
             dateFormatter.parse(date)
+        }
+    }
+
+    internal fun timestampToDomainDate(timestamp: Long?): String? {
+        return if (timestamp == null) {
+            null
+        } else {
+            dateFormatter.format(Date(timestamp))
+        }
+    }
+
+    internal fun timestampToViewDate(timestamp: Long?): String? {
+        return if (timestamp == null) {
+            null
+        } else {
+            viewFormatter.format(Date(timestamp))
         }
     }
 }

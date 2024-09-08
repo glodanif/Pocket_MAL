@@ -3,17 +3,24 @@ package com.g.pocketmal.ui.editdetails
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.Button
+import androidx.compose.material3.Checkbox
 import androidx.compose.material3.DatePicker
 import androidx.compose.material3.DatePickerDialog
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -35,6 +42,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.g.pocketmal.argument
 import com.g.pocketmal.data.api.UpdateParams
@@ -67,8 +76,9 @@ class EditDetailsActivity : SkeletonActivity() {
                     recordId = recordId,
                     titleType = titleType,
                     onSavePressed = { params ->
-                        setResult(RESULT_OK, Intent().putExtra(EXTRA_UPDATE_PARAMS, params))
-                        finish()
+                        Log.i("EditDetailsActivity", "Params: $params")
+                        //setResult(RESULT_OK, Intent().putExtra(EXTRA_UPDATE_PARAMS, params))
+                        //finish()
                     },
                     onBackPressed = { finish() },
                 )
@@ -114,7 +124,18 @@ private fun EditDetailsContent(
 
     EditDetailsScreen(
         recordDetailsState = recordDetailsState,
-        onSavePressed = onSavePressed,
+        onSavePressed = {
+            onSavePressed(viewModel.updateParameters)
+        },
+        onStartDateChanged = { newStartDate ->
+            viewModel.updateStartDate(newStartDate)
+        },
+        onFinishDateChanged = { newFinishDate ->
+            viewModel.updateFinishDate(newFinishDate)
+        },
+        onReChanged = { isRe ->
+            viewModel.updateRe(isRe, titleType)
+        },
         onBackPressed = onBackPressed,
     )
 }
@@ -124,13 +145,16 @@ private fun EditDetailsContent(
 @Composable
 private fun EditDetailsScreen(
     recordDetailsState: EditDetailsState,
-    onSavePressed: (UpdateParams) -> Unit,
+    onStartDateChanged: (Long?) -> Unit,
+    onFinishDateChanged: (Long?) -> Unit,
+    onReChanged: (Boolean) -> Unit,
+    onSavePressed: () -> Unit,
     onBackPressed: () -> Unit,
 ) {
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Recommendations") },
+                title = { Text("Edit Details") },
                 colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
                     containerColor = MaterialTheme.colorScheme.primary,
                     titleContentColor = MaterialTheme.colorScheme.onPrimary
@@ -156,9 +180,10 @@ private fun EditDetailsScreen(
             when (recordDetailsState) {
                 is EditDetailsState.RecordDetails -> EditDetailsView(
                     record = recordDetailsState.details,
-                    onSaveClicked = {
-                        onSavePressed(UpdateParams())
-                    }
+                    onSaveClicked = onSavePressed,
+                    onStartDateChanged = onStartDateChanged,
+                    onFinishDateChanged = onFinishDateChanged,
+                    onReChanged = onReChanged,
                 )
 
                 EditDetailsState.IncorrectInput ->
@@ -176,29 +201,38 @@ private fun EditDetailsScreen(
 @Composable
 private fun EditDetailsView(
     record: RecordExtraDetailsViewEntity,
+    onStartDateChanged: (Long?) -> Unit,
+    onFinishDateChanged: (Long?) -> Unit,
+    onReChanged: (Boolean) -> Unit,
     onSaveClicked: () -> Unit,
 ) {
     var openStartedDateDialog by remember { mutableStateOf(false) }
     var openFinishedDateDialog by remember { mutableStateOf(false) }
 
-    Column(modifier = Modifier.fillMaxSize()) {
-        Row(modifier = Modifier.fillMaxWidth()) {
-            DateView(
-                modifier = Modifier.weight(1f),
-                dateFormatted = record.startDateFormatted,
-                onClicked = {
-                    openStartedDateDialog = true
-                }
-            )
-            DateView(
-                modifier = Modifier.weight(1f),
-                dateFormatted = record.finishDateFormatted,
-                onClicked = {
-                    openFinishedDateDialog = true
-                }
-            )
-        }
-        Button(onClick = { onSaveClicked() }) {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(16.dp)
+    ) {
+        DatesSection(
+            record = record,
+            onNewStartDateClicked = {
+                openStartedDateDialog = true
+            },
+            onNewFinishDateClicked = {
+                openFinishedDateDialog = true
+            }
+        )
+        Spacer(modifier = Modifier.height(36.dp))
+        ReSection(
+            record = record,
+            onReChanged = onReChanged,
+        )
+        Spacer(modifier = Modifier.height(36.dp))
+        Button(
+            modifier = Modifier.fillMaxWidth(),
+            onClick = onSaveClicked
+        ) {
             Text(text = "Save")
         }
     }
@@ -210,7 +244,7 @@ private fun EditDetailsView(
                 openStartedDateDialog = false
             },
             onDateSelected = { newDate ->
-
+                onStartDateChanged(newDate)
             }
         )
     }
@@ -222,25 +256,100 @@ private fun EditDetailsView(
                 openFinishedDateDialog = false
             },
             onDateSelected = { newDate ->
-
+                onFinishDateChanged(newDate)
             }
         )
     }
 }
 
 @Composable
+private fun DatesSection(
+    record: RecordExtraDetailsViewEntity,
+    onNewStartDateClicked: () -> Unit,
+    onNewFinishDateClicked: () -> Unit,
+) {
+    Text(
+        text = if (record.titleType == TitleType.ANIME) "Watching period" else "Reading period",
+        style = MaterialTheme.typography.titleMedium
+    )
+    Spacer(modifier = Modifier.height(12.dp))
+    Row(modifier = Modifier.fillMaxWidth()) {
+        DateView(
+            modifier = Modifier
+                .weight(1f)
+                .padding(end = 8.dp),
+            title = "Start date",
+            dateFormatted = record.startDateFormatted,
+            onClicked = onNewStartDateClicked
+        )
+        DateView(
+            modifier = Modifier
+                .weight(1f)
+                .padding(start = 8.dp),
+            title = "Finish date",
+            dateFormatted = record.finishDateFormatted,
+            onClicked = onNewFinishDateClicked
+        )
+    }
+}
+
+@Composable
+private fun ReSection(
+    record: RecordExtraDetailsViewEntity,
+    onReChanged: (Boolean) -> Unit,
+) {
+    var isRe by remember { mutableStateOf(record.isRe) }
+
+    val titleText = if (record.titleType == TitleType.ANIME) "Rewatching" else "Rereading"
+    Text(
+        text = titleText,
+        style = MaterialTheme.typography.titleMedium
+    )
+    Spacer(modifier = Modifier.height(4.dp))
+    Row(
+        modifier = Modifier.fillMaxWidth(),
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        Checkbox(
+            checked = isRe,
+            onCheckedChange = { checked ->
+                isRe = checked
+                onReChanged(checked)
+            },
+        )
+        Text(
+            text = titleText,
+            style = MaterialTheme.typography.labelLarge,
+        )
+    }
+}
+
+@Composable
 private fun DateView(
+    title: String,
     dateFormatted: String?,
     onClicked: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Column(
-        modifier = modifier.clickable {
-            onClicked()
-        },
+        modifier = modifier
+            .clip(RoundedCornerShape(12.dp))
+            .background(MaterialTheme.colorScheme.tertiaryContainer)
+            .clickable {
+                onClicked()
+            }
+            .padding(12.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-        Text(text = dateFormatted ?: "Not Set")
+        Text(
+            text = title,
+            style = MaterialTheme.typography.titleSmall,
+        )
+        Spacer(modifier = Modifier.height(4.dp))
+        Text(
+            text = dateFormatted ?: "Not Set",
+            style = MaterialTheme.typography.labelLarge,
+        )
     }
 }
 

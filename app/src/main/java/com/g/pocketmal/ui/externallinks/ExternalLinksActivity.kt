@@ -140,7 +140,7 @@ internal fun ExternalLinksScreen(
                     modifier = Modifier
                         .fillMaxWidth()
                         .clip(shape = RoundedCornerShape(12.dp))
-                        .background(color = MaterialTheme.colorScheme.inversePrimary)
+                        .background(color = MaterialTheme.colorScheme.surfaceVariant)
                         .padding(12.dp)
                 ) {
                     Text(
