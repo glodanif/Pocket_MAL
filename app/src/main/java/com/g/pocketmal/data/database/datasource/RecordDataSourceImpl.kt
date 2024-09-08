@@ -4,19 +4,19 @@ import com.g.pocketmal.data.database.ListDbStorage
 import com.g.pocketmal.data.database.model.DbListRecord
 import com.g.pocketmal.data.util.TitleType
 
-class RecordDataSourceImpl(private val listDbStorage: ListDbStorage) : RecordDataSource {
+class RecordDataSourceImpl(listDbStorage: ListDbStorage) : RecordDataSource {
 
     private val recordDao = listDbStorage.db.recordDao()
 
-    override suspend fun getRecordById(id: Int, type: TitleType): DbListRecord? {
+    override suspend fun getRecordById(id: Int, type: TitleType): DbListRecord {
         return recordDao.getRecordById(id, type)
     }
 
-    override suspend fun getRecordsByType(type: TitleType): List<DbListRecord>? {
+    override suspend fun getRecordsByType(type: TitleType): List<DbListRecord> {
         return recordDao.getRecordsByType(type)
     }
 
-    override suspend fun getRecordsByStatus(status: Int, type: TitleType): List<DbListRecord>? {
+    override suspend fun getRecordsByStatus(status: Int, type: TitleType): List<DbListRecord> {
         return recordDao.getRecordsByStatus(status, type)
     }
 

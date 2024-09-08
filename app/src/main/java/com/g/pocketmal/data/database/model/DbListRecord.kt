@@ -48,6 +48,10 @@ class DbListRecord(
         var myLastUpdated: Long,
         @ColumnInfo(name = "my_tags")
         var myTags: List<String>,
+        @ColumnInfo(name = "my_comments")
+        var myComments: String?,
+        @ColumnInfo(name = "my_priority", defaultValue = "0")
+        var myPriority: Int,
         @ColumnInfo(name = "title_type")
         val titleType: TitleType
 )

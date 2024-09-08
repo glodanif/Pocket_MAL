@@ -22,6 +22,7 @@ class RecordViewModel(
         val myTags: String,
         val myStartDate: String,
         val myFinishDate: String,
+        val myComments: String,
         val updatedAt: Long = 0,
         val recordType: TitleType,
         val seriesStatusText: String,

@@ -1,5 +1,6 @@
 package com.g.pocketmal.data.repository
 
+import android.util.Log
 import com.g.pocketmal.data.converter.ListRecordEntityConverter
 import com.g.pocketmal.data.database.datasource.RecordDataSource
 import com.g.pocketmal.data.util.TitleType

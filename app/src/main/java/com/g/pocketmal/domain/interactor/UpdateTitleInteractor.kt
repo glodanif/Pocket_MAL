@@ -76,6 +76,9 @@ class UpdateTitleInteractor(
         params.reReadTimes?.let {
             dbRecord.myReTimes = it
         }
+        params.comments?.let {
+            dbRecord.myComments = it
+        }
     }
 
     class Params(

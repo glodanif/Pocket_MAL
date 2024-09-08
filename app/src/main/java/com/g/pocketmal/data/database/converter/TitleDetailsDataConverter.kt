@@ -14,40 +14,40 @@ class TitleDetailsDataConverter {
     fun transform(details: TitleDetailsResponse, titleType: TitleType): TitleDetailsTable {
 
         return TitleDetailsTable(
-                0,
-                details.id,
-                titleType,
-                details.startDate,
-                details.endDate,
-                details.mediaType,
-                details.status,
-                if (titleType == TitleType.ANIME) details.numEpisodes else details.numChapters,
-                if (titleType == TitleType.ANIME) 0 else details.numVolumes,
-                details.mainPicture?.large,
-                details.synopsis,
-                details.title,
-                details.alternativeTitles?.english,
-                details.alternativeTitles?.synonyms,
-                details.alternativeTitles?.japanese,
-                details.meanScore,
-                details.numScoringUsers,
-                details.rank,
-                details.popularity,
-                details.numListUsers,
-                "",
-                details.rating,
-                details.averageEpisodeDuration,
-                details.serialization,
-                details.source,
-                details.broadcast,
-                details.startSeason,
-                details.authors,
-                details.studios,
-                details.genres,
-                details.relatedAnime,
-                details.relatedManga,
-                arrayListOf(),
-                arrayListOf()
+            0,
+            details.id,
+            titleType,
+            details.startDate,
+            details.endDate,
+            details.mediaType,
+            details.status,
+            if (titleType == TitleType.ANIME) details.numEpisodes else details.numChapters,
+            if (titleType == TitleType.ANIME) 0 else details.numVolumes,
+            details.mainPicture?.large,
+            details.synopsis,
+            details.title,
+            details.alternativeTitles?.english,
+            details.alternativeTitles?.synonyms,
+            details.alternativeTitles?.japanese,
+            details.meanScore,
+            details.numScoringUsers,
+            details.rank,
+            details.popularity,
+            details.numListUsers,
+            "",
+            details.rating,
+            details.averageEpisodeDuration,
+            details.serialization,
+            details.source,
+            details.broadcast,
+            details.startSeason,
+            details.authors,
+            details.studios,
+            details.genres,
+            details.relatedAnime,
+            details.relatedManga,
+            arrayListOf(),
+            arrayListOf()
         )
     }
 
@@ -62,7 +62,8 @@ class TitleDetailsDataConverter {
         val seriesEpisodes = (if (isAnime) details.numEpisodes else details.numChapters)
         val seriesSubEpisodes = (if (isAnime) 0 else details.numVolumes)
 
-        val myEpisodes = (if (isAnime) listStatus?.numEpisodesWatched else listStatus?.numChaptersRead)
+        val myEpisodes =
+            (if (isAnime) listStatus?.numEpisodesWatched else listStatus?.numChaptersRead)
                 ?: 0
         val mySubEpisodes = (if (isAnime) 0 else listStatus?.numVolumesRead) ?: 0
 
@@ -78,7 +79,7 @@ class TitleDetailsDataConverter {
         val re = (if (isAnime) listStatus?.isRewatching else listStatus?.isRereading) ?: false
         val reValue = (if (isAnime) listStatus?.rewatchValue else listStatus?.rereadValue) ?: 0
         val reTimes = (if (isAnime) listStatus?.numTimesRewatch else listStatus?.numTimesReread)
-                ?: 0
+            ?: 0
 
         val tags = listStatus?.tags ?: arrayListOf()
 
@@ -89,27 +90,29 @@ class TitleDetailsDataConverter {
         }
 
         return DbListRecord(
-                0,
-                details.id,
-                details.title,
-                englishTitleLabel,
-                details.mediaType,
-                seriesEpisodes,
-                seriesSubEpisodes,
-                details.status,
-                details.mainPicture?.large,
-                listStatus?.startDate,
-                listStatus?.finishDate,
-                myEpisodes,
-                mySubEpisodes,
-                score,
-                status,
-                re,
-                reValue,
-                reTimes,
-                lastUpdated,
-                tags,
-                titleType
+            0,
+            details.id,
+            details.title,
+            englishTitleLabel,
+            details.mediaType,
+            seriesEpisodes,
+            seriesSubEpisodes,
+            details.status,
+            details.mainPicture?.large,
+            listStatus?.startDate,
+            listStatus?.finishDate,
+            myEpisodes,
+            mySubEpisodes,
+            score,
+            status,
+            re,
+            reValue,
+            reTimes,
+            lastUpdated,
+            tags,
+            listStatus?.comments,
+            listStatus?.priority ?: 0,
+            titleType
         )
     }
 }

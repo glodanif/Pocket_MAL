@@ -32,5 +32,7 @@ data class ListStatus(
         @SerializedName("comments")
         val comments: String,
         @SerializedName("tags")
-        val tags: List<String>
+        val tags: List<String>,
+        @SerializedName("priority")
+        val priority: Int,
 )

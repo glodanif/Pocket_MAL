@@ -1,6 +1,7 @@
 package com.g.pocketmal.ui.editdetails.presentation
 
 import android.content.Context
+import com.g.pocketmal.data.common.Status
 import com.g.pocketmal.domain.entity.ListRecordEntity
 import java.text.DateFormat
 import java.text.SimpleDateFormat
@@ -28,7 +29,12 @@ class RecordExtraDetailsConverter(
             startDateFormatted = domainToViewDate(record.myStartDate),
             finishDate = domainToDate(record.myFinishDate),
             finishDateFormatted = domainToViewDate(record.myFinishDate),
+            isReAvailable = record.myStatus == Status.COMPLETED || record.myRe,
             isRe = record.myRe,
+            reTimes = record.myReTimes,
+            reValue = record.myReValue,
+            comments = record.myComments,
+            priority = record.myPriority,
         )
     }
 

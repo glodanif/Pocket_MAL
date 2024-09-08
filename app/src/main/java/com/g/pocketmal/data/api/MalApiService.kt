@@ -100,7 +100,7 @@ class MalApiService(sessionManager: SessionManager, private val oAuthConfig: OAu
         val typePath = if (type == ANIME) "animelist" else "mangalist"
         val nsfw = if (includeNsfw) "1" else "0"
         val url =
-            "${MalApi.API_BASE_URL}users/@me/$typePath?fields=my_list_status{start_date,finish_date,num_times_rewatched,num_times_reread,tags}," +
+            "${MalApi.API_BASE_URL}users/@me/$typePath?fields=my_list_status{start_date,finish_date,num_times_rewatched,num_times_reread,rewatch_value,reread_value,tags,comments,priority}," +
                     "media_type,num_episodes,num_chapters,num_volumes,status,broadcast,alternative_titles&nsfw=$nsfw&limit=${MalApi.LIST_PAGE_LIMIT}"
         return getListPage(url)
     }

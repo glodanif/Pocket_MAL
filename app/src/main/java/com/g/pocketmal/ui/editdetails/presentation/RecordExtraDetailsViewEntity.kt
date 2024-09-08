@@ -9,5 +9,10 @@ data class RecordExtraDetailsViewEntity(
     val startDateFormatted: String?,
     val finishDate: Date?,
     val finishDateFormatted: String?,
+    val isReAvailable: Boolean,
     val isRe: Boolean,
+    val reTimes: Int,
+    val reValue: Int,
+    val comments: String?,
+    val priority: Int,
 )

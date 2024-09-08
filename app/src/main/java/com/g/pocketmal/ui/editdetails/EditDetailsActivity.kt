@@ -15,21 +15,32 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.filled.ArrowDropDown
+import androidx.compose.material.icons.rounded.ArrowDropDown
 import androidx.compose.material3.Button
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.DatePicker
 import androidx.compose.material3.DatePickerDialog
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
+import androidx.compose.material3.TextField
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberDatePickerState
@@ -37,12 +48,16 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.g.pocketmal.argument
@@ -57,6 +72,7 @@ import com.g.pocketmal.ui.editdetails.presentation.RecordExtraDetailsViewEntity
 import com.g.pocketmal.ui.legacy.SkeletonActivity
 import com.g.pocketmal.ui.theme.PocketMalTheme
 import dagger.hilt.android.AndroidEntryPoint
+import org.checkerframework.checker.units.qual.s
 import java.util.Date
 
 @AndroidEntryPoint
@@ -108,6 +124,9 @@ class EditDetailsActivity : SkeletonActivity() {
     }
 }
 
+internal val reValues = listOf("Not Set", "Very Low", "Low", "Medium", "High", "Very High")
+internal val priorities = listOf("Low", "Medium", "High")
+
 @Composable
 private fun EditDetailsContent(
     recordId: Int,
@@ -124,17 +143,26 @@ private fun EditDetailsContent(
 
     EditDetailsScreen(
         recordDetailsState = recordDetailsState,
-        onSavePressed = {
+        onSaveClicked = {
             onSavePressed(viewModel.updateParameters)
         },
-        onStartDateChanged = { newStartDate ->
-            viewModel.updateStartDate(newStartDate)
+        onStartDateChanged = { startDate ->
+            viewModel.updateStartDate(startDate)
         },
-        onFinishDateChanged = { newFinishDate ->
-            viewModel.updateFinishDate(newFinishDate)
+        onFinishDateChanged = { finishDate ->
+            viewModel.updateFinishDate(finishDate)
         },
         onReChanged = { isRe ->
             viewModel.updateRe(isRe, titleType)
+        },
+        onCommentsChanged = { comments ->
+            viewModel.updateComments(comments)
+        },
+        onReValueChanged = { reValue ->
+            viewModel.updateReValue(reValue, titleType)
+        },
+        onPriorityChanged = { priority ->
+            viewModel.updatePriority(priority)
         },
         onBackPressed = onBackPressed,
     )
@@ -148,7 +176,10 @@ private fun EditDetailsScreen(
     onStartDateChanged: (Long?) -> Unit,
     onFinishDateChanged: (Long?) -> Unit,
     onReChanged: (Boolean) -> Unit,
-    onSavePressed: () -> Unit,
+    onCommentsChanged: (String) -> Unit,
+    onReValueChanged: (Int) -> Unit,
+    onPriorityChanged: (Int) -> Unit,
+    onSaveClicked: () -> Unit,
     onBackPressed: () -> Unit,
 ) {
     Scaffold(
@@ -178,13 +209,34 @@ private fun EditDetailsScreen(
             contentAlignment = Alignment.Center,
         ) {
             when (recordDetailsState) {
-                is EditDetailsState.RecordDetails -> EditDetailsView(
-                    record = recordDetailsState.details,
-                    onSaveClicked = onSavePressed,
-                    onStartDateChanged = onStartDateChanged,
-                    onFinishDateChanged = onFinishDateChanged,
-                    onReChanged = onReChanged,
-                )
+                is EditDetailsState.RecordDetails ->
+
+                    Column {
+                        EditDetailsView(
+                            modifier = Modifier.weight(1f),
+                            record = recordDetailsState.details,
+                            onStartDateChanged = onStartDateChanged,
+                            onFinishDateChanged = onFinishDateChanged,
+                            onReChanged = onReChanged,
+                            onCommentsChanged = onCommentsChanged,
+                            onReValueChanged = onReValueChanged,
+                            onPriorityChanged = onPriorityChanged,
+                        )
+                        Box(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .shadow(8.dp)
+                                .background(MaterialTheme.colorScheme.background)
+                                .padding(16.dp),
+                        ) {
+                            Button(
+                                modifier = Modifier.fillMaxWidth(),
+                                onClick = onSaveClicked
+                            ) {
+                                Text(text = "Save")
+                            }
+                        }
+                    }
 
                 EditDetailsState.IncorrectInput ->
                     ErrorMessageView(message = "Unable to get the title id, please relaunch the app...")
@@ -204,14 +256,18 @@ private fun EditDetailsView(
     onStartDateChanged: (Long?) -> Unit,
     onFinishDateChanged: (Long?) -> Unit,
     onReChanged: (Boolean) -> Unit,
-    onSaveClicked: () -> Unit,
+    onCommentsChanged: (String) -> Unit,
+    onReValueChanged: (Int) -> Unit,
+    onPriorityChanged: (Int) -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     var openStartedDateDialog by remember { mutableStateOf(false) }
     var openFinishedDateDialog by remember { mutableStateOf(false) }
 
     Column(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxSize()
+            .verticalScroll(rememberScrollState())
             .padding(16.dp)
     ) {
         DatesSection(
@@ -223,18 +279,29 @@ private fun EditDetailsView(
                 openFinishedDateDialog = true
             }
         )
-        Spacer(modifier = Modifier.height(36.dp))
-        ReSection(
+        SectionsDivider()
+        PrioritySection(
             record = record,
-            onReChanged = onReChanged,
+            onPriorityChanged = onPriorityChanged,
         )
-        Spacer(modifier = Modifier.height(36.dp))
-        Button(
-            modifier = Modifier.fillMaxWidth(),
-            onClick = onSaveClicked
-        ) {
-            Text(text = "Save")
+        if (record.isReAvailable) {
+            SectionsDivider()
+            ReSection(
+                record = record,
+                onReChanged = onReChanged,
+            )
         }
+        SectionsDivider()
+        ReValueSection(
+            record = record,
+            onReValueChanged = onReValueChanged,
+        )
+        SectionsDivider()
+        CommentsSection(
+            record = record,
+            onCommentsChanged = onCommentsChanged,
+        )
+        SectionsDivider()
     }
 
     if (openStartedDateDialog) {
@@ -260,6 +327,11 @@ private fun EditDetailsView(
             }
         )
     }
+}
+
+@Composable
+private fun SectionsDivider(modifier: Modifier = Modifier) {
+    Spacer(modifier = modifier.height(28.dp))
 }
 
 @Composable
@@ -325,6 +397,147 @@ private fun ReSection(
 }
 
 @Composable
+private fun ReValueSection(
+    record: RecordExtraDetailsViewEntity,
+    onReValueChanged: (Int) -> Unit,
+) {
+    var expanded by remember { mutableStateOf(false) }
+
+    val titleText = if (record.titleType == TitleType.ANIME) "Rewatch Value" else "Reread Value"
+    Text(
+        text = titleText,
+        style = MaterialTheme.typography.titleMedium
+    )
+    Spacer(modifier = Modifier.height(12.dp))
+
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .wrapContentSize(Alignment.TopStart)
+    ) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .clip(RoundedCornerShape(12.dp))
+                .background(MaterialTheme.colorScheme.tertiaryContainer)
+                .clickable(
+                    onClick = { expanded = true },
+                )
+                .padding(horizontal = 18.dp, vertical = 12.dp),
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            Text(
+                reValues[record.reValue],
+                style = MaterialTheme.typography.labelLarge.copy(
+                    color = MaterialTheme.colorScheme.onTertiaryContainer,
+                ),
+                modifier = Modifier.weight(1f)
+            )
+            Icon(
+                Icons.Rounded.ArrowDropDown,
+                modifier = Modifier.size(32.dp),
+                tint = MaterialTheme.colorScheme.onTertiaryContainer,
+                contentDescription = "$titleText dropdown arrow",
+            )
+        }
+        DropdownMenu(
+            expanded = expanded,
+            onDismissRequest = { expanded = false },
+            modifier = Modifier.width(196.dp)
+        ) {
+            reValues.forEachIndexed { index, text ->
+                DropdownMenuItem(
+                    text = { Text(text = text) },
+                    onClick = {
+                        onReValueChanged(index)
+                        expanded = false
+                    }
+                )
+            }
+        }
+    }
+}
+
+@Composable
+private fun PrioritySection(
+    record: RecordExtraDetailsViewEntity,
+    onPriorityChanged: (Int) -> Unit,
+) {
+    var expanded by remember { mutableStateOf(false) }
+
+    Text(
+        text = "Priority",
+        style = MaterialTheme.typography.titleMedium
+    )
+    Spacer(modifier = Modifier.height(12.dp))
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .wrapContentSize(Alignment.TopStart)
+    ) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .clip(RoundedCornerShape(12.dp))
+                .background(MaterialTheme.colorScheme.tertiaryContainer)
+                .clickable(
+                    onClick = { expanded = true },
+                )
+                .padding(horizontal = 18.dp, vertical = 12.dp),
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            Text(
+                priorities[record.priority],
+                style = MaterialTheme.typography.labelLarge.copy(
+                    color = MaterialTheme.colorScheme.onTertiaryContainer,
+                ),
+                modifier = Modifier.weight(1f)
+            )
+            Icon(
+                Icons.Rounded.ArrowDropDown,
+                modifier = Modifier.size(32.dp),
+                tint = MaterialTheme.colorScheme.onTertiaryContainer,
+                contentDescription = "Priority dropdown arrow",
+            )
+        }
+        DropdownMenu(
+            expanded = expanded,
+            onDismissRequest = { expanded = false },
+            modifier = Modifier.width(196.dp)
+        ) {
+            priorities.forEachIndexed { index, text ->
+                DropdownMenuItem(
+                    text = { Text(text = text) },
+                    onClick = {
+                        onPriorityChanged(index)
+                        expanded = false
+                    }
+                )
+            }
+        }
+    }
+}
+
+@Composable
+private fun CommentsSection(
+    record: RecordExtraDetailsViewEntity,
+    onCommentsChanged: (String) -> Unit,
+) {
+    Text(
+        text = "Notes",
+        style = MaterialTheme.typography.titleMedium
+    )
+    Spacer(modifier = Modifier.height(4.dp))
+    TextField(
+        modifier = Modifier.fillMaxWidth(),
+        value = record.comments ?: "",
+        onValueChange = onCommentsChanged,
+        minLines = 3,
+        keyboardOptions = KeyboardOptions(capitalization = KeyboardCapitalization.Sentences),
+    )
+}
+
+@Composable
 private fun DateView(
     title: String,
     dateFormatted: String?,
@@ -343,12 +556,16 @@ private fun DateView(
     ) {
         Text(
             text = title,
-            style = MaterialTheme.typography.titleSmall,
+            style = MaterialTheme.typography.titleSmall.copy(
+                color = MaterialTheme.colorScheme.onTertiaryContainer,
+            ),
         )
         Spacer(modifier = Modifier.height(4.dp))
         Text(
             text = dateFormatted ?: "Not Set",
-            style = MaterialTheme.typography.labelLarge,
+            style = MaterialTheme.typography.labelLarge.copy(
+                color = MaterialTheme.colorScheme.onTertiaryContainer,
+            ),
         )
     }
 }

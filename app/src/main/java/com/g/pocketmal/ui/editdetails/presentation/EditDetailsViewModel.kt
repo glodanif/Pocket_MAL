@@ -78,4 +78,35 @@ class EditDetailsViewModel @Inject constructor(
             }
         }
     }
+
+    fun updateReValue(reValue: Int, titleType: TitleType) {
+        val state = recordDetailsState.value
+        if (state is EditDetailsState.RecordDetails) {
+            val updatedDetails = state.details.copy(reValue = reValue)
+            _recordDetailsState.value = EditDetailsState.RecordDetails(details = updatedDetails)
+            if (titleType == TitleType.ANIME) {
+                updateParameters.reWatchedValue = reValue
+            } else {
+                updateParameters.reReadValue = reValue
+            }
+        }
+    }
+
+    fun updateComments(comments: String) {
+        val state = recordDetailsState.value
+        if (state is EditDetailsState.RecordDetails) {
+            val updatedDetails = state.details.copy(comments = comments)
+            _recordDetailsState.value = EditDetailsState.RecordDetails(details = updatedDetails)
+            updateParameters.comments = comments
+        }
+    }
+
+    fun updatePriority(priority: Int) {
+        val state = recordDetailsState.value
+        if (state is EditDetailsState.RecordDetails) {
+            val updatedDetails = state.details.copy(priority = priority)
+            _recordDetailsState.value = EditDetailsState.RecordDetails(details = updatedDetails)
+            updateParameters.priority = priority
+        }
+    }
 }

@@ -52,6 +52,9 @@ object PostParamsFactory {
         params.reReadTimes?.let {
             paramsMap["num_times_reread"] = it
         }
+        params.comments?.let {
+            paramsMap["comments"] = it
+        }
         return paramsMap
     }
 }

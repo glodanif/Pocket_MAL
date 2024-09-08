@@ -22,5 +22,7 @@ data class ListRecordEntity(
         var myReTimes: Int,
         var myLastUpdated: Long,
         var myTags: List<String>,
+        var myComments: String?,
+        var myPriority: Int,
         val titleType: TitleType
 )

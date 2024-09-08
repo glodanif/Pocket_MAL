@@ -1,0 +1,531 @@
+{
+  "formatVersion": 1,
+  "database": {
+    "version": 2,
+    "identityHash": "7251886bcb2c70f6f5c82a4e7738f7af",
+    "entities": [
+      {
+        "tableName": "user_profile",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `name` TEXT NOT NULL, `avatar` TEXT, `gender` TEXT, `birthday` TEXT, `location` TEXT, `join_date` INTEGER NOT NULL, `anime_spent_days` REAL NOT NULL, `anime_counts` TEXT NOT NULL, `anime_mean_score` REAL NOT NULL, `anime_episodes` INTEGER NOT NULL, `anime_rewatched` INTEGER NOT NULL, `anime_favorite` TEXT, `manga_spent_days` REAL NOT NULL, `manga_counts` TEXT NOT NULL, `manga_mean_score` REAL NOT NULL, `manga_chapters` INTEGER NOT NULL, `manga_volumes` INTEGER NOT NULL, `manga_reread` INTEGER NOT NULL, `manga_favorite` TEXT, `time_zone` TEXT, `is_supporter` INTEGER NOT NULL, PRIMARY KEY(`id`))",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "name",
+            "columnName": "name",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "avatar",
+            "columnName": "avatar",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "gender",
+            "columnName": "gender",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "birthday",
+            "columnName": "birthday",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "location",
+            "columnName": "location",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "joinDate",
+            "columnName": "join_date",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "animeSpentDays",
+            "columnName": "anime_spent_days",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "animeCounts",
+            "columnName": "anime_counts",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "animeMeanScore",
+            "columnName": "anime_mean_score",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "animeEpisodes",
+            "columnName": "anime_episodes",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "animeRewatched",
+            "columnName": "anime_rewatched",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "animeFavorites",
+            "columnName": "anime_favorite",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "mangaSpentDays",
+            "columnName": "manga_spent_days",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "mangaCounts",
+            "columnName": "manga_counts",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "mangaMeanScore",
+            "columnName": "manga_mean_score",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "mangaChapters",
+            "columnName": "manga_chapters",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "mangaVolumes",
+            "columnName": "manga_volumes",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "mangaReread",
+            "columnName": "manga_reread",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "mangaFavorites",
+            "columnName": "manga_favorite",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "timeZone",
+            "columnName": "time_zone",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "isSupporter",
+            "columnName": "is_supporter",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "record",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`uid` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `series_id` INTEGER NOT NULL, `series_title` TEXT NOT NULL, `series_english_title` TEXT NOT NULL, `series_type` TEXT NOT NULL, `series_episodes` INTEGER NOT NULL, `series_sub_episodes` INTEGER NOT NULL, `series_status` TEXT NOT NULL, `series_image` TEXT, `my_start_date` TEXT, `my_finish_date` TEXT, `my_episodes` INTEGER NOT NULL, `my_sub_episodes` INTEGER NOT NULL, `my_score` INTEGER NOT NULL, `my_status` TEXT NOT NULL, `my_re` INTEGER NOT NULL, `my_re_value` INTEGER NOT NULL, `my_re_times` INTEGER NOT NULL, `my_last_updated` INTEGER NOT NULL, `my_tags` TEXT NOT NULL, `my_comments` TEXT, `my_priority` INTEGER NOT NULL DEFAULT 0, `title_type` INTEGER NOT NULL)",
+        "fields": [
+          {
+            "fieldPath": "uid",
+            "columnName": "uid",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "seriesId",
+            "columnName": "series_id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "seriesTitle",
+            "columnName": "series_title",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "seriesEnglishTitle",
+            "columnName": "series_english_title",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "seriesType",
+            "columnName": "series_type",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "seriesEpisodes",
+            "columnName": "series_episodes",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "seriesSubEpisodes",
+            "columnName": "series_sub_episodes",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "seriesStatus",
+            "columnName": "series_status",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "seriesImage",
+            "columnName": "series_image",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "myStartDate",
+            "columnName": "my_start_date",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "myFinishDate",
+            "columnName": "my_finish_date",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "myEpisodes",
+            "columnName": "my_episodes",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "mySubEpisodes",
+            "columnName": "my_sub_episodes",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "myScore",
+            "columnName": "my_score",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "myStatus",
+            "columnName": "my_status",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "myRe",
+            "columnName": "my_re",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "myReValue",
+            "columnName": "my_re_value",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "myReTimes",
+            "columnName": "my_re_times",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "myLastUpdated",
+            "columnName": "my_last_updated",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "myTags",
+            "columnName": "my_tags",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "myComments",
+            "columnName": "my_comments",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "myPriority",
+            "columnName": "my_priority",
+            "affinity": "INTEGER",
+            "notNull": true,
+            "defaultValue": "0"
+          },
+          {
+            "fieldPath": "titleType",
+            "columnName": "title_type",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "uid"
+          ]
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "title_details",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`uid` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `id` INTEGER NOT NULL, `title_type` INTEGER NOT NULL, `start_date` TEXT, `finish_date` TEXT, `type` TEXT NOT NULL, `status` TEXT NOT NULL, `episodes` INTEGER NOT NULL, `sub_episodes` INTEGER NOT NULL, `image_url` TEXT, `synopsis` TEXT, `title` TEXT NOT NULL, `english_title` TEXT, `synonyms` TEXT, `japanese_title` TEXT, `score` REAL, `scored_users` INTEGER NOT NULL, `ranked` INTEGER, `popularity` INTEGER, `members` INTEGER NOT NULL, `favorites` TEXT NOT NULL, `rating` TEXT, `duration` INTEGER, `serialization` TEXT, `source` TEXT, `broadcast` TEXT, `premiered` TEXT, `manga_authors` TEXT, `anime_studios` TEXT, `genres` TEXT NOT NULL, `related_anime` TEXT, `related_manga` TEXT, `opening_themes` TEXT, `ending_themes` TEXT)",
+        "fields": [
+          {
+            "fieldPath": "uid",
+            "columnName": "uid",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "titleType",
+            "columnName": "title_type",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "startDate",
+            "columnName": "start_date",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "finishDate",
+            "columnName": "finish_date",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "type",
+            "columnName": "type",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "status",
+            "columnName": "status",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "episodes",
+            "columnName": "episodes",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "subEpisodes",
+            "columnName": "sub_episodes",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "imageUrl",
+            "columnName": "image_url",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "synopsis",
+            "columnName": "synopsis",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "title",
+            "columnName": "title",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "englishTitle",
+            "columnName": "english_title",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "synonyms",
+            "columnName": "synonyms",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "japaneseTitle",
+            "columnName": "japanese_title",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "score",
+            "columnName": "score",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "scoredUsersCount",
+            "columnName": "scored_users",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "ranked",
+            "columnName": "ranked",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "popularity",
+            "columnName": "popularity",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "members",
+            "columnName": "members",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "favorites",
+            "columnName": "favorites",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "rating",
+            "columnName": "rating",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "duration",
+            "columnName": "duration",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "serialization",
+            "columnName": "serialization",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "source",
+            "columnName": "source",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "broadcast",
+            "columnName": "broadcast",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "premiered",
+            "columnName": "premiered",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "mangaAuthors",
+            "columnName": "manga_authors",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "animeStudios",
+            "columnName": "anime_studios",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "genres",
+            "columnName": "genres",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "relatedAnime",
+            "columnName": "related_anime",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "relatedManga",
+            "columnName": "related_manga",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "openingThemes",
+            "columnName": "opening_themes",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "endingThemes",
+            "columnName": "ending_themes",
+            "affinity": "TEXT",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "uid"
+          ]
+        },
+        "indices": [],
+        "foreignKeys": []
+      }
+    ],
+    "views": [],
+    "setupQueries": [
+      "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '7251886bcb2c70f6f5c82a4e7738f7af')"
+    ]
+  }
+}

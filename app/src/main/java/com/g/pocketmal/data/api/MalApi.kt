@@ -44,7 +44,7 @@ interface MalApi {
     @GET("{type}/{id}?fields=alternative_titles,media_type,num_episodes,num_chapters,num_volumes,status,start_date,end_date,start_season,broadcast," +
             "source,genres,average_episode_duration,rating,synopsis,mean,rank,popularity,num_list_users,num_scoring_users,authors{first_name,last_name}," +
             "created_at,updated_at,studios,background,num_episodes_in_db,pictures,serialization,related_anime,related_manga," +
-            "my_list_status{start_date,finish_date,num_times_rewatched,num_times_reread,tags}")
+            "my_list_status{start_date,finish_date,num_times_rewatched,num_times_reread,rewatch_value,reread_value,priority,tags,comments}")
     suspend fun getTitleDetails(
             @Path("type") type: String,
             @Path("id") titleId: Int

@@ -1,5 +1,6 @@
 package com.g.pocketmal.data.database.converter
 
+import android.util.Log
 import com.g.pocketmal.data.api.response.ListItem
 import com.g.pocketmal.data.database.model.DbListRecord
 import com.g.pocketmal.data.util.TitleType
@@ -22,7 +23,8 @@ class ListRecordDataConverter {
         val seriesEpisodes = (if (isAnime) node.numEpisodes else node.numChapters) ?: 0
         val seriesSubEpisodes = (if (isAnime) 0 else node.numVolumes) ?: 0
 
-        val myEpisodes = (if (isAnime) listStatus?.numEpisodesWatched else listStatus?.numChaptersRead)
+        val myEpisodes =
+            (if (isAnime) listStatus?.numEpisodesWatched else listStatus?.numChaptersRead)
                 ?: 0
         val mySubEpisodes = (if (isAnime) 0 else listStatus?.numVolumesRead) ?: 0
 
@@ -38,7 +40,7 @@ class ListRecordDataConverter {
         val re = (if (isAnime) listStatus?.isRewatching else listStatus?.isRereading) ?: false
         val reValue = (if (isAnime) listStatus?.rewatchValue else listStatus?.rereadValue) ?: 0
         val reTimes = (if (isAnime) listStatus?.numTimesRewatch else listStatus?.numTimesReread)
-                ?: 0
+            ?: 0
 
         val tags = listStatus?.tags ?: arrayListOf()
 
@@ -49,27 +51,29 @@ class ListRecordDataConverter {
         }
 
         return DbListRecord(
-                0,
-                node.id,
-                node.title,
-                englishTitleLabel,
-                node.mediaType,
-                seriesEpisodes,
-                seriesSubEpisodes,
-                node.status,
-                node.mainPicture?.large,
-                listStatus?.startDate,
-                listStatus?.finishDate,
-                myEpisodes,
-                mySubEpisodes,
-                score,
-                status,
-                re,
-                reValue,
-                reTimes,
-                lastUpdated,
-                tags,
-                titleType
+            0,
+            node.id,
+            node.title,
+            englishTitleLabel,
+            node.mediaType,
+            seriesEpisodes,
+            seriesSubEpisodes,
+            node.status,
+            node.mainPicture?.large,
+            listStatus?.startDate,
+            listStatus?.finishDate,
+            myEpisodes,
+            mySubEpisodes,
+            score,
+            status,
+            re,
+            reValue,
+            reTimes,
+            lastUpdated,
+            tags,
+            listStatus?.comments,
+            listStatus?.priority ?: 0,
+            titleType
         )
     }
 }
