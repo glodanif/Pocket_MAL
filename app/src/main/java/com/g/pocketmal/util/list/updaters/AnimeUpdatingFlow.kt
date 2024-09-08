@@ -10,7 +10,10 @@ import com.g.pocketmal.ui.legacy.dialog.ScoreDialog
 import com.g.pocketmal.ui.legacy.dialog.YesNoDialog
 import com.g.pocketmal.util.Action
 
-class AnimeUpdatingFlow(private val activity: SkeletonActivity, @StyleRes private val themeResId: Int) : RecordUpdatingFlow() {
+class AnimeUpdatingFlow(
+    private val activity: SkeletonActivity,
+    @StyleRes private val themeResId: Int
+) : RecordUpdatingFlow() {
 
     override fun updateTitle(actionType: Action, record: DbListRecord, params: UpdateParams) {
 
@@ -47,24 +50,27 @@ class AnimeUpdatingFlow(private val activity: SkeletonActivity, @StyleRes privat
                 if (record.myScore == 0) {
 
                     ScoreDialog(activity, themeResId,
-                            scoreListener = { score ->
-                                params.episodes = record.seriesEpisodes
-                                params.score = score
-                                params.startDate = if (record.seriesEpisodes == 1 && record.myStartDate == null) getTodayDate() else null
-                                params.finishDate = getTodayDate()
-                                executeUpdate(Action.ACTION_STATUS, record, params)
-                            },
-                            cancelListener = {
-                                params.episodes = record.seriesEpisodes
-                                params.startDate = if (record.seriesEpisodes == 1 && record.myStartDate == null) getTodayDate() else null
-                                params.finishDate = getTodayDate()
-                                executeUpdate(Action.ACTION_STATUS, record, params)
-                            }).show()
+                        scoreListener = { score ->
+                            params.episodes = record.seriesEpisodes
+                            params.score = score
+                            params.startDate =
+                                if (record.seriesEpisodes == 1 && record.myStartDate == null) getTodayDate() else null
+                            params.finishDate = getTodayDate()
+                            executeUpdate(Action.ACTION_STATUS, record, params)
+                        },
+                        cancelListener = {
+                            params.episodes = record.seriesEpisodes
+                            params.startDate =
+                                if (record.seriesEpisodes == 1 && record.myStartDate == null) getTodayDate() else null
+                            params.finishDate = getTodayDate()
+                            executeUpdate(Action.ACTION_STATUS, record, params)
+                        }).show()
 
                 } else {
 
                     params.episodes = record.seriesEpisodes
-                    params.startDate = if (record.seriesEpisodes == 1 && record.myStartDate == null) getTodayDate() else null
+                    params.startDate =
+                        if (record.seriesEpisodes == 1 && record.myStartDate == null) getTodayDate() else null
                     params.finishDate = getTodayDate()
                     executeUpdate(Action.ACTION_STATUS, record, params)
                 }
@@ -80,84 +86,84 @@ class AnimeUpdatingFlow(private val activity: SkeletonActivity, @StyleRes privat
     private fun showCompletedDialog(record: DbListRecord) {
 
         YesNoDialog(activity, themeResId, activity.getString(R.string.setAnimeAsCompleted),
-                yesClick = {
-                    if (record.myScore == 0) {
+            yesClick = {
+                if (record.myScore == 0) {
 
-                        ScoreDialog(activity, themeResId,
-                                scoreListener = { score ->
-                                    val params = UpdateParams(
-                                            episodes = record.seriesEpisodes,
-                                            status = Status.COMPLETED.status,
-                                            score = score,
-                                            startDate = if (record.seriesEpisodes == 1 && record.myStartDate == null) getTodayDate() else null,
-                                            finishDate = getTodayDate()
-                                    )
-                                    executeUpdate(Action.ACTION_STATUS, record, params)
-                                },
-                                cancelListener = {
-                                    val params = UpdateParams(
-                                            episodes = record.seriesEpisodes,
-                                            status = Status.COMPLETED.status,
-                                            startDate = if (record.seriesEpisodes == 1 && record.myStartDate == null) getTodayDate() else null,
-                                            finishDate = getTodayDate()
-                                    )
-                                    executeUpdate(Action.ACTION_STATUS, record, params)
-                                }).show()
-                    } else {
-
-                        val params = UpdateParams(
+                    ScoreDialog(activity, themeResId,
+                        scoreListener = { score ->
+                            val params = UpdateParams(
+                                episodes = record.seriesEpisodes,
+                                status = Status.COMPLETED.status,
+                                score = score,
+                                startDate = if (record.seriesEpisodes == 1 && record.myStartDate == null) getTodayDate() else null,
+                                finishDate = getTodayDate()
+                            )
+                            executeUpdate(Action.ACTION_STATUS, record, params)
+                        },
+                        cancelListener = {
+                            val params = UpdateParams(
                                 episodes = record.seriesEpisodes,
                                 status = Status.COMPLETED.status,
                                 startDate = if (record.seriesEpisodes == 1 && record.myStartDate == null) getTodayDate() else null,
                                 finishDate = getTodayDate()
-                        )
-                        executeUpdate(Action.ACTION_STATUS, record, params)
-                    }
-                },
-                noClick = {
-                    if (record.myScore == 0) {
+                            )
+                            executeUpdate(Action.ACTION_STATUS, record, params)
+                        }).show()
+                } else {
 
-                        ScoreDialog(activity, themeResId,
-                                scoreListener = { score ->
-                                    val params = UpdateParams(
-                                            episodes = record.seriesEpisodes,
-                                            score = score,
-                                            startDate = if (record.seriesEpisodes == 1 && record.myStartDate == null) getTodayDate() else null,
-                                            finishDate = getTodayDate()
-                                    )
-                                    executeUpdate(Action.ACTION_STATUS, record, params)
-                                },
-                                cancelListener = {
-                                    val params = UpdateParams(
-                                            episodes = record.seriesEpisodes,
-                                            startDate = if (record.seriesEpisodes == 1 && record.myStartDate == null) getTodayDate() else null,
-                                            finishDate = getTodayDate()
-                                    )
-                                    executeUpdate(Action.ACTION_STATUS, record, params)
-                                }).show()
-                    } else {
+                    val params = UpdateParams(
+                        episodes = record.seriesEpisodes,
+                        status = Status.COMPLETED.status,
+                        startDate = if (record.seriesEpisodes == 1 && record.myStartDate == null) getTodayDate() else null,
+                        finishDate = getTodayDate()
+                    )
+                    executeUpdate(Action.ACTION_STATUS, record, params)
+                }
+            },
+            noClick = {
+                if (record.myScore == 0) {
 
-                        val params = UpdateParams(
+                    ScoreDialog(activity, themeResId,
+                        scoreListener = { score ->
+                            val params = UpdateParams(
+                                episodes = record.seriesEpisodes,
+                                score = score,
+                                startDate = if (record.seriesEpisodes == 1 && record.myStartDate == null) getTodayDate() else null,
+                                finishDate = getTodayDate()
+                            )
+                            executeUpdate(Action.ACTION_STATUS, record, params)
+                        },
+                        cancelListener = {
+                            val params = UpdateParams(
                                 episodes = record.seriesEpisodes,
                                 startDate = if (record.seriesEpisodes == 1 && record.myStartDate == null) getTodayDate() else null,
                                 finishDate = getTodayDate()
-                        )
-                        executeUpdate(Action.ACTION_EPISODES, record, params)
-                    }
+                            )
+                            executeUpdate(Action.ACTION_STATUS, record, params)
+                        }).show()
+                } else {
+
+                    val params = UpdateParams(
+                        episodes = record.seriesEpisodes,
+                        startDate = if (record.seriesEpisodes == 1 && record.myStartDate == null) getTodayDate() else null,
+                        finishDate = getTodayDate()
+                    )
+                    executeUpdate(Action.ACTION_EPISODES, record, params)
                 }
+            }
         ).show()
     }
 
     private fun showWatchingDialog(record: DbListRecord, params: UpdateParams) {
 
         YesNoDialog(activity, themeResId, activity.getString(R.string.setAsWatching),
-                yesClick = {
-                    params.status = Status.IN_PROGRESS.status
-                    executeUpdate(Action.ACTION_STATUS, record, params)
-                },
-                noClick = {
-                    executeUpdate(Action.ACTION_EPISODES, record, params)
-                }
+            yesClick = {
+                params.status = Status.IN_PROGRESS.status
+                executeUpdate(Action.ACTION_STATUS, record, params)
+            },
+            noClick = {
+                executeUpdate(Action.ACTION_EPISODES, record, params)
+            }
         ).show()
     }
 }

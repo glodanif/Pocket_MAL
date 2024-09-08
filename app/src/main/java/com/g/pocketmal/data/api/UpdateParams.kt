@@ -14,7 +14,7 @@ data class UpdateParams(
     var finishDate: String? = null,
     var reWatching: Boolean? = null,
     var reWatchedTimes: Int? = null,
-    var reWatchedValue: Int? = null,
+    var reWatchValue: Int? = null,
     var reReading: Boolean? = null,
     var reReadTimes: Int? = null,
     var reReadValue: Int? = null,

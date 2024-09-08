@@ -73,11 +73,20 @@ class UpdateTitleInteractor(
         params.reWatchedTimes?.let {
             dbRecord.myReTimes = it
         }
+        params.reWatchValue?.let {
+            dbRecord.myReTimes = it
+        }
         params.reReadTimes?.let {
             dbRecord.myReTimes = it
         }
+        params.reReadValue?.let {
+            dbRecord.myReValue = it
+        }
         params.comments?.let {
             dbRecord.myComments = it
+        }
+        params.priority?.let {
+            dbRecord.myPriority = it
         }
     }
 

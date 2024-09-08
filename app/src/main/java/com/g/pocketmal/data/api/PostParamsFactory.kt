@@ -46,14 +46,23 @@ object PostParamsFactory {
         params.reWatchedTimes?.let {
             paramsMap["num_times_rewatched"] = it
         }
+        params.reWatchValue?.let {
+            paramsMap["rewatch_value"] = it
+        }
         params.reReading?.let {
             paramsMap["is_rereading"] = it
         }
         params.reReadTimes?.let {
             paramsMap["num_times_reread"] = it
         }
+        params.reReadValue?.let {
+            paramsMap["reread_value"] = it
+        }
         params.comments?.let {
             paramsMap["comments"] = it
+        }
+        params.priority?.let {
+            paramsMap["priority"] = it
         }
         return paramsMap
     }
