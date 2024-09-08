@@ -27,6 +27,5 @@ object PresentationModule {
 
     @Singleton
     @Provides
-    fun providesRecordExtraDetailsConverter(@ApplicationContext context: Context) =
-        RecordExtraDetailsConverter(context)
+    fun providesRecordExtraDetailsConverter() = RecordExtraDetailsConverter()
 }

@@ -69,12 +69,56 @@ class EditDetailsViewModel @Inject constructor(
     fun updateRe(re: Boolean, titleType: TitleType) {
         val state = recordDetailsState.value
         if (state is EditDetailsState.RecordDetails) {
-            val updatedDetails = state.details.copy(isRe = re)
+            val updatedDetails = state.details.copy(
+                isRe = re,
+                myEpisodes = if (re) 1 else state.details.seriesEpisodes,
+                mySubEpisodes = if (re) 1 else state.details.seriesSubEpisodes,
+            )
             _recordDetailsState.value = EditDetailsState.RecordDetails(details = updatedDetails)
             if (titleType == TitleType.ANIME) {
                 updateParameters.reWatching = re
+                updateParameters.episodes = if (re) 1 else state.details.seriesEpisodes
             } else {
                 updateParameters.reReading = re
+                updateParameters.chapters = if (re) 1 else state.details.seriesEpisodes
+                updateParameters.volumes = if (re) 1 else state.details.seriesSubEpisodes
+            }
+        }
+    }
+
+    fun updateReTimes(reTimes: Int?, titleType: TitleType) {
+        val state = recordDetailsState.value
+        if (state is EditDetailsState.RecordDetails) {
+            val updatedDetails = state.details.copy(reTimes = reTimes)
+            _recordDetailsState.value = EditDetailsState.RecordDetails(details = updatedDetails)
+            if (titleType == TitleType.ANIME) {
+                updateParameters.reWatchedTimes = reTimes ?: 0
+            } else {
+                updateParameters.reReadTimes = reTimes ?: 0
+            }
+        }
+    }
+
+    fun updateReEpisodes(reEpisodes: Int, titleType: TitleType) {
+        val state = recordDetailsState.value
+        if (state is EditDetailsState.RecordDetails) {
+            val updatedDetails = state.details.copy(reEpisodes = reEpisodes)
+            _recordDetailsState.value = EditDetailsState.RecordDetails(details = updatedDetails)
+            if (titleType == TitleType.ANIME) {
+                updateParameters.episodes = reEpisodes
+            } else {
+                updateParameters.chapters = reEpisodes
+            }
+        }
+    }
+
+    fun updateReSubEpisodes(reSubEpisodes: Int, titleType: TitleType) {
+        val state = recordDetailsState.value
+        if (state is EditDetailsState.RecordDetails) {
+            val updatedDetails = state.details.copy(reSubEpisodes = reSubEpisodes)
+            _recordDetailsState.value = EditDetailsState.RecordDetails(details = updatedDetails)
+            if (titleType == TitleType.MANGA) {
+                updateParameters.volumes = reSubEpisodes
             }
         }
     }
@@ -85,7 +129,7 @@ class EditDetailsViewModel @Inject constructor(
             val updatedDetails = state.details.copy(reValue = reValue)
             _recordDetailsState.value = EditDetailsState.RecordDetails(details = updatedDetails)
             if (titleType == TitleType.ANIME) {
-                updateParameters.reWatchedValue = reValue
+                updateParameters.reWatchValue = reValue
             } else {
                 updateParameters.reReadValue = reValue
             }

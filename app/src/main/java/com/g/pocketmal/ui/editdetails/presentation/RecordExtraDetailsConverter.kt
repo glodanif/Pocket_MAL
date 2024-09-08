@@ -1,6 +1,5 @@
 package com.g.pocketmal.ui.editdetails.presentation
 
-import android.content.Context
 import com.g.pocketmal.data.common.Status
 import com.g.pocketmal.domain.entity.ListRecordEntity
 import java.text.DateFormat
@@ -9,9 +8,7 @@ import java.util.Date
 import java.util.Locale
 import java.util.TimeZone
 
-class RecordExtraDetailsConverter(
-    private val context: Context,
-) {
+class RecordExtraDetailsConverter {
 
     private val viewFormatter: DateFormat =
         SimpleDateFormat("MMM dd, yyyy", Locale.ENGLISH).apply {
@@ -29,9 +26,15 @@ class RecordExtraDetailsConverter(
             startDateFormatted = domainToViewDate(record.myStartDate),
             finishDate = domainToDate(record.myFinishDate),
             finishDateFormatted = domainToViewDate(record.myFinishDate),
+            seriesEpisodes = record.seriesEpisodes,
+            seriesSubEpisodes = record.seriesSubEpisodes,
+            myEpisodes = record.myEpisodes,
+            mySubEpisodes = record.mySubEpisodes,
             isReAvailable = record.myStatus == Status.COMPLETED || record.myRe,
             isRe = record.myRe,
             reTimes = record.myReTimes,
+            reEpisodes = record.myEpisodes,
+            reSubEpisodes = record.mySubEpisodes,
             reValue = record.myReValue,
             comments = record.myComments,
             priority = record.myPriority,

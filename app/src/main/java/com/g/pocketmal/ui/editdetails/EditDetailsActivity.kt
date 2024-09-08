@@ -18,6 +18,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
@@ -26,6 +27,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.material.icons.rounded.ArrowDropDown
+import androidx.compose.material.icons.rounded.Info
 import androidx.compose.material3.Button
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.DatePicker
@@ -58,6 +60,8 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.KeyboardCapitalization
+import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.g.pocketmal.argument
@@ -164,6 +168,9 @@ private fun EditDetailsContent(
         onPriorityChanged = { priority ->
             viewModel.updatePriority(priority)
         },
+        onReTimesChanged = { reTimes ->
+            viewModel.updateReTimes(reTimes, titleType)
+        },
         onBackPressed = onBackPressed,
     )
 }
@@ -179,6 +186,7 @@ private fun EditDetailsScreen(
     onCommentsChanged: (String) -> Unit,
     onReValueChanged: (Int) -> Unit,
     onPriorityChanged: (Int) -> Unit,
+    onReTimesChanged: (Int?) -> Unit,
     onSaveClicked: () -> Unit,
     onBackPressed: () -> Unit,
 ) {
@@ -221,6 +229,7 @@ private fun EditDetailsScreen(
                             onCommentsChanged = onCommentsChanged,
                             onReValueChanged = onReValueChanged,
                             onPriorityChanged = onPriorityChanged,
+                            onReTimesChanged = onReTimesChanged,
                         )
                         Box(
                             modifier = Modifier
@@ -258,6 +267,7 @@ private fun EditDetailsView(
     onReChanged: (Boolean) -> Unit,
     onCommentsChanged: (String) -> Unit,
     onReValueChanged: (Int) -> Unit,
+    onReTimesChanged: (Int?) -> Unit,
     onPriorityChanged: (Int) -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -291,6 +301,11 @@ private fun EditDetailsView(
                 onReChanged = onReChanged,
             )
         }
+        SectionsDivider()
+        ReTimesSection(
+            record = record,
+            onReTimesChanged = onReTimesChanged,
+        )
         SectionsDivider()
         ReValueSection(
             record = record,
@@ -393,6 +408,70 @@ private fun ReSection(
             text = titleText,
             style = MaterialTheme.typography.labelLarge,
         )
+    }
+}
+
+@Composable
+private fun ReTimesSection(
+    record: RecordExtraDetailsViewEntity,
+    onReTimesChanged: (Int?) -> Unit,
+) {
+    val titleText = if (record.titleType == TitleType.ANIME) "Times Rewatched" else "Times Reread"
+    Text(
+        text = titleText,
+        style = MaterialTheme.typography.titleMedium
+    )
+    Spacer(modifier = Modifier.height(4.dp))
+    Row(
+        modifier = Modifier.fillMaxWidth()
+    ) {
+        TextField(
+            modifier = Modifier.width(96.dp),
+            value = if (record.reTimes == null) "" else record.reTimes.toString(),
+            onValueChange = { newTimes ->
+                val number = newTimes.toIntOrNull()
+                if (number != null && number in 0..999) {
+                    onReTimesChanged(number)
+                } else if (newTimes.isEmpty()) {
+                    onReTimesChanged(null)
+                }
+            },
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+            placeholder = {
+                Text(
+                    text = "0",
+                    style = MaterialTheme.typography.bodyLarge.copy(
+                        color = MaterialTheme.colorScheme.outline,
+                    )
+                )
+            }
+        )
+        Spacer(modifier = Modifier.width(12.dp))
+        Row(
+            modifier = Modifier
+                .weight(1f)
+                .height(60.dp)
+                .clip(RoundedCornerShape(12.dp))
+                .background(MaterialTheme.colorScheme.surfaceVariant)
+                .padding(8.dp),
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            Icon(
+                Icons.Rounded.Info,
+                modifier = Modifier.size(24.dp),
+                tint = MaterialTheme.colorScheme.onSurfaceVariant,
+                contentDescription = "$titleText clarification icon"
+            )
+            Spacer(modifier = Modifier.width(8.dp))
+            Text(
+                text = "This number should NOT include the first time you completed this series",
+                style = MaterialTheme.typography.labelSmall.copy(
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                ),
+                maxLines = 2,
+                overflow = TextOverflow.Ellipsis,
+            )
+        }
     }
 }
 
