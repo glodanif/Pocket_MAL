@@ -1,7 +1,6 @@
 package com.g.pocketmal.di
 
 import com.g.pocketmal.ui.legacy.presenter.BrowsePresenter
-import com.g.pocketmal.ui.editdetails.EditDetailsPresenter
 import com.g.pocketmal.ui.legacy.presenter.ListPresenter
 import com.g.pocketmal.ui.legacy.presenter.LoginPresenter
 import com.g.pocketmal.ui.legacy.presenter.RankedPresenter
@@ -12,7 +11,6 @@ import com.g.pocketmal.ui.legacy.presenter.UserProfilePresenter
 import com.g.pocketmal.ui.legacy.viewentity.converter.ListItemConverter
 import com.g.pocketmal.ui.legacy.viewentity.converter.ListRecordConverter
 import com.g.pocketmal.ui.legacy.viewentity.converter.RankedItemConverter
-import com.g.pocketmal.ui.search.presentation.SearchResultConverter
 import com.g.pocketmal.ui.legacy.viewentity.converter.SeasonalAnimeConverter
 import com.g.pocketmal.ui.legacy.viewentity.converter.SeasonalSectionConverter
 import com.g.pocketmal.ui.legacy.viewentity.converter.TitleDetailsConverter
@@ -47,9 +45,6 @@ val applicationModule = module {
     factory { params ->
         TitleDetailsPresenter(params[0], params[1], params[2], params[2], get(), get(),
                 get(), get(), get(), get(), get(), get(), get(), get(), get(), EntryPointAccessors.fromApplication(androidContext(), DataModule.DataStoreEntryPoint::class.java))
-    }
-    factory { params ->
-        EditDetailsPresenter(params[0], params[1], params[2], params[2], get(), get())
     }
 }
 

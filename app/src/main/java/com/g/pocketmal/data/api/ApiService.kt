@@ -27,7 +27,7 @@ interface ApiService {
     suspend fun getTitleDetails(id: Int, type: TitleType): Response<TitleDetailsResponse>
     suspend fun deleteTitle(titleId: Int, type: TitleType): Response<Unit>
     suspend fun addTitle(titleId: Int, type: TitleType): Response<ListStatus>
-    suspend fun updateTitle(id: Int, params: HashMap<String, Any>, type: TitleType): Response<ListStatus>
+    suspend fun updateTitle(id: Int, params: HashMap<String, Any?>, type: TitleType): Response<ListStatus>
     suspend fun getRankingList(titleType: TitleType, rankingType: RankingType, includeNsfw: Boolean, limit: Int, offset: Int): Response<RankingResponse>
     suspend fun search(query: String, type: TitleType, includeNsfw: Boolean): Response<SearchResponse>
     suspend fun getSeasonalAnime(partOfYear: PartOfYear, year: Int, includeNsfw: Boolean): Response<SeasonResponse>

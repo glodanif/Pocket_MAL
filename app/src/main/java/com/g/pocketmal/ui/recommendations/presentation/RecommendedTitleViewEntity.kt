@@ -1,6 +1,6 @@
 package com.g.pocketmal.ui.recommendations.presentation
 
-import com.g.pocketmal.ui.common.InListStatusViewEntity
+import com.g.pocketmal.ui.common.inliststatus.InListStatusViewEntity
 
 class RecommendedTitleViewEntity(
         val id: Int,

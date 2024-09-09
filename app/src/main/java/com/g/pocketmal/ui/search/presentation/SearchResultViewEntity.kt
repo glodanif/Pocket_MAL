@@ -1,6 +1,6 @@
 package com.g.pocketmal.ui.search.presentation
 
-import com.g.pocketmal.ui.common.InListStatusViewEntity
+import com.g.pocketmal.ui.common.inliststatus.InListStatusViewEntity
 
 data class SearchResultViewEntity(
     val id: Int,

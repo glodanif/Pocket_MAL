@@ -4,7 +4,7 @@ import android.content.Context
 import com.g.pocketmal.R
 import com.g.pocketmal.data.util.TitleType
 import com.g.pocketmal.domain.entity.SearchEntity
-import com.g.pocketmal.ui.common.InListStatusConverter
+import com.g.pocketmal.ui.common.inliststatus.InListStatusConverter
 import com.g.pocketmal.util.list.DataInterpreter
 
 class SearchResultConverter(

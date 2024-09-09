@@ -96,14 +96,14 @@ interface MalApi {
     @PATCH("anime/{id}/my_list_status")
     suspend fun updateAnime(
             @Path("id") titleId: Int,
-            @FieldMap fields: HashMap<String, Any>
+            @FieldMap fields: HashMap<String, Any?>
     ): Response<ListStatus>
 
     @FormUrlEncoded
     @PATCH("manga/{id}/my_list_status")
     suspend fun updateManga(
             @Path("id") titleId: Int,
-            @FieldMap fields: HashMap<String, Any>
+            @FieldMap fields: HashMap<String, Any?>
     ): Response<ListStatus>
 
     @GET("anime/season/{year}/{season}?limit=500&sort=anime_num_list_users&" +

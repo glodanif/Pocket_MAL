@@ -1,4 +1,4 @@
-package com.g.pocketmal.ui.common
+package com.g.pocketmal.ui.common.inliststatus
 
 import androidx.compose.ui.graphics.Color
 import com.g.pocketmal.data.util.TitleType

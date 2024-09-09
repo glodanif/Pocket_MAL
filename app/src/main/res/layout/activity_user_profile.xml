@@ -154,14 +154,14 @@
 
             <fragment
                 android:id="@+id/fragment_anime_stats"
-                android:name="com.g.pocketmal.ui.fragment.ListStatsFragment"
+                android:name="com.g.pocketmal.ui.legacy.fragment.ListStatsFragment"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp" />
 
             <fragment
                 android:id="@+id/fragment_manga_stats"
-                android:name="com.g.pocketmal.ui.fragment.ListStatsFragment"
+                android:name="com.g.pocketmal.ui.legacy.fragment.ListStatsFragment"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"

@@ -3,7 +3,6 @@ package com.g.pocketmal.ui.editdetails
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -18,18 +17,16 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentSize
-import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.material.icons.rounded.ArrowDropDown
+import androidx.compose.material.icons.rounded.Close
 import androidx.compose.material.icons.rounded.Info
 import androidx.compose.material3.Button
-import androidx.compose.material3.Checkbox
 import androidx.compose.material3.DatePicker
 import androidx.compose.material3.DatePickerDialog
 import androidx.compose.material3.DropdownMenu
@@ -39,7 +36,6 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -51,7 +47,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -59,7 +54,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextOverflow
@@ -77,7 +71,6 @@ import com.g.pocketmal.ui.editdetails.presentation.RecordExtraDetailsViewEntity
 import com.g.pocketmal.ui.legacy.SkeletonActivity
 import com.g.pocketmal.ui.theme.PocketMalTheme
 import dagger.hilt.android.AndroidEntryPoint
-import org.checkerframework.checker.units.qual.s
 import java.util.Date
 
 @AndroidEntryPoint
@@ -97,9 +90,8 @@ class EditDetailsActivity : SkeletonActivity() {
                     recordId = recordId,
                     titleType = titleType,
                     onSavePressed = { params ->
-                        Log.i("EditDetailsActivity", "Params: $params")
-                        //setResult(RESULT_OK, Intent().putExtra(EXTRA_UPDATE_PARAMS, params))
-                        //finish()
+                        setResult(RESULT_OK, Intent().putExtra(EXTRA_UPDATE_PARAMS, params))
+                        finish()
                     },
                     onBackPressed = { finish() },
                 )
@@ -154,14 +146,26 @@ private fun EditDetailsContent(
         onStartDateChanged = { startDate ->
             viewModel.updateStartDate(startDate)
         },
+        onStartDateRemoved = {
+            viewModel.removeStartDate()
+        },
         onFinishDateChanged = { finishDate ->
             viewModel.updateFinishDate(finishDate)
+        },
+        onFinishDateRemoved = {
+            viewModel.removeFinishDate()
         },
         onReChanged = { isRe ->
             viewModel.updateRe(isRe, titleType)
         },
         onCommentsChanged = { comments ->
             viewModel.updateComments(comments)
+        },
+        onEpisodesChanged = { episodes ->
+            viewModel.updateReEpisodes(episodes, titleType)
+        },
+        onSubEpisodesChanged = { subEpisodes ->
+            viewModel.updateReSubEpisodes(subEpisodes, titleType)
         },
         onReValueChanged = { reValue ->
             viewModel.updateReValue(reValue, titleType)
@@ -182,9 +186,13 @@ private fun EditDetailsContent(
 private fun EditDetailsScreen(
     recordDetailsState: EditDetailsState,
     onStartDateChanged: (Long?) -> Unit,
+    onStartDateRemoved: () -> Unit,
     onFinishDateChanged: (Long?) -> Unit,
+    onFinishDateRemoved: () -> Unit,
     onReChanged: (Boolean) -> Unit,
     onCommentsChanged: (String) -> Unit,
+    onEpisodesChanged: (Int?) -> Unit,
+    onSubEpisodesChanged: (Int?) -> Unit,
     onReValueChanged: (Int) -> Unit,
     onPriorityChanged: (Int) -> Unit,
     onReTimesChanged: (Int?) -> Unit,
@@ -225,9 +233,13 @@ private fun EditDetailsScreen(
                             modifier = Modifier.weight(1f),
                             record = recordDetailsState.details,
                             onStartDateChanged = onStartDateChanged,
+                            onStartDateRemoved = onStartDateRemoved,
                             onFinishDateChanged = onFinishDateChanged,
+                            onFinishDateRemoved = onFinishDateRemoved,
                             onReChanged = onReChanged,
                             onCommentsChanged = onCommentsChanged,
+                            onEpisodesChanged = onEpisodesChanged,
+                            onSubEpisodesChanged = onSubEpisodesChanged,
                             onReValueChanged = onReValueChanged,
                             onPriorityChanged = onPriorityChanged,
                             onReTimesChanged = onReTimesChanged,
@@ -264,9 +276,13 @@ private fun EditDetailsScreen(
 private fun EditDetailsView(
     record: RecordExtraDetailsViewEntity,
     onStartDateChanged: (Long?) -> Unit,
+    onStartDateRemoved: () -> Unit,
     onFinishDateChanged: (Long?) -> Unit,
+    onFinishDateRemoved: () -> Unit,
     onReChanged: (Boolean) -> Unit,
     onCommentsChanged: (String) -> Unit,
+    onEpisodesChanged: (Int?) -> Unit,
+    onSubEpisodesChanged: (Int?) -> Unit,
     onReValueChanged: (Int) -> Unit,
     onReTimesChanged: (Int?) -> Unit,
     onPriorityChanged: (Int) -> Unit,
@@ -286,9 +302,11 @@ private fun EditDetailsView(
             onNewStartDateClicked = {
                 openStartedDateDialog = true
             },
+            onStartDateRemoved = onStartDateRemoved,
             onNewFinishDateClicked = {
                 openFinishedDateDialog = true
-            }
+            },
+            onFinishDateRemoved = onFinishDateRemoved,
         )
         SectionsDivider()
         PrioritySection(
@@ -300,6 +318,8 @@ private fun EditDetailsView(
             ReSection(
                 record = record,
                 onReChanged = onReChanged,
+                onEpisodesChanged = onEpisodesChanged,
+                onSubEpisodesChanged = onSubEpisodesChanged,
             )
         }
         SectionsDivider()
@@ -354,7 +374,9 @@ private fun SectionsDivider(modifier: Modifier = Modifier) {
 private fun DatesSection(
     record: RecordExtraDetailsViewEntity,
     onNewStartDateClicked: () -> Unit,
+    onStartDateRemoved: () -> Unit,
     onNewFinishDateClicked: () -> Unit,
+    onFinishDateRemoved: () -> Unit,
 ) {
     Text(
         text = if (record.titleType == TitleType.ANIME) "Watching period" else "Reading period",
@@ -368,7 +390,8 @@ private fun DatesSection(
                 .padding(end = 8.dp),
             title = "Start date",
             dateFormatted = record.startDateFormatted,
-            onClicked = onNewStartDateClicked
+            onClicked = onNewStartDateClicked,
+            onDateRemoved = onStartDateRemoved,
         )
         DateView(
             modifier = Modifier
@@ -376,7 +399,8 @@ private fun DatesSection(
                 .padding(start = 8.dp),
             title = "Finish date",
             dateFormatted = record.finishDateFormatted,
-            onClicked = onNewFinishDateClicked
+            onClicked = onNewFinishDateClicked,
+            onDateRemoved = onFinishDateRemoved,
         )
     }
 }
@@ -385,25 +409,97 @@ private fun DatesSection(
 private fun ReSection(
     record: RecordExtraDetailsViewEntity,
     onReChanged: (Boolean) -> Unit,
+    onEpisodesChanged: (Int?) -> Unit,
+    onSubEpisodesChanged: (Int?) -> Unit,
 ) {
     var isRe by remember { mutableStateOf(record.isRe) }
 
-    Row(
+    Column(
         modifier = Modifier.fillMaxWidth(),
     ) {
-        Text(
-            modifier = Modifier.weight(1f),
-            text = if (record.titleType == TitleType.ANIME) "Rewatching" else "Rereading",
-            style = MaterialTheme.typography.titleMedium
-        )
-        Spacer(modifier = Modifier.height(12.dp))
-        Switch(
-            checked = isRe,
-            onCheckedChange = { checked ->
-                isRe = checked
-                onReChanged(checked)
-            },
-        )
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+        ) {
+            Text(
+                modifier = Modifier.weight(1f),
+                text = if (record.titleType == TitleType.ANIME) "Rewatching" else "Rereading",
+                style = MaterialTheme.typography.titleMedium
+            )
+            Spacer(modifier = Modifier.height(12.dp))
+            Switch(
+                checked = isRe,
+                onCheckedChange = { checked ->
+                    isRe = checked
+                    onReChanged(checked)
+                },
+            )
+        }
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+        ) {
+            val episodesUpLimit = if (record.seriesEpisodes == 0) 999 else record.seriesEpisodes
+            TextField(
+                modifier = Modifier.weight(1f),
+                value = if (record.myEpisodes == null) "" else record.myEpisodes.toString(),
+                onValueChange = { newTimes ->
+                    val number = newTimes.toIntOrNull()
+                    if (number != null && number in 0..episodesUpLimit) {
+                        onEpisodesChanged(number)
+                    } else if (newTimes.isEmpty()) {
+                        onEpisodesChanged(null)
+                    }
+                },
+                suffix = {
+                    Text(text = "/ ${record.seriesEpisodes}")
+                },
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                placeholder = {
+                    Text(
+                        text = "0",
+                        style = MaterialTheme.typography.bodyLarge.copy(
+                            color = MaterialTheme.colorScheme.outline,
+                        )
+                    )
+                },
+                label = {
+                    Text(text = if (record.titleType == TitleType.ANIME) "Episodes" else "Chapters")
+                }
+            )
+            Spacer(modifier = Modifier.width(16.dp))
+            if (record.titleType == TitleType.MANGA) {
+                val subEpisodesUpLimit =
+                    if (record.seriesSubEpisodes == 0) 999 else record.seriesSubEpisodes
+                TextField(
+                    modifier = Modifier.weight(1f),
+                    value = if (record.mySubEpisodes == null) "" else record.mySubEpisodes.toString(),
+                    onValueChange = { newTimes ->
+                        val number = newTimes.toIntOrNull()
+                        if (number != null && number in 0..subEpisodesUpLimit) {
+                            onSubEpisodesChanged(number)
+                        } else if (newTimes.isEmpty()) {
+                            onSubEpisodesChanged(null)
+                        }
+                    },
+                    suffix = {
+                        Text(text = "/ ${record.seriesSubEpisodes}")
+                    },
+                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                    placeholder = {
+                        Text(
+                            text = "0",
+                            style = MaterialTheme.typography.bodyLarge.copy(
+                                color = MaterialTheme.colorScheme.outline,
+                            )
+                        )
+                    },
+                    label = {
+                        Text(text = "Volumes")
+                    }
+                )
+            } else {
+                Spacer(modifier = Modifier.weight(1f))
+            }
+        }
     }
 }
 
@@ -617,9 +713,10 @@ private fun DateView(
     title: String,
     dateFormatted: String?,
     onClicked: () -> Unit,
+    onDateRemoved: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    Column(
+    Row(
         modifier = modifier
             .clip(RoundedCornerShape(12.dp))
             .background(MaterialTheme.colorScheme.tertiaryContainer)
@@ -627,21 +724,38 @@ private fun DateView(
                 onClicked()
             }
             .padding(12.dp),
-        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalAlignment = Alignment.CenterVertically,
     ) {
-        Text(
-            text = title,
-            style = MaterialTheme.typography.titleSmall.copy(
-                color = MaterialTheme.colorScheme.onTertiaryContainer,
-            ),
-        )
-        Spacer(modifier = Modifier.height(4.dp))
-        Text(
-            text = dateFormatted ?: "Not Set",
-            style = MaterialTheme.typography.labelLarge.copy(
-                color = MaterialTheme.colorScheme.onTertiaryContainer,
-            ),
-        )
+        Column(
+            modifier = Modifier.weight(1f),
+            horizontalAlignment = Alignment.CenterHorizontally,
+        ) {
+            Text(
+                text = title,
+                style = MaterialTheme.typography.titleSmall.copy(
+                    color = MaterialTheme.colorScheme.onTertiaryContainer,
+                ),
+            )
+            Spacer(modifier = Modifier.height(4.dp))
+            Text(
+                text = dateFormatted ?: "Not Set",
+                style = MaterialTheme.typography.labelLarge.copy(
+                    color = MaterialTheme.colorScheme.onTertiaryContainer,
+                ),
+            )
+        }
+        if (dateFormatted != null) {
+            IconButton(
+                modifier = Modifier.size(48.dp).padding(8.dp),
+                onClick = onDateRemoved,
+            ) {
+                Icon(
+                    Icons.Rounded.Close,
+                    tint = MaterialTheme.colorScheme.primary,
+                    contentDescription = "Set date to Unknown",
+                )
+            }
+        }
     }
 }
 
@@ -676,43 +790,3 @@ fun DatePickerModal(
         DatePicker(state = datePickerState)
     }
 }
-
-/*rewatchingTimesInput.filters =
-           arrayOf<InputFilter>(NumberInputFilter(NumberInputFilter.MAX_REWATCHING_NUMBER))
-
-findViewById<Button>(R.id.btn_save).setOnClickListener {
-
-    executeIfOnline {
-        presenter.updateTitle(
-                isRe = rewatching.isChecked,
-                reTimes = rewatchingTimesInput.getTrimmedText(),
-                reEpisodes = myEpisodesField.getTrimmedText(),
-                reSubEpisodes = mySubEpisodesField.getTrimmedText()
-        )
-    }
-}
-
-override fun setupReLayout(record: RecordViewModel) {
-
-    rewatchingHolder.visibility = View.VISIBLE
-    subEpisodesHolder.visibility = if (record.withSubEpisodes) View.VISIBLE else View.GONE
-
-    rewatchingLabel.text = record.reLabel
-    rewatching.text = record.reLabel
-
-    seriesEpisodesLabel.text = getString(R.string.series_episodes_label, record.seriesEpisodesLabel)
-    episodesLabel.text = record.episodesTypeLabel
-
-    if (record.withSubEpisodes) {
-        seriesSubEpisodesLabel.text = getString(R.string.series_episodes_label, record.seriesSubEpisodesLabel)
-        subEpisodesLabel.text = record.subEpisodesTypeLabel
-    }
-
-    rewatching.setOnCheckedChangeListener { _, isChecked ->
-       // presenter.setRewatching(isChecked)
-    }
-}
-
-override fun showEnteredValuesNotValid() {
-    MessageDialog(this, getCurrentTheme(), getString(R.string.edit_details__invalid_quantity)).show()
-}*/

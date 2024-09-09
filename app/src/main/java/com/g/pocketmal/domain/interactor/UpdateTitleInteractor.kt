@@ -8,18 +8,19 @@ import com.g.pocketmal.data.database.datasource.RecordDataSource
 import com.g.pocketmal.data.database.model.DbListRecord
 import com.g.pocketmal.data.util.TitleType
 import com.g.pocketmal.data.common.Status
+import com.g.pocketmal.domain.unsetDate
 
 class UpdateTitleInteractor(
-        private val apiService: ApiService,
-        private val recordStorage: RecordDataSource
+    private val apiService: ApiService,
+    private val recordStorage: RecordDataSource
 ) : BaseInteractor<UpdateTitleInteractor.Params, DbListRecord>() {
 
     override suspend fun execute(input: Params): DbListRecord {
 
         val paramsMap = PostParamsFactory
-                .getParamsFromUpdateData(input.updateParams, input.titleType)
+            .getParamsFromUpdateData(input.updateParams, input.titleType)
         val response =
-                apiService.updateTitle(input.recordId, paramsMap, input.titleType)
+            apiService.updateTitle(input.recordId, paramsMap, input.titleType)
 
         if (response.isSuccessful) {
             val old = recordStorage.getRecordById(input.recordId, input.titleType)
@@ -31,7 +32,10 @@ class UpdateTitleInteractor(
                 throw IllegalStateException("Title was not found in local db id=${input.recordId} (${input.titleType})")
             }
         } else {
-            throw NetworkException(response.code(), errorMessage = "Updation request was not successful")
+            throw NetworkException(
+                response.code(),
+                errorMessage = "Updation request was not successful"
+            )
         }
     }
 
@@ -59,10 +63,10 @@ class UpdateTitleInteractor(
             dbRecord.myTags = it
         }
         params.startDate?.let {
-            dbRecord.myStartDate = it
+            dbRecord.myStartDate = if (it == unsetDate) null else it
         }
         params.finishDate?.let {
-            dbRecord.myFinishDate = it
+            dbRecord.myFinishDate = if (it == unsetDate) null else it
         }
         params.reWatching?.let {
             dbRecord.myRe = it
@@ -74,7 +78,7 @@ class UpdateTitleInteractor(
             dbRecord.myReTimes = it
         }
         params.reWatchValue?.let {
-            dbRecord.myReTimes = it
+            dbRecord.myReValue = it
         }
         params.reReadTimes?.let {
             dbRecord.myReTimes = it
@@ -91,8 +95,8 @@ class UpdateTitleInteractor(
     }
 
     class Params(
-            val recordId: Int,
-            val titleType: TitleType,
-            val updateParams: UpdateParams
+        val recordId: Int,
+        val titleType: TitleType,
+        val updateParams: UpdateParams
     )
 }

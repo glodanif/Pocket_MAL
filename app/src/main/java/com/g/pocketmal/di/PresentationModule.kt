@@ -1,7 +1,7 @@
 package com.g.pocketmal.di
 
 import android.content.Context
-import com.g.pocketmal.ui.common.InListStatusConverter
+import com.g.pocketmal.ui.common.inliststatus.InListStatusConverter
 import com.g.pocketmal.ui.editdetails.presentation.RecordExtraDetailsConverter
 import com.g.pocketmal.ui.recommendations.presentation.RecommendedTitleConverter
 import com.g.pocketmal.ui.search.presentation.SearchResultConverter

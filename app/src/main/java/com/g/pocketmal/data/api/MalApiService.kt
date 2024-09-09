@@ -19,6 +19,7 @@ import com.g.pocketmal.data.util.PartOfYear
 import com.g.pocketmal.data.util.RankingType
 import com.g.pocketmal.data.util.TitleType
 import com.g.pocketmal.data.util.TitleType.ANIME
+import com.google.gson.GsonBuilder
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Response
@@ -48,10 +49,14 @@ class MalApiService(sessionManager: SessionManager, private val oAuthConfig: OAu
             builder.addInterceptor(interceptor)
         }
 
+        val gson = GsonBuilder()
+            .serializeNulls()
+            .create()
+
         val retrofit = Retrofit.Builder()
             .baseUrl(MalApi.API_BASE_URL)
             .addConverterFactory(ScalarsConverterFactory.create())
-            .addConverterFactory(GsonConverterFactory.create())
+            .addConverterFactory(GsonConverterFactory.create(gson))
             .client(builder.build())
             .build()
 
@@ -132,7 +137,7 @@ class MalApiService(sessionManager: SessionManager, private val oAuthConfig: OAu
 
     override suspend fun updateTitle(
         id: Int,
-        params: HashMap<String, Any>,
+        params: HashMap<String, Any?>,
         type: TitleType
     ): Response<ListStatus> {
         return if (type == ANIME) {

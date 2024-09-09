@@ -6,6 +6,7 @@ import com.g.pocketmal.data.api.UpdateParams
 import com.g.pocketmal.data.repository.RecordRepository
 import com.g.pocketmal.data.util.TitleType
 import com.g.pocketmal.domain.exception.RecordNotFoundException
+import com.g.pocketmal.domain.unsetDate
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -54,6 +55,18 @@ class EditDetailsViewModel @Inject constructor(
         }
     }
 
+    fun removeStartDate() {
+        val state = recordDetailsState.value
+        if (state is EditDetailsState.RecordDetails) {
+            val updatedDetails = state.details.copy(
+                startDate = null,
+                startDateFormatted = null,
+            )
+            _recordDetailsState.value = EditDetailsState.RecordDetails(details = updatedDetails)
+            updateParameters.startDate = unsetDate
+        }
+    }
+
     fun updateFinishDate(newFinishDate: Long?) {
         val state = recordDetailsState.value
         if (state is EditDetailsState.RecordDetails && newFinishDate != null) {
@@ -66,13 +79,25 @@ class EditDetailsViewModel @Inject constructor(
         }
     }
 
+    fun removeFinishDate() {
+        val state = recordDetailsState.value
+        if (state is EditDetailsState.RecordDetails) {
+            val updatedDetails = state.details.copy(
+                finishDate = null,
+                finishDateFormatted = null,
+            )
+            _recordDetailsState.value = EditDetailsState.RecordDetails(details = updatedDetails)
+            updateParameters.finishDate = unsetDate
+        }
+    }
+
     fun updateRe(re: Boolean, titleType: TitleType) {
         val state = recordDetailsState.value
         if (state is EditDetailsState.RecordDetails) {
             val updatedDetails = state.details.copy(
                 isRe = re,
                 myEpisodes = if (re) 1 else state.details.seriesEpisodes,
-                mySubEpisodes = if (re) 1 else state.details.seriesSubEpisodes,
+                mySubEpisodes = if (re) 0 else state.details.seriesSubEpisodes,
             )
             _recordDetailsState.value = EditDetailsState.RecordDetails(details = updatedDetails)
             if (titleType == TitleType.ANIME) {
@@ -81,7 +106,7 @@ class EditDetailsViewModel @Inject constructor(
             } else {
                 updateParameters.reReading = re
                 updateParameters.chapters = if (re) 1 else state.details.seriesEpisodes
-                updateParameters.volumes = if (re) 1 else state.details.seriesSubEpisodes
+                updateParameters.volumes = if (re) 0 else state.details.seriesSubEpisodes
             }
         }
     }
@@ -99,26 +124,26 @@ class EditDetailsViewModel @Inject constructor(
         }
     }
 
-    fun updateReEpisodes(reEpisodes: Int, titleType: TitleType) {
+    fun updateReEpisodes(reEpisodes: Int?, titleType: TitleType) {
         val state = recordDetailsState.value
         if (state is EditDetailsState.RecordDetails) {
-            val updatedDetails = state.details.copy(reEpisodes = reEpisodes)
+            val updatedDetails = state.details.copy(myEpisodes = reEpisodes)
             _recordDetailsState.value = EditDetailsState.RecordDetails(details = updatedDetails)
             if (titleType == TitleType.ANIME) {
-                updateParameters.episodes = reEpisodes
+                updateParameters.episodes = reEpisodes ?: 0
             } else {
-                updateParameters.chapters = reEpisodes
+                updateParameters.chapters = reEpisodes ?: 0
             }
         }
     }
 
-    fun updateReSubEpisodes(reSubEpisodes: Int, titleType: TitleType) {
+    fun updateReSubEpisodes(reSubEpisodes: Int?, titleType: TitleType) {
         val state = recordDetailsState.value
         if (state is EditDetailsState.RecordDetails) {
-            val updatedDetails = state.details.copy(reSubEpisodes = reSubEpisodes)
+            val updatedDetails = state.details.copy(mySubEpisodes = reSubEpisodes)
             _recordDetailsState.value = EditDetailsState.RecordDetails(details = updatedDetails)
             if (titleType == TitleType.MANGA) {
-                updateParameters.volumes = reSubEpisodes
+                updateParameters.volumes = reSubEpisodes ?: 0
             }
         }
     }

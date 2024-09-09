@@ -33,8 +33,6 @@ class RecordExtraDetailsConverter {
             isReAvailable = record.myStatus == Status.COMPLETED || record.myRe,
             isRe = record.myRe,
             reTimes = record.myReTimes,
-            reEpisodes = record.myEpisodes,
-            reSubEpisodes = record.mySubEpisodes,
             reValue = record.myReValue,
             comments = record.myComments,
             priority = record.myPriority,

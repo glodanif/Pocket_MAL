@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -16,8 +17,10 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Close
@@ -42,6 +45,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
@@ -54,12 +58,15 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
 import com.g.pocketmal.data.util.TitleType
+import com.g.pocketmal.data.util.TitleType.ANIME
+import com.g.pocketmal.data.util.TitleType.MANGA
 import com.g.pocketmal.transformedArgument
 import com.g.pocketmal.ui.common.ErrorMessageView
 import com.g.pocketmal.ui.common.ErrorMessageWithRetryView
-import com.g.pocketmal.ui.common.InListStatusLabel
+import com.g.pocketmal.ui.common.inliststatus.InListStatusLabel
 import com.g.pocketmal.ui.common.LoadingView
 import com.g.pocketmal.ui.common.SmallDetailsRow
+import com.g.pocketmal.ui.common.innerShadow
 import com.g.pocketmal.ui.legacy.SkeletonActivity
 import com.g.pocketmal.ui.legacy.TitleDetailsActivity
 import com.g.pocketmal.ui.search.presentation.SearchResultViewEntity
@@ -112,11 +119,11 @@ private fun SearchContent(
 ) {
     val searchState by viewModel.searchState.collectAsState()
     SearchScreen(
-        titleType = titleType,
+        type = titleType,
         searchState = searchState,
         onBackPressed = onBackPressed,
-        onSearchPressed = { query ->
-            viewModel.search(query, titleType)
+        onSearchPressed = { query, type ->
+            viewModel.search(query, type)
         },
         onSearchItemClick = onSearchItemClick,
     )
@@ -125,19 +132,18 @@ private fun SearchContent(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun SearchScreen(
-    titleType: TitleType,
+    type: TitleType,
     searchState: SearchState,
-    onSearchPressed: (String) -> Unit,
+    onSearchPressed: (String, TitleType) -> Unit,
     onBackPressed: () -> Unit,
     onSearchItemClick: (Int) -> Unit,
 ) {
+    var titleType by remember {       mutableStateOf(type) }
+
     Scaffold(
         topBar = {
             TopAppBar(
-                title = {
-                    val title = if (titleType == TitleType.ANIME) "Anime Search" else "Manga Search"
-                    Text(title)
-                },
+                title = { Text("Search") },
                 colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
                     containerColor = MaterialTheme.colorScheme.primary,
                     titleContentColor = MaterialTheme.colorScheme.onPrimary
@@ -178,7 +184,7 @@ private fun SearchScreen(
                     is SearchState.FailedToLoad ->
                         ErrorMessageWithRetryView(
                             message = searchState.errorMessage,
-                            onRetryClicked = { onSearchPressed(query) },
+                            onRetryClicked = { onSearchPressed(query.trim(), titleType) },
                         )
 
                     is SearchState.IncorrectInput ->
@@ -207,7 +213,7 @@ private fun SearchScreen(
                         onQueryChange = { query = it },
                         onSearch = {
                             keyboardController?.hide()
-                            onSearchPressed(it.trim())
+                            onSearchPressed(it.trim(), titleType)
                         },
                         expanded = false,
                         onExpandedChange = { },
@@ -220,15 +226,26 @@ private fun SearchScreen(
                             )
                         },
                         trailingIcon = {
-                            if (query.isNotEmpty()) {
-                                IconButton(
-                                    onClick = { query = "" },
-                                ) {
-                                    Icon(
-                                        Icons.Default.Close,
-                                        tint = MaterialTheme.colorScheme.secondary,
-                                        contentDescription = "Clear search field button",
-                                    )
+                            Row(
+                                verticalAlignment = Alignment.CenterVertically,
+                            ) {
+                                TitleTypeSwitch(
+                                    titleType = titleType,
+                                    onTypeChanged = { type ->
+                                        titleType = type
+                                    },
+                                )
+                                Spacer(modifier = Modifier.width(12.dp))
+                                if (query.isNotEmpty()) {
+                                    IconButton(
+                                        onClick = { query = "" },
+                                    ) {
+                                        Icon(
+                                            Icons.Default.Close,
+                                            tint = MaterialTheme.colorScheme.secondary,
+                                            contentDescription = "Clear search field button",
+                                        )
+                                    }
                                 }
                             }
                         }
@@ -285,7 +302,7 @@ private fun SearchResultItem(
                         .width(103.dp),
                     model = searchResultItem.poster,
                     contentScale = ContentScale.Crop,
-                    contentDescription = null,
+                    contentDescription = "Title poster",
                 )
                 Column(
                     modifier = Modifier
@@ -331,6 +348,81 @@ private fun SearchResultItem(
                     overflow = TextOverflow.Ellipsis,
                 )
             }
+        }
+    }
+}
+
+@Composable
+private fun TitleTypeSwitch(
+    titleType: TitleType,
+    onTypeChanged: (TitleType) -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    Box(
+        modifier = modifier
+            .size(64.dp, 36.dp)
+            .clip(RoundedCornerShape(8.dp))
+            .background(MaterialTheme.colorScheme.tertiaryContainer)
+            .clickable {
+                onTypeChanged(
+                    if (titleType.isAnime()) MANGA else ANIME
+                )
+            }
+    ) {
+        if (titleType == ANIME) {
+            Box(
+                modifier = Modifier
+                    .size(64.dp, 16.dp)
+                    .clip(RoundedCornerShape(8.dp))
+                    .shadow(elevation = 4.dp)
+                    .background(MaterialTheme.colorScheme.primary),
+            )
+            Box(
+                modifier = Modifier
+                    .size(64.dp, 56.dp)
+                    .innerShadow(
+                        shape = RoundedCornerShape(bottomStart = 8.dp, bottomEnd = 8.dp),
+                        color = Color.Black.copy(alpha = .75f),
+                    )
+                    .padding(bottom = 2.dp)
+                    .align(Alignment.BottomCenter),
+                contentAlignment = Alignment.BottomCenter,
+            ) {
+                Text(
+                    text = "ANIME",
+                    style = MaterialTheme.typography.labelSmall.copy(
+                        color = MaterialTheme.colorScheme.onTertiaryContainer,
+                        fontWeight = FontWeight.SemiBold,
+                    ),
+                )
+            }
+        } else {
+            Box(
+                modifier = Modifier
+                    .size(64.dp, 56.dp)
+                    .innerShadow(
+                        shape = RoundedCornerShape(topStart = 8.dp, topEnd = 8.dp),
+                        color = Color.Black.copy(alpha = .75f),
+                    )
+                    .padding(top = 2.dp),
+                contentAlignment = Alignment.TopCenter,
+            ) {
+                Text(
+                    text = "MANGA",
+                    style = MaterialTheme.typography.labelSmall.copy(
+                        color = MaterialTheme.colorScheme.onTertiaryContainer,
+                        fontWeight = FontWeight.SemiBold,
+                    ),
+                )
+            }
+            Box(
+                modifier = Modifier
+                    .size(64.dp, 16.dp)
+                    .clip(RoundedCornerShape(8.dp))
+                    .shadow(elevation = 4.dp)
+                    .background(MaterialTheme.colorScheme.primary)
+                    .align(Alignment.BottomCenter),
+            )
         }
     }
 }

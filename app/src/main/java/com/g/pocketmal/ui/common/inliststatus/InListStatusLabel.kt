@@ -1,4 +1,4 @@
-package com.g.pocketmal.ui.common
+package com.g.pocketmal.ui.common.inliststatus
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -13,6 +13,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.g.pocketmal.ui.common.innerShadow
 
 @Composable
 fun InListStatusLabel(
