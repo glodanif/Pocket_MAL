@@ -57,6 +57,7 @@ import com.g.pocketmal.data.util.TitleType
 import com.g.pocketmal.transformedArgument
 import com.g.pocketmal.ui.common.ErrorMessageView
 import com.g.pocketmal.ui.common.ErrorMessageWithRetryView
+import com.g.pocketmal.ui.common.InListStatusLabel
 import com.g.pocketmal.ui.common.LoadingView
 import com.g.pocketmal.ui.common.SmallDetailsRow
 import com.g.pocketmal.ui.legacy.SkeletonActivity
@@ -289,8 +290,9 @@ private fun SearchResultItem(
                 Column(
                     modifier = Modifier
                         .fillMaxSize()
-                        .padding(horizontal = 16.dp, vertical = 8.dp),
+                        .padding(start = 16.dp, end = 16.dp, bottom = 8.dp),
                 ) {
+                    Spacer(modifier = Modifier.height(8.dp))
                     Text(
                         text = searchResultItem.title,
                         style = MaterialTheme.typography.titleMedium
@@ -305,13 +307,22 @@ private fun SearchResultItem(
                     )
                 }
             }
-            if (searchResultItem.synopsis.isNotEmpty()) {
-                Box(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(1.dp)
-                        .background(MaterialTheme.colorScheme.outline),
+            val inMyListStatus = searchResultItem.inListStatus
+            if (inMyListStatus.isInMyList) {
+                InListStatusLabel(
+                    status = inMyListStatus.statusLabel,
+                    color = inMyListStatus.color,
                 )
+            }
+            if (searchResultItem.synopsis.isNotEmpty()) {
+                if (!inMyListStatus.isInMyList) {
+                    Box(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(1.dp)
+                            .background(MaterialTheme.colorScheme.outline),
+                    )
+                }
                 Text(
                     modifier = Modifier.padding(8.dp),
                     text = searchResultItem.synopsis,

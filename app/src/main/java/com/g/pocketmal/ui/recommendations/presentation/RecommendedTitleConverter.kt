@@ -4,9 +4,13 @@ import android.content.Context
 import com.g.pocketmal.R
 import com.g.pocketmal.data.util.TitleType
 import com.g.pocketmal.domain.entity.RecommendationEntity
+import com.g.pocketmal.ui.common.InListStatusConverter
 import com.g.pocketmal.util.list.DataInterpreter
 
-class RecommendedTitleConverter(private val context: Context) {
+class RecommendedTitleConverter(
+    private val context: Context,
+    private val statusConverter: InListStatusConverter,
+) {
 
     fun transform(title: RecommendationEntity, titleType: TitleType): RecommendedTitleViewEntity {
 
@@ -33,6 +37,8 @@ class RecommendedTitleConverter(private val context: Context) {
             else -> "$mediaType • $episodesLabel"
         }
 
+        val inListStatus = statusConverter.transform(title.myListStatus, title.myScore, titleType)
+
         return RecommendedTitleViewEntity(
             title.id,
             title.title,
@@ -40,6 +46,7 @@ class RecommendedTitleConverter(private val context: Context) {
             numRecommendations,
             details,
             score,
+            inListStatus,
         )
     }
 

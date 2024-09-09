@@ -178,9 +178,11 @@ class MalApiService(sessionManager: SessionManager, private val oAuthConfig: OAu
         return apiService.getSeasonalAnime(year, partOfYear.season, includeNsfw)
     }
 
-    override suspend fun getRecommendations(id: Int, type: TitleType): Response<RecommendationsResponse> {
-        val typeConst = if (type == ANIME) "anime" else "manga"
-        val url = MalApi.API_BASE_URL + typeConst + "/" + id + "?fields=recommendations{mean,media_type,num_episodes,num_chapters}"
-        return apiService.getRecommendations(url)
+    override suspend fun getRecommendations(
+        id: Int,
+        type: TitleType
+    ): Response<RecommendationsResponse> {
+        val typePath = if (type == ANIME) "anime" else "manga"
+        return apiService.getRecommendations(typePath, id)
     }
 }

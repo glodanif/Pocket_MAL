@@ -1,6 +1,7 @@
 package com.g.pocketmal.di
 
 import android.content.Context
+import com.g.pocketmal.ui.common.InListStatusConverter
 import com.g.pocketmal.ui.editdetails.presentation.RecordExtraDetailsConverter
 import com.g.pocketmal.ui.recommendations.presentation.RecommendedTitleConverter
 import com.g.pocketmal.ui.search.presentation.SearchResultConverter
@@ -17,15 +18,23 @@ object PresentationModule {
 
     @Singleton
     @Provides
-    fun providesRecommendationsConverter(@ApplicationContext context: Context) =
-        RecommendedTitleConverter(context)
+    fun providesRecommendationsConverter(
+        @ApplicationContext context: Context,
+        converter: InListStatusConverter,
+    ) = RecommendedTitleConverter(context, converter)
 
     @Singleton
     @Provides
-    fun providesSearchConverter(@ApplicationContext context: Context) =
-        SearchResultConverter(context)
+    fun providesSearchConverter(
+        @ApplicationContext context: Context,
+        converter: InListStatusConverter,
+    ) = SearchResultConverter(context, converter)
 
     @Singleton
     @Provides
     fun providesRecordExtraDetailsConverter() = RecordExtraDetailsConverter()
+
+    @Singleton
+    @Provides
+    fun providesInListStatusConverter() = InListStatusConverter()
 }

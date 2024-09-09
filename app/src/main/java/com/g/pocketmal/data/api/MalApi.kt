@@ -50,9 +50,10 @@ interface MalApi {
             @Path("id") titleId: Int
     ): Response<TitleDetailsResponse>
 
-    @GET
+    @GET("{type}/{id}?fields=recommendations{mean,media_type,num_episodes,num_chapters,my_list_status}")
     suspend fun getRecommendations(
-            @Url url: String
+        @Path("type") type: String,
+        @Path("id") titleId: Int
     ): Response<RecommendationsResponse>
 
     @GET("users/{userId}")
@@ -114,7 +115,7 @@ interface MalApi {
             @Query("nsfw") nsfw: Boolean
     ): Response<SeasonResponse>
 
-    @GET("{type}?fields=alternative_titles,mean,nsfw,media_type,num_episodes,num_chapters,num_volumes,synopsis&limit=100")
+    @GET("{type}?fields=alternative_titles,mean,nsfw,media_type,num_episodes,num_chapters,num_volumes,synopsis,my_list_status&limit=100")
     suspend fun search(
             @Path("type") type: String,
             @Query("nsfw") nsfw: Boolean,

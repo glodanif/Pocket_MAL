@@ -1,5 +1,7 @@
 package com.g.pocketmal.domain.entity
 
+import com.g.pocketmal.domain.InListStatus
+
 class SearchEntity(
         val id: Int,
         val title: String,
@@ -9,5 +11,7 @@ class SearchEntity(
         val chapters: Int,
         val synopsis: String?,
         val score: Float?,
-        val nsfw: String?
+        val nsfw: String?,
+        val myListStatus: InListStatus,
+        val myScore: Int?,
 )

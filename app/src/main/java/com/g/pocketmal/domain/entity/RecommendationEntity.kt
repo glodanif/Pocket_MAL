@@ -1,5 +1,7 @@
 package com.g.pocketmal.domain.entity
 
+import com.g.pocketmal.domain.InListStatus
+
 data class RecommendationEntity(
     val id: Int,
     val title: String,
@@ -7,5 +9,7 @@ data class RecommendationEntity(
     val numRecommendations: Int,
     val score: Float?,
     val mediaType: String,
-    val episodes: Int
+    val episodes: Int,
+    val myListStatus: InListStatus,
+    val myScore: Int?,
 )

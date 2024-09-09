@@ -62,5 +62,4 @@ val viewConverterModule = module {
     single { SeasonalAnimeConverter() }
     single { SeasonalSectionConverter(get()) }
     single { TitleDetailsConverter(androidContext()) }
-    single { SearchResultConverter(androidContext()) }
 }

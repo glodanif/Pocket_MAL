@@ -2,6 +2,7 @@ package com.g.pocketmal.data.converter
 
 import com.g.pocketmal.data.api.response.RecommendationsResponse
 import com.g.pocketmal.data.util.TitleType
+import com.g.pocketmal.domain.InListStatus
 import com.g.pocketmal.domain.entity.RecommendationEntity
 
 class RecommendationEntityConverter {
@@ -15,7 +16,7 @@ class RecommendationEntityConverter {
 
             val episodes = if (titleType == TitleType.ANIME)
                 title.node.numEpisodes else title.node.numChapters
-
+            val inListStatus = InListStatus.parse(title.node.listStatus?.status)
             RecommendationEntity(
                 title.node.id,
                 title.node.title,
@@ -23,7 +24,9 @@ class RecommendationEntityConverter {
                 title.numRecommendations,
                 title.node.mean,
                 title.node.mediaType,
-                episodes
+                episodes,
+                inListStatus,
+                title.node.listStatus?.score,
             )
         }
     }

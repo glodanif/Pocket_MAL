@@ -52,6 +52,7 @@ import com.g.pocketmal.data.util.TitleType
 import com.g.pocketmal.transformedArgument
 import com.g.pocketmal.ui.common.ErrorMessageView
 import com.g.pocketmal.ui.common.ErrorMessageWithRetryView
+import com.g.pocketmal.ui.common.InListStatusLabel
 import com.g.pocketmal.ui.common.LoadingView
 import com.g.pocketmal.ui.legacy.SkeletonActivity
 import com.g.pocketmal.ui.legacy.TitleDetailsActivity
@@ -211,7 +212,6 @@ private fun RecommendationItem(
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .height(128.dp)
             .shadow(
                 elevation = 8.dp,
                 shape = CardDefaults.shape,
@@ -219,37 +219,49 @@ private fun RecommendationItem(
             ),
         onClick = { onClick(recommendation.id) }
     ) {
-        Row(
-            modifier = Modifier.fillMaxSize()
+        Column(
+            modifier = Modifier.fillMaxWidth()
         ) {
-            AsyncImage(
-                modifier = Modifier
-                    .fillMaxHeight()
-                    .width(88.dp),
-                model = recommendation.poster,
-                contentScale = ContentScale.Crop,
-                contentDescription = null,
-            )
-            Column(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(horizontal = 16.dp, vertical = 8.dp),
+            Row(
+                modifier = Modifier.fillMaxWidth()
             ) {
-                Text(
-                    text = recommendation.title,
-                    style = MaterialTheme.typography.titleMedium
-                        .copy(fontWeight = FontWeight.SemiBold),
-                    maxLines = 2,
-                    overflow = TextOverflow.Ellipsis,
+                AsyncImage(
+                    modifier = Modifier
+                        .fillMaxHeight()
+                        .height(128.dp)
+                        .width(88.dp),
+                    model = recommendation.poster,
+                    contentScale = ContentScale.Crop,
+                    contentDescription = null,
                 )
-                Text(
-                    text = recommendation.recommendationsCount,
-                    style = MaterialTheme.typography.labelSmall
-                )
-                Spacer(modifier = Modifier.height(4.dp))
-                SmallDetailsRow(
-                    score = recommendation.score,
-                    details = recommendation.details,
+                Column(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(horizontal = 16.dp, vertical = 8.dp),
+                ) {
+                    Text(
+                        text = recommendation.title,
+                        style = MaterialTheme.typography.titleMedium
+                            .copy(fontWeight = FontWeight.SemiBold),
+                        maxLines = 2,
+                        overflow = TextOverflow.Ellipsis,
+                    )
+                    Text(
+                        text = recommendation.recommendationsCount,
+                        style = MaterialTheme.typography.labelSmall
+                    )
+                    Spacer(modifier = Modifier.height(4.dp))
+                    SmallDetailsRow(
+                        score = recommendation.score,
+                        details = recommendation.details,
+                    )
+                }
+            }
+            val inMyListStatus = recommendation.inListStatus
+            if (inMyListStatus.isInMyList) {
+                InListStatusLabel(
+                    status = inMyListStatus.statusLabel,
+                    color = inMyListStatus.color,
                 )
             }
         }

@@ -40,6 +40,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
+import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TextField
@@ -387,26 +388,21 @@ private fun ReSection(
 ) {
     var isRe by remember { mutableStateOf(record.isRe) }
 
-    val titleText = if (record.titleType == TitleType.ANIME) "Rewatching" else "Rereading"
-    Text(
-        text = titleText,
-        style = MaterialTheme.typography.titleMedium
-    )
-    Spacer(modifier = Modifier.height(4.dp))
     Row(
         modifier = Modifier.fillMaxWidth(),
-        verticalAlignment = Alignment.CenterVertically,
     ) {
-        Checkbox(
+        Text(
+            modifier = Modifier.weight(1f),
+            text = if (record.titleType == TitleType.ANIME) "Rewatching" else "Rereading",
+            style = MaterialTheme.typography.titleMedium
+        )
+        Spacer(modifier = Modifier.height(12.dp))
+        Switch(
             checked = isRe,
             onCheckedChange = { checked ->
                 isRe = checked
                 onReChanged(checked)
             },
-        )
-        Text(
-            text = titleText,
-            style = MaterialTheme.typography.labelLarge,
         )
     }
 }

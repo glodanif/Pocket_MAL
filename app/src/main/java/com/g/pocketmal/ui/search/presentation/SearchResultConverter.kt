@@ -4,9 +4,13 @@ import android.content.Context
 import com.g.pocketmal.R
 import com.g.pocketmal.data.util.TitleType
 import com.g.pocketmal.domain.entity.SearchEntity
+import com.g.pocketmal.ui.common.InListStatusConverter
 import com.g.pocketmal.util.list.DataInterpreter
 
-class SearchResultConverter(private val context: Context) {
+class SearchResultConverter(
+    private val context: Context,
+    private val statusConverter: InListStatusConverter,
+) {
 
     fun transform(item: SearchEntity, titleType: TitleType): SearchResultViewEntity {
 
@@ -28,6 +32,8 @@ class SearchResultConverter(private val context: Context) {
 
         val synopsis = item.synopsis ?: context.getString(R.string.emptySynopsis)
 
+        val inListStatus = statusConverter.transform(item.myListStatus, item.myScore, titleType)
+
         return SearchResultViewEntity(
             item.id,
             item.title,
@@ -35,6 +41,7 @@ class SearchResultConverter(private val context: Context) {
             item.picture,
             synopsis,
             details,
+            inListStatus,
         )
     }
 

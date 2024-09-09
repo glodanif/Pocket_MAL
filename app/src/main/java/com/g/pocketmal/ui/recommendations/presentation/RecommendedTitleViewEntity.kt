@@ -1,5 +1,7 @@
 package com.g.pocketmal.ui.recommendations.presentation
 
+import com.g.pocketmal.ui.common.InListStatusViewEntity
+
 class RecommendedTitleViewEntity(
         val id: Int,
         val title: String,
@@ -7,4 +9,5 @@ class RecommendedTitleViewEntity(
         val recommendationsCount: String,
         val details: String,
         val score: String,
+        val inListStatus: InListStatusViewEntity,
 )

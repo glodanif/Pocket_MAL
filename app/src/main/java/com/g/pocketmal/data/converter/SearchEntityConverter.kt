@@ -1,7 +1,7 @@
 package com.g.pocketmal.data.converter
 
 import com.g.pocketmal.data.api.response.SearchResponse
-import com.g.pocketmal.data.api.response.SearchedTitle
+import com.g.pocketmal.domain.InListStatus
 import com.g.pocketmal.domain.entity.SearchEntity
 
 class SearchEntityConverter {
@@ -12,19 +12,21 @@ class SearchEntityConverter {
 
             val node = title.node
             val english = node.alternativeTitles?.english
-            val titleLabel = if (useEnglishTitle && english != null && english.isNotEmpty())
+            val titleLabel = if (useEnglishTitle && !english.isNullOrEmpty())
                 english else node.title
-
+            val inListStatus = InListStatus.parse(node.listStatus?.status)
             SearchEntity(
-                    node.id,
-                    titleLabel,
-                    node.picture?.large,
-                    node.mediaType,
-                    node.episodes,
-                    node.chapters,
-                    node.synopsis,
-                    node.score,
-                    node.nsfw
+                node.id,
+                titleLabel,
+                node.picture?.large,
+                node.mediaType,
+                node.episodes,
+                node.chapters,
+                node.synopsis,
+                node.score,
+                node.nsfw,
+                inListStatus,
+                node.listStatus?.score,
             )
         }
     }

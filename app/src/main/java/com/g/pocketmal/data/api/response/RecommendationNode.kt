@@ -13,5 +13,7 @@ data class RecommendationNode(
     @SerializedName("num_episodes")
     val numEpisodes: Int,
     @SerializedName("num_chapters")
-    val numChapters: Int
+    val numChapters: Int,
+    @SerializedName("my_list_status")
+    val listStatus: ListStatus?,
 )
