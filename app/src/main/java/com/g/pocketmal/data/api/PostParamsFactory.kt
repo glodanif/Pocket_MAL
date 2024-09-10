@@ -5,9 +5,9 @@ import com.g.pocketmal.data.util.TitleType
 
 object PostParamsFactory {
 
-    fun getParamsFromUpdateData(params: UpdateParams, titleType: TitleType): HashMap<String, Any?> {
+    fun getParamsFromUpdateData(params: UpdateParams, titleType: TitleType): HashMap<String, Any> {
 
-        val paramsMap = HashMap<String, Any?>()
+        val paramsMap = HashMap<String, Any>()
 
         params.episodes?.let {
             paramsMap["num_watched_episodes"] = it

@@ -49,14 +49,10 @@ class MalApiService(sessionManager: SessionManager, private val oAuthConfig: OAu
             builder.addInterceptor(interceptor)
         }
 
-        val gson = GsonBuilder()
-            .serializeNulls()
-            .create()
-
         val retrofit = Retrofit.Builder()
             .baseUrl(MalApi.API_BASE_URL)
             .addConverterFactory(ScalarsConverterFactory.create())
-            .addConverterFactory(GsonConverterFactory.create(gson))
+            .addConverterFactory(GsonConverterFactory.create())
             .client(builder.build())
             .build()
 
@@ -137,7 +133,7 @@ class MalApiService(sessionManager: SessionManager, private val oAuthConfig: OAu
 
     override suspend fun updateTitle(
         id: Int,
-        params: HashMap<String, Any?>,
+        params: HashMap<String, Any>,
         type: TitleType
     ): Response<ListStatus> {
         return if (type == ANIME) {

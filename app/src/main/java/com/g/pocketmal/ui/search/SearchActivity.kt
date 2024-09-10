@@ -138,7 +138,7 @@ private fun SearchScreen(
     onBackPressed: () -> Unit,
     onSearchItemClick: (Int) -> Unit,
 ) {
-    var titleType by remember {       mutableStateOf(type) }
+    var titleType by remember { mutableStateOf(type) }
 
     Scaffold(
         topBar = {
