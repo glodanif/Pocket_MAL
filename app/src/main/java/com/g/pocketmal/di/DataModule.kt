@@ -17,10 +17,12 @@ import com.g.pocketmal.data.repository.RecommendationsRepository
 import com.g.pocketmal.data.repository.SearchRepository
 import com.g.pocketmal.data.converter.RecommendationEntityConverter
 import com.g.pocketmal.data.converter.SearchEntityConverter
+import com.g.pocketmal.data.converter.SeasonEntityConverter
 import com.g.pocketmal.data.database.ListDbStorage
 import com.g.pocketmal.data.database.datasource.RecordDataSource
 import com.g.pocketmal.data.database.datasource.RecordDataSourceImpl
 import com.g.pocketmal.data.repository.RecordRepository
+import com.g.pocketmal.data.repository.SeasonalRepository
 import com.google.gson.Gson
 import dagger.Module
 import dagger.Provides
@@ -140,5 +142,15 @@ object DataModule {
         converter: ListRecordEntityConverter,
     ): RecordRepository {
         return RecordRepository(recordStorage, converter)
+    }
+
+    @Singleton
+    @Provides
+    fun providesSeasonalRepository(
+        apiService: ApiService,
+        converter: SeasonEntityConverter,
+        mainSettings: MainSettings,
+    ): SeasonalRepository {
+        return SeasonalRepository(apiService, converter, mainSettings)
     }
 }

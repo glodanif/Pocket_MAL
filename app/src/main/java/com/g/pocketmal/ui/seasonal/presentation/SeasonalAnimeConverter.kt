@@ -1,0 +1,71 @@
+package com.g.pocketmal.ui.seasonal.presentation
+
+import android.text.Html
+import android.text.Spannable
+import android.text.SpannableString
+import android.text.TextUtils
+import android.text.style.RelativeSizeSpan
+import com.g.pocketmal.data.util.TitleType
+import com.g.pocketmal.domain.entity.SeasonEntity
+import com.g.pocketmal.ui.common.inliststatus.InListStatusConverter
+import java.text.DecimalFormat
+
+class SeasonalAnimeConverter(
+    private val statusConverter: InListStatusConverter,
+) {
+
+    private val membersFormatter = DecimalFormat("#,###,###")
+
+    fun transform(item: SeasonEntity): SeasonalAnimeViewEntity {
+
+        val broadcast = item.broadcast
+        val day = if (broadcast == null)
+            "?" else
+            broadcast.dayOfTheWeek.substring(0, 1).uppercase() + broadcast.dayOfTheWeek.substring(1)
+        val time = if (broadcast?.startTime != null) broadcast.startTime else null
+        val genres = item.genres.map { it.name }
+        val genresLabel = TextUtils.join(", ", genres)
+        val source = when (item.source) {
+            "other" -> "Other"
+            "original" -> "Original"
+            "manga" -> "Manga"
+            "4_koma_manga" -> "4 Koma Manga"
+            "web_manga" -> "Web Manga"
+            "digital_manga" -> "Digital Manga"
+            "novel" -> "Novel"
+            "light_novel" -> "Light Novel"
+            "visual_novel" -> "Visual Novel"
+            "game" -> "Game"
+            "card_game" -> "Card Game"
+            "book" -> "Book"
+            "picture_book" -> "Picture Book"
+            "radio" -> "Radio"
+            "music" -> "Music"
+            else -> null
+        }
+
+        val episodes = if (item.episodes == 0) null else "${item.episodes} eps"
+        val studio = if (!item.studios.isNullOrEmpty()) item.studios[0].name else null
+
+        val inListStatus =
+            statusConverter.transform(item.myListStatus, item.myScore, TitleType.ANIME)
+
+        return SeasonalAnimeViewEntity(
+            id = item.id,
+            title = item.title,
+            poster = item.picture?.large,
+            source = source,
+            studio = studio,
+            genres = genresLabel,
+            synopsis = Html.fromHtml(item.synopsis).toString(),
+            airing = "$episodes • $day ($time)",
+            members = membersFormatter.format(item.listUsers),
+            score = if (item.score != null) item.score.toString() else "—",
+            inListStatus = inListStatus,
+        )
+    }
+
+    fun transform(items: List<SeasonEntity>): List<SeasonalAnimeViewEntity> {
+        return items.map { transform(it) }
+    }
+}

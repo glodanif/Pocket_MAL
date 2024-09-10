@@ -5,6 +5,7 @@ import com.g.pocketmal.data.common.Broadcast
 import com.g.pocketmal.data.common.Company
 import com.g.pocketmal.data.common.Genre
 import com.g.pocketmal.data.common.StartSeason
+import com.g.pocketmal.domain.InListStatus
 
 data class SeasonEntity(
         val id: Int,
@@ -21,5 +22,7 @@ data class SeasonEntity(
         val nsfw: String?,
         val startSeason: StartSeason?,
         val startDate: String?,
-        val studios: List<Company>?
+        val studios: List<Company>?,
+        val myListStatus: InListStatus,
+        val myScore: Int?,
 )

@@ -5,6 +5,8 @@ import com.g.pocketmal.ui.common.inliststatus.InListStatusConverter
 import com.g.pocketmal.ui.editdetails.presentation.RecordExtraDetailsConverter
 import com.g.pocketmal.ui.recommendations.presentation.RecommendedTitleConverter
 import com.g.pocketmal.ui.search.presentation.SearchResultConverter
+import com.g.pocketmal.ui.seasonal.presentation.SeasonalAnimeConverter
+import com.g.pocketmal.ui.seasonal.presentation.SeasonalSectionConverter
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -37,4 +39,15 @@ object PresentationModule {
     @Singleton
     @Provides
     fun providesInListStatusConverter() = InListStatusConverter()
+
+    @Singleton
+    @Provides
+    fun providesSeasonalAnimeConverter(
+        converter: InListStatusConverter,
+    ) = SeasonalAnimeConverter(converter)
+
+    @Singleton
+    @Provides
+    fun providesSeasonalSectionConverter(converter: SeasonalAnimeConverter) =
+        SeasonalSectionConverter(converter)
 }

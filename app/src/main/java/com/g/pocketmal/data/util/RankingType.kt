@@ -12,6 +12,6 @@ enum class RankingType(val type: Int) {
     FAVORITE(8);
 
     companion object {
-        fun from(findValue: Int) = values().first { it.type == findValue }
+        fun from(findValue: Int) = entries.first { it.type == findValue }
     }
 }

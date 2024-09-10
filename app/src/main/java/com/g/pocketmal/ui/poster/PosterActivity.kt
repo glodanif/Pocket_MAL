@@ -117,7 +117,9 @@ class PosterActivity : SkeletonActivity() {
         val posterUri = Uri.parse(posterUrl)
         manager.enqueue(
             DownloadManager.Request(posterUri)
-                .setAllowedNetworkTypes(DownloadManager.Request.NETWORK_WIFI or DownloadManager.Request.NETWORK_MOBILE)
+                .setAllowedNetworkTypes(
+                    DownloadManager.Request.NETWORK_WIFI or DownloadManager.Request.NETWORK_MOBILE
+                )
                 .setAllowedOverRoaming(false)
                 .setTitle(getString(R.string.poster__downloading_title))
                 .setDescription(getString(R.string.poster__downloading_description))
@@ -152,7 +154,7 @@ private fun PosterContent(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Image") },
+                title = { Text("Poster") },
                 colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
                     containerColor = MaterialTheme.colorScheme.primary,
                     titleContentColor = MaterialTheme.colorScheme.onPrimary

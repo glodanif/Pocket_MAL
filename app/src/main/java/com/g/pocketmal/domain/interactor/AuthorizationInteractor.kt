@@ -2,11 +2,8 @@ package com.g.pocketmal.domain.interactor
 
 import com.g.pocketmal.data.api.ApiService
 import com.g.pocketmal.data.api.NetworkException
-import com.g.pocketmal.data.api.response.ErrorResponse
-import com.g.pocketmal.data.keyvalue.SessionManager
 import com.g.pocketmal.data.converter.LoginEntityConverter
-import com.g.pocketmal.domain.exception.NotApprovedTitleException
-import com.google.gson.Gson
+import com.g.pocketmal.data.keyvalue.SessionManager
 
 class AuthorizationInteractor(
         private val apiService: ApiService,

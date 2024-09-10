@@ -12,7 +12,6 @@ import org.koin.dsl.module
 val interactorModule = module {
     factory { LoadListFromNetworkInteractor(get(), get(), get(), get(), get()) }
     factory { LogoutInteractor(get(), get(), get(), get(), get()) }
-    factory { GetSeasonalAnimeInteractor(get(), get(), get()) }
     factory { AuthorizationInteractor(get(), get(), get()) }
     factory { LoadLoginPageInteractor(get(), get(), get(), get()) }
     factory { GetUserProfileInteractor(get(), get(), get(), get()) }

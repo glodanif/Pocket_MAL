@@ -3,6 +3,7 @@ package com.g.pocketmal.di
 import com.g.pocketmal.data.converter.ListRecordEntityConverter
 import com.g.pocketmal.data.converter.RecommendationEntityConverter
 import com.g.pocketmal.data.converter.SearchEntityConverter
+import com.g.pocketmal.data.converter.SeasonEntityConverter
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -24,4 +25,8 @@ object DataConverterModule {
     @Singleton
     @Provides
     fun providesRecordConverter() = ListRecordEntityConverter()
+
+    @Singleton
+    @Provides
+    fun providesSeasonalConverter() = SeasonEntityConverter()
 }

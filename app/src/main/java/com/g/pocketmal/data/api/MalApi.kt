@@ -108,7 +108,7 @@ interface MalApi {
 
     @GET("anime/season/{year}/{season}?limit=500&sort=anime_num_list_users&" +
             "fields=mean,media_type,num_episodes,broadcast,source,genres," +
-            "synopsis,num_list_users,nsfw,start_season,start_date,studios,alternative_titles")
+            "synopsis,num_list_users,nsfw,start_season,start_date,studios,alternative_titles,my_list_status")
     suspend fun getSeasonalAnime(
             @Path("year") year: Int,
             @Path("season") season: String,

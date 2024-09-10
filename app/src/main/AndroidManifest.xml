@@ -116,7 +116,7 @@
             android:windowSoftInputMode="stateHidden" />
 
         <activity
-            android:name=".ui.legacy.SeasonalActivity"
+            android:name=".ui.seasonal.SeasonalActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:label="@string/seasonal__title"
             android:theme="@style/Theme.Mal" />

@@ -17,7 +17,7 @@ import com.g.pocketmal.loadUrl
 import com.g.pocketmal.ui.legacy.BrowseActivity
 import com.g.pocketmal.ui.legacy.ListActivity
 import com.g.pocketmal.ui.legacy.RankedActivity
-import com.g.pocketmal.ui.legacy.SeasonalActivity
+import com.g.pocketmal.ui.seasonal.SeasonalActivity
 import com.g.pocketmal.ui.legacy.UserProfileActivity
 import com.g.pocketmal.ui.utils.CircleTransform
 import com.g.pocketmal.ui.utils.CollapseAnimator
