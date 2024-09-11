@@ -50,6 +50,7 @@ import com.g.pocketmal.ui.common.ErrorMessageView
 import com.g.pocketmal.ui.common.ErrorMessageWithRetryView
 import com.g.pocketmal.ui.common.inliststatus.InListStatusLabel
 import com.g.pocketmal.ui.common.LoadingView
+import com.g.pocketmal.ui.common.Poster
 import com.g.pocketmal.ui.legacy.SkeletonActivity
 import com.g.pocketmal.ui.legacy.TitleDetailsActivity
 import com.g.pocketmal.ui.recommendations.presentation.RecommendationsState
@@ -221,14 +222,11 @@ private fun RecommendationItem(
             Row(
                 modifier = Modifier.fillMaxWidth()
             ) {
-                AsyncImage(
+                Poster(
+                    url = recommendation.poster,
                     modifier = Modifier
-                        .fillMaxHeight()
                         .height(128.dp)
                         .width(88.dp),
-                    model = recommendation.poster,
-                    contentScale = ContentScale.Crop,
-                    contentDescription = null,
                 )
                 Column(
                     modifier = Modifier
