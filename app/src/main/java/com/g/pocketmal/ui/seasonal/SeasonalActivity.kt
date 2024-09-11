@@ -5,11 +5,13 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
+import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -26,15 +28,18 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.rounded.People
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FilterChip
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
@@ -48,25 +53,21 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
+import com.g.pocketmal.data.util.PartOfYear
 import com.g.pocketmal.data.util.TitleType
 import com.g.pocketmal.ui.common.ErrorMessageView
 import com.g.pocketmal.ui.common.ErrorMessageWithRetryView
 import com.g.pocketmal.ui.common.LoadingView
 import com.g.pocketmal.ui.common.ScoreLabel
-import com.g.pocketmal.ui.common.SmallDetailsRow
 import com.g.pocketmal.ui.common.inliststatus.InListStatusLabel
 import com.g.pocketmal.ui.legacy.SkeletonActivity
 import com.g.pocketmal.ui.legacy.TitleDetailsActivity
@@ -157,10 +158,24 @@ private fun SeasonalScreen(
                     }
                 },
                 actions = {
-                    Text(
-                        modifier = Modifier.clickable { isSeasonPickerOpened = true },
-                        text = season.year.toString(),
-                    )
+                    Column(
+                        modifier = Modifier
+                            .padding(horizontal = 8.dp)
+                            .clickable { isSeasonPickerOpened = true }
+                            .padding(4.dp),
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                    ) {
+                        Text(
+                            text = season.partOfYear.toString(),
+                            style = MaterialTheme.typography.titleMedium
+                                .copy(color = MaterialTheme.colorScheme.onPrimary),
+                        )
+                        Text(
+                            text = season.year.toString(),
+                            style = MaterialTheme.typography.labelSmall
+                                .copy(color = MaterialTheme.colorScheme.onPrimary),
+                        )
+                    }
                 }
             )
         },
@@ -207,7 +222,7 @@ private fun SeasonalList(
     LazyColumn(
         modifier = Modifier.fillMaxSize(),
         verticalArrangement = Arrangement.spacedBy(16.dp),
-        contentPadding = PaddingValues(16.dp)
+        contentPadding = PaddingValues(bottom = 16.dp)
     ) {
         sections.forEach { (name, content) ->
             stickyHeader {
@@ -226,7 +241,21 @@ private fun SeasonalList(
 
 @Composable
 private fun SeasonalSectionHeader(title: String) {
-    Text(text = title)
+    Surface(
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(54.dp),
+        tonalElevation = 8.dp,
+        shadowElevation = 8.dp,
+    ) {
+        Text(
+            modifier = Modifier
+                .fillMaxHeight()
+                .padding(start = 16.dp, top = 10.dp),
+            text = title,
+            style = MaterialTheme.typography.headlineMedium,
+        )
+    }
 }
 
 @Composable
@@ -236,6 +265,7 @@ private fun SeasonalItem(
 ) {
     Card(
         modifier = Modifier
+            .padding(horizontal = 16.dp)
             .fillMaxWidth()
             .shadow(
                 elevation = 8.dp,
@@ -261,7 +291,8 @@ private fun SeasonalItem(
                 )
                 Column(
                     modifier = Modifier
-                        .fillMaxSize()
+                        .fillMaxWidth()
+                        .height(164.dp)
                         .padding(horizontal = 16.dp, vertical = 8.dp),
                 ) {
                     Text(
@@ -271,24 +302,14 @@ private fun SeasonalItem(
                         maxLines = 2,
                         overflow = TextOverflow.Ellipsis,
                     )
-                    Spacer(modifier = Modifier.height(4.dp))
-                    Text(
-                        modifier = Modifier.fillMaxWidth(),
-                        text = seasonalItem.genres,
-                        style = MaterialTheme.typography.bodySmall.copy(
-                            color = MaterialTheme.colorScheme.secondary,
-                            fontWeight = FontWeight.Bold,
-                        ),
-                        maxLines = 1,
-                        overflow = TextOverflow.Ellipsis,
-                        textAlign = TextAlign.Center,
-                    )
                     Spacer(modifier = Modifier.height(8.dp))
                     Row(
-                        modifier = Modifier.fillMaxWidth()
+                        modifier = Modifier.fillMaxHeight()
                     ) {
                         Column(
-                            modifier = Modifier.weight(1f)
+                            modifier = Modifier
+                                .fillMaxHeight()
+                                .weight(1f)
                         ) {
                             if (seasonalItem.source != null) {
                                 Text(
@@ -302,6 +323,13 @@ private fun SeasonalItem(
                                     style = MaterialTheme.typography.labelSmall,
                                 )
                             }
+                            Spacer(modifier = Modifier.weight(1f))
+                            if (seasonalItem.episodes != null) {
+                                Text(
+                                    text = seasonalItem.episodes,
+                                    style = MaterialTheme.typography.labelSmall,
+                                )
+                            }
                             if (seasonalItem.airing != null) {
                                 Text(
                                     text = seasonalItem.airing,
@@ -309,10 +337,31 @@ private fun SeasonalItem(
                                 )
                             }
                         }
-                        ScoreLabel(
-                            modifier = Modifier.wrapContentWidth(Alignment.End),
-                            score = seasonalItem.score,
-                        )
+                        Column(
+                            modifier = Modifier.fillMaxHeight(),
+                            horizontalAlignment = Alignment.End,
+                        ) {
+                            ScoreLabel(
+                                modifier = Modifier.wrapContentWidth(Alignment.End),
+                                score = seasonalItem.score,
+                            )
+                            Spacer(modifier = Modifier.weight(1f))
+                            Row(
+                                verticalAlignment = Alignment.CenterVertically,
+                            ) {
+                                Icon(
+                                    Icons.Rounded.People,
+                                    contentDescription = "Members number icon",
+                                    modifier = Modifier.size(18.dp),
+                                    tint = MaterialTheme.colorScheme.onSurfaceVariant,
+                                )
+                                Spacer(modifier = Modifier.width(4.dp))
+                                Text(
+                                    text = seasonalItem.members,
+                                    style = MaterialTheme.typography.bodySmall,
+                                )
+                            }
+                        }
                     }
                 }
             }
@@ -323,6 +372,51 @@ private fun SeasonalItem(
                     color = inMyListStatus.color,
                 )
             }
+            if (seasonalItem.synopsis.isNotEmpty() || seasonalItem.genres.isNotEmpty()) {
+                if (!inMyListStatus.isInMyList) {
+                    Box(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(1.dp)
+                            .background(MaterialTheme.colorScheme.outline),
+                    )
+                }
+                Spacer(modifier = Modifier.height(8.dp))
+                GenresRow(seasonalItem.genres)
+                Text(
+                    modifier = Modifier.padding(8.dp),
+                    text = seasonalItem.synopsis,
+                    style = MaterialTheme.typography.bodyMedium,
+                    maxLines = 5,
+                    overflow = TextOverflow.Ellipsis,
+                )
+            }
+        }
+    }
+}
+
+@OptIn(ExperimentalLayoutApi::class)
+@Composable
+private fun GenresRow(
+    genres: List<String>,
+) {
+    FlowRow(
+        modifier = Modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.Center,
+    ) {
+        genres.forEach { genre ->
+            Text(
+                modifier = Modifier
+                    .padding(start = 2.dp, end = 2.dp, top = 4.dp)
+                    .clip(RoundedCornerShape(12.dp))
+                    .background(MaterialTheme.colorScheme.primaryContainer)
+                    .padding(vertical = 2.dp, horizontal = 8.dp),
+                text = genre,
+                style = MaterialTheme.typography.labelSmall.copy(
+                    color = MaterialTheme.colorScheme.onPrimaryContainer,
+                    fontWeight = FontWeight.Bold
+                )
+            )
         }
     }
 }
@@ -353,7 +447,20 @@ private fun SeasonSelectorBottomSheet(
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
 
-            Text(text = selectedSeason.toString())
+            Row(modifier = Modifier.fillMaxWidth()) {
+                PartOfYear.entries.forEach { season ->
+                    FilterChip(
+                        selected = selectedSeason.partOfYear == season,
+                        onClick = {  },
+                        label = {
+                            Text(text = season.season)
+                        },
+                        modifier = Modifier
+                            .weight(1f)
+                            .padding(4.dp) // Add spacing between chips
+                    )
+                }
+            }
 
             Button(onClick = {
                 onApplyClicked(season)

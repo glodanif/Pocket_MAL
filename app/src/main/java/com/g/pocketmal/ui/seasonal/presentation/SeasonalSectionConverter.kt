@@ -7,7 +7,14 @@ import com.g.pocketmal.util.AnimeSeason
 class SeasonalSectionConverter(private val converter: SeasonalAnimeConverter) {
 
     private val sectionsOrder = listOf(
-        "tv (new)", "tv (continuing)", "ona", "ova", "movie", "special", "music", "unknown"
+        "tv (new)",
+        "tv (continuing)",
+        "ona",
+        "ova",
+        "movie",
+        "special",
+        "music",
+        "unknown"
     )
 
     fun transform(
@@ -45,13 +52,14 @@ class SeasonalSectionConverter(private val converter: SeasonalAnimeConverter) {
 
         val sectionsList = ArrayList(sections.values)
         sectionsList.sortWith { item1, item2 ->
-            Integer.valueOf(sectionsOrder.indexOf(item1.title))
-                .compareTo(sectionsOrder.indexOf(item2.title))
+            val index1 = sectionsOrder.indexOf(item1.title).takeIf { it != -1 } ?: Int.MAX_VALUE
+            val index2 = sectionsOrder.indexOf(item2.title).takeIf { it != -1 } ?: Int.MAX_VALUE
+            index1.compareTo(index2)
         }
 
         return sectionsList.map { item ->
             SeasonalSectionViewEntity(
-                item.title,
+                item.title.uppercase(),
                 converter.transform(item.items)
             )
         }

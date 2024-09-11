@@ -19,12 +19,14 @@ class SeasonalAnimeConverter(
     fun transform(item: SeasonEntity): SeasonalAnimeViewEntity {
 
         val broadcast = item.broadcast
-        val day = if (broadcast == null)
-            "?" else
+        val day = if (broadcast != null)
             broadcast.dayOfTheWeek.substring(0, 1).uppercase() + broadcast.dayOfTheWeek.substring(1)
-        val time = if (broadcast?.startTime != null) broadcast.startTime else null
+        else
+            null
+        val time = if (broadcast?.startTime != null) " (${broadcast.startTime})" else null
+        val airing = if (day == null) null else "$day ${time ?: ""}"
+
         val genres = item.genres.map { it.name }
-        val genresLabel = TextUtils.join(", ", genres)
         val source = when (item.source) {
             "other" -> "Other"
             "original" -> "Original"
@@ -44,7 +46,7 @@ class SeasonalAnimeConverter(
             else -> null
         }
 
-        val episodes = if (item.episodes == 0) null else "${item.episodes} eps"
+        val episodes = if (item.episodes == 0) null else "${item.episodes} EPS"
         val studio = if (!item.studios.isNullOrEmpty()) item.studios[0].name else null
 
         val inListStatus =
@@ -56,9 +58,10 @@ class SeasonalAnimeConverter(
             poster = item.picture?.large,
             source = source,
             studio = studio,
-            genres = genresLabel,
+            genres = genres,
+            episodes = episodes,
             synopsis = Html.fromHtml(item.synopsis).toString(),
-            airing = "$episodes • $day ($time)",
+            airing = airing,
             members = membersFormatter.format(item.listUsers),
             score = if (item.score != null) item.score.toString() else "—",
             inListStatus = inListStatus,
