@@ -217,12 +217,12 @@
     <string name="volumesSearchList">Volumes: %s</string>
     <string name="queryIsTooShort">Query must be at least 3 characters long</string>
     <plurals name="shortEpisodes">
-        <item quantity="one">%s EP</item>
-        <item quantity="other">%s EPS</item>
+        <item quantity="one">%s ep</item>
+        <item quantity="other">%s eps</item>
     </plurals>
     <plurals name="shortChapters">
-        <item quantity="one">%s CHAP</item>
-        <item quantity="other">%s CHAPS</item>
+        <item quantity="one">%s chap</item>
+        <item quantity="other">%s chaps</item>
     </plurals>
 
 

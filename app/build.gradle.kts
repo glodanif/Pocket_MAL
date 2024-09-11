@@ -114,9 +114,9 @@ android {
         debugImplementation("androidx.compose.ui:ui-tooling")
         androidTestImplementation("androidx.compose.ui:ui-test-junit4")
         debugImplementation("androidx.compose.ui:ui-test-manifest")
-        implementation("androidx.compose.ui:ui-text-google-fonts:1.7.0")
+        implementation("androidx.compose.ui:ui-text-google-fonts:1.7.1")
         implementation("androidx.hilt:hilt-navigation-compose:1.2.0")
-        implementation("androidx.compose.material:material-icons-extended:1.7.0")
+        implementation("androidx.compose.material:material-icons-extended:1.7.1")
 
         configurations.all {
             resolutionStrategy {
@@ -141,7 +141,7 @@ android {
         implementation("com.google.firebase:firebase-analytics")
         implementation("com.google.firebase:firebase-perf")
 
-        implementation("io.github.ShawnLin013:number-picker:2.4.12")
+        implementation("com.github.DogusTeknoloji:compose-date-picker:1.1.0")
 
         implementation("io.insert-koin:koin-android:2.2.2")
 

@@ -30,6 +30,10 @@ class SeasonalViewModel @Inject constructor(
     private val _seasonalState = MutableStateFlow<SeasonalState>(SeasonalState.Loading)
     val seasonalState = _seasonalState.asStateFlow()
 
+    fun setNewSeason(season: Season) {
+        _season.value = season
+    }
+
     fun loadSeason(season: Season) {
         _seasonalState.value = SeasonalState.Loading
         viewModelScope.launch {

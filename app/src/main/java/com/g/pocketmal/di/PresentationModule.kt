@@ -43,8 +43,9 @@ object PresentationModule {
     @Singleton
     @Provides
     fun providesSeasonalAnimeConverter(
+        @ApplicationContext context: Context,
         converter: InListStatusConverter,
-    ) = SeasonalAnimeConverter(converter)
+    ) = SeasonalAnimeConverter(context, converter)
 
     @Singleton
     @Provides

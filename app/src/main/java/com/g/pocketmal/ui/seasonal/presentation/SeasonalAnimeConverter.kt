@@ -1,16 +1,19 @@
 package com.g.pocketmal.ui.seasonal.presentation
 
+import android.content.Context
 import android.text.Html
 import android.text.Spannable
 import android.text.SpannableString
 import android.text.TextUtils
 import android.text.style.RelativeSizeSpan
+import com.g.pocketmal.R
 import com.g.pocketmal.data.util.TitleType
 import com.g.pocketmal.domain.entity.SeasonEntity
 import com.g.pocketmal.ui.common.inliststatus.InListStatusConverter
 import java.text.DecimalFormat
 
 class SeasonalAnimeConverter(
+    private val context: Context,
     private val statusConverter: InListStatusConverter,
 ) {
 
@@ -46,7 +49,12 @@ class SeasonalAnimeConverter(
             else -> null
         }
 
-        val episodes = if (item.episodes == 0) null else "${item.episodes} EPS"
+        val episodes = if (item.episodes == 0) null else
+            context.resources.getQuantityString(
+                R.plurals.shortEpisodes,
+                item.episodes,
+                item.episodes
+            )
         val studio = if (!item.studios.isNullOrEmpty()) item.studios[0].name else null
 
         val inListStatus =
