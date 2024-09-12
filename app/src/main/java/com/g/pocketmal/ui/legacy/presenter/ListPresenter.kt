@@ -9,7 +9,7 @@ import com.g.pocketmal.data.common.Status
 import com.g.pocketmal.data.database.model.DbListRecord
 import com.g.pocketmal.data.keyvalue.LocalStorage
 import com.g.pocketmal.data.keyvalue.MainSettings
-import com.g.pocketmal.data.keyvalue.SessionManager
+import com.g.pocketmal.data.keyvalue.SessionStorage
 import com.g.pocketmal.data.util.TitleType
 import com.g.pocketmal.ui.legacy.comparator.RecordComparator
 import com.g.pocketmal.ui.legacy.comparator.SortingType
@@ -37,7 +37,7 @@ class ListPresenter(
     private val listsManager: ListsManager,
     private val localStorage: LocalStorage,
     private val settings: MainSettings,
-    private val session: SessionManager,
+    private val session: SessionStorage,
     private val recordConverter: ListItemConverter,
     private val converter: ListRecordConverter,
     private val logoutInteractor: LogoutInteractor,

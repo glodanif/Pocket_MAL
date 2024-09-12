@@ -10,7 +10,7 @@ import com.g.pocketmal.data.api.MalApiService
 import com.g.pocketmal.data.api.request.OAuthConfig
 import com.g.pocketmal.data.converter.ListRecordEntityConverter
 import com.g.pocketmal.data.keyvalue.MainSettings
-import com.g.pocketmal.data.keyvalue.SessionManager
+import com.g.pocketmal.data.keyvalue.SessionStorage
 import com.g.pocketmal.data.keyvalue.UserPreferences
 import com.g.pocketmal.data.keyvalue.UserPreferencesSerializer
 import com.g.pocketmal.data.repository.RecommendationsRepository
@@ -21,8 +21,17 @@ import com.g.pocketmal.data.converter.SeasonEntityConverter
 import com.g.pocketmal.data.database.ListDbStorage
 import com.g.pocketmal.data.database.datasource.RecordDataSource
 import com.g.pocketmal.data.database.datasource.RecordDataSourceImpl
+import com.g.pocketmal.data.keyvalue.LocalStorage
+import com.g.pocketmal.data.keyvalue.SharingPatternDispatcher
+import com.g.pocketmal.data.platform.CookieManager
+import com.g.pocketmal.data.platform.CookieManagerImpl
+import com.g.pocketmal.data.platform.NetworkManager
+import com.g.pocketmal.data.platform.NetworkManagerImpl
+import com.g.pocketmal.data.repository.ListRepository
 import com.g.pocketmal.data.repository.RecordRepository
 import com.g.pocketmal.data.repository.SeasonalRepository
+import com.g.pocketmal.data.repository.SessionRepository
+import com.g.pocketmal.util.list.ListsManager
 import com.google.gson.Gson
 import dagger.Module
 import dagger.Provides
@@ -87,21 +96,64 @@ object DataModule {
         return OAuthConfig()
     }
 
+    //TODO: Remove this
+    @EntryPoint
+    @InstallIn(SingletonComponent::class)
+    interface ListsManagerEntryPoint {
+        fun getListsManager(): ListsManager
+    }
+
     @Singleton
     @Provides
-    fun providesSessionManager(
+    fun providesListManager(): ListsManager {
+        return ListsManager()
+    }
+
+    @Singleton
+    @Provides
+    fun providesCookieManager(): CookieManager {
+        return CookieManagerImpl()
+    }
+
+    @Singleton
+    @Provides
+    fun providesSharingPatternDispatcher(
         @ApplicationContext appContext: Context,
-    ): SessionManager {
-        return SessionManager(appContext)
+    ): SharingPatternDispatcher {
+        return SharingPatternDispatcher(appContext)
+    }
+
+    @Singleton
+    @Provides
+    fun providesLocalStorage(
+        @ApplicationContext appContext: Context,
+    ): LocalStorage {
+        return LocalStorage(appContext)
+    }
+
+    @Singleton
+    @Provides
+    fun providesNetworkManager(
+        @ApplicationContext appContext: Context,
+    ): NetworkManager {
+        return NetworkManagerImpl(appContext)
+    }
+
+    @Singleton
+    @Provides
+    fun providesSessionStorage(
+        @ApplicationContext appContext: Context,
+    ): SessionStorage {
+        return SessionStorage(appContext)
     }
 
     @Singleton
     @Provides
     fun providesApiService(
-        sessionManager: SessionManager,
+        sessionStorage: SessionStorage,
         oAuthConfig: OAuthConfig,
     ): ApiService {
-        return MalApiService(sessionManager, oAuthConfig)
+        return MalApiService(sessionStorage, oAuthConfig)
     }
 
     @Singleton
@@ -152,5 +204,38 @@ object DataModule {
         mainSettings: MainSettings,
     ): SeasonalRepository {
         return SeasonalRepository(apiService, converter, mainSettings)
+    }
+
+    @Singleton
+    @Provides
+    fun providesListRepository(
+        recordStorage: RecordDataSource,
+        listsManager: ListsManager,
+    ): ListRepository {
+        return ListRepository(recordStorage, listsManager)
+    }
+
+    @Singleton
+    @Provides
+    fun providesSessionRepository(
+        storage: SessionStorage,
+        recordRepository: RecordRepository,
+        cookieManager: CookieManager,
+        apiService: ApiService,
+        listsManager: ListsManager,
+        sharingPatternDispatcher: SharingPatternDispatcher,
+        localStorage: LocalStorage,
+        networkManager: NetworkManager,
+    ): SessionRepository {
+        return SessionRepository(
+            sessionStorage = storage,
+            recordRepository = recordRepository,
+            cookieManager = cookieManager,
+            apiService = apiService,
+            listsManager = listsManager,
+            sharingPatterns = sharingPatternDispatcher,
+            localStorage = localStorage,
+            networkManager = networkManager,
+        )
     }
 }

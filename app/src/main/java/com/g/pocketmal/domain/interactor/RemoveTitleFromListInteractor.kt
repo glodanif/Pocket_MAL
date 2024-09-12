@@ -2,10 +2,7 @@ package com.g.pocketmal.domain.interactor
 
 import com.g.pocketmal.data.api.ApiService
 import com.g.pocketmal.data.api.NetworkException
-import com.g.pocketmal.data.database.converter.ListRecordDataConverter
 import com.g.pocketmal.data.database.datasource.RecordDataSource
-import com.g.pocketmal.data.keyvalue.LocalStorage
-import com.g.pocketmal.data.keyvalue.SessionManager
 import com.g.pocketmal.data.util.TitleType
 
 class RemoveTitleFromListInteractor(

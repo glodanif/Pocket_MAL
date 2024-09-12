@@ -8,7 +8,7 @@ import androidx.fragment.app.Fragment
 import com.g.pocketmal.R
 import com.g.pocketmal.data.common.ListCounts
 import com.g.pocketmal.data.common.Status
-import com.g.pocketmal.data.keyvalue.SessionManager
+import com.g.pocketmal.data.keyvalue.SessionStorage
 import com.g.pocketmal.data.util.RankingType
 import com.g.pocketmal.data.util.TitleType
 import com.g.pocketmal.databinding.FragmentDrawerBinding
@@ -34,14 +34,14 @@ class LeftMenuFragment : Fragment(), View.OnClickListener {
 
     private var clickedView: View? = null
 
-    private lateinit var sessionManager: SessionManager
+    private lateinit var sessionStorage: SessionStorage
 
     private var currentUser: BaseUserEntity? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        sessionManager = SessionManager(requireContext())
-        currentUser = sessionManager.user
+        sessionStorage = SessionStorage(requireContext())
+        currentUser = sessionStorage.user
         this.activity = requireActivity() as ListActivity
     }
 

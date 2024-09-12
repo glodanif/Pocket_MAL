@@ -25,7 +25,7 @@ class ListsManager {
         get() = ListCounts(generalMangaList)
 
     fun initAnimeLists(generalList: List<DbListRecord>?) {
-        if (generalList != null && generalList.isNotEmpty()) {
+        if (!generalList.isNullOrEmpty()) {
             for (anime in generalList) {
                 this.generalAnimeList.put(anime.seriesId, anime)
             }
@@ -34,7 +34,7 @@ class ListsManager {
     }
 
     fun initMangaLists(generalList: List<DbListRecord>?) {
-        if (generalList != null && generalList.isNotEmpty()) {
+        if (!generalList.isNullOrEmpty()) {
             for (manga in generalList) {
                 this.generalMangaList.put(manga.seriesId, manga)
             }

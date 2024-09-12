@@ -6,7 +6,7 @@ import at.favre.lib.armadillo.Armadillo
 import com.g.pocketmal.domain.entity.BaseUserEntity
 import com.google.gson.Gson
 
-class SessionManager(context: Context) {
+class SessionStorage(context: Context) {
 
     private val preferencesKey = "session_storage"
 
@@ -45,6 +45,7 @@ class SessionManager(context: Context) {
     val expirationTime: Long
         get() = preferences.getLong(KEY_EXPIRATION_TIME, 0)
 
+    //TODO: Remove this once it's not used anymore, use @SessionRepository instead
     val isUserLoggedIn: Boolean
         get() = accessToken != null && user != null
 

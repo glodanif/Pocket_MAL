@@ -5,7 +5,7 @@ import androidx.test.espresso.contrib.DrawerActions;
 import androidx.test.rule.ActivityTestRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
-import com.g.pocketmal.ui.legacy.SplashActivity;
+import com.g.pocketmal.ui.splash.SplashActivity;
 
 import org.junit.Rule;
 import org.junit.Test;

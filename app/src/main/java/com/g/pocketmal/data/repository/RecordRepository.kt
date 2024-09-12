@@ -1,6 +1,5 @@
 package com.g.pocketmal.data.repository
 
-import android.util.Log
 import com.g.pocketmal.data.converter.ListRecordEntityConverter
 import com.g.pocketmal.data.database.datasource.RecordDataSource
 import com.g.pocketmal.data.util.TitleType
@@ -16,5 +15,9 @@ class RecordRepository(
         val record = recordStorage.getRecordById(recordId, titleType)
             ?: throw RecordNotFoundException("Record $recordId | $titleType is not present in the DB")
         return converter.transform(record)
+    }
+
+    suspend fun dropAllRecords() {
+        recordStorage.dropTable()
     }
 }

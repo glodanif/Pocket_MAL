@@ -13,13 +13,12 @@ import com.g.pocketmal.data.api.response.SeasonResponse
 import com.g.pocketmal.data.api.response.TitleDetailsResponse
 import com.g.pocketmal.data.api.response.TokenResponse
 import com.g.pocketmal.data.api.response.UserResponse
-import com.g.pocketmal.data.keyvalue.SessionManager
+import com.g.pocketmal.data.keyvalue.SessionStorage
 import com.g.pocketmal.data.util.PKCEHelper
 import com.g.pocketmal.data.util.PartOfYear
 import com.g.pocketmal.data.util.RankingType
 import com.g.pocketmal.data.util.TitleType
 import com.g.pocketmal.data.util.TitleType.ANIME
-import com.google.gson.GsonBuilder
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Response
@@ -28,7 +27,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.converter.scalars.ScalarsConverterFactory
 import java.util.concurrent.TimeUnit
 
-class MalApiService(sessionManager: SessionManager, private val oAuthConfig: OAuthConfig) :
+class MalApiService(sessionStorage: SessionStorage, private val oAuthConfig: OAuthConfig) :
     ApiService {
 
     private val apiService: MalApi
@@ -37,7 +36,7 @@ class MalApiService(sessionManager: SessionManager, private val oAuthConfig: OAu
     init {
 
         val builder = OkHttpClient.Builder().apply {
-            addInterceptor(TokenInterceptor(sessionManager, oAuthConfig))
+            addInterceptor(TokenInterceptor(sessionStorage, oAuthConfig))
             connectTimeout(15, TimeUnit.SECONDS)
             readTimeout(30, TimeUnit.SECONDS)
         }
