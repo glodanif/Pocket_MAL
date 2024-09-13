@@ -1,13 +1,13 @@
 package com.g.pocketmal.data.repository
 
 import com.g.pocketmal.data.api.ApiService
-import com.g.pocketmal.data.keyvalue.MainSettings
+import com.g.pocketmal.data.keyvalue.UserSettings
 import com.g.pocketmal.data.util.TitleType
 import com.g.pocketmal.data.converter.SearchEntityConverter
 
 class SearchRepository(
     private val apiService: ApiService,
-    private val settings: MainSettings,
+    private val settings: UserSettings,
     private val converter: SearchEntityConverter,
 ) {
 
@@ -19,13 +19,13 @@ class SearchRepository(
             return SearchResult.InvalidQuery(minCharactersForQuery)
         }
 
-        val includeNsfw = settings.displayNsfw()
+        val includeNsfw = settings.getDisplayNsfw()
 
         val response = apiService.search(query, titleType, includeNsfw)
         val searchResponse = response.body()
 
         if (response.isSuccessful && searchResponse != null) {
-            val useEnglishTitles = settings.showEnglishTitles()
+            val useEnglishTitles = settings.getShowEnglishTitles()
             val result = converter.transform(searchResponse, useEnglishTitles)
             return if (result.isNotEmpty()) {
                 SearchResult.Result(result)

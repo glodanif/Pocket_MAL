@@ -9,7 +9,7 @@ import com.g.pocketmal.data.api.ApiService
 import com.g.pocketmal.data.api.MalApiService
 import com.g.pocketmal.data.api.request.OAuthConfig
 import com.g.pocketmal.data.converter.ListRecordEntityConverter
-import com.g.pocketmal.data.keyvalue.MainSettings
+import com.g.pocketmal.data.keyvalue.UserSettings
 import com.g.pocketmal.data.keyvalue.SessionStorage
 import com.g.pocketmal.data.keyvalue.UserPreferences
 import com.g.pocketmal.data.keyvalue.UserPreferencesSerializer
@@ -79,8 +79,8 @@ object DataModule {
 
     @Singleton
     @Provides
-    fun providesMainSettings(@ApplicationContext appContext: Context): MainSettings {
-        return MainSettings(appContext)
+    fun providesMainSettings(@ApplicationContext appContext: Context): UserSettings {
+        return UserSettings(appContext)
     }
 
     @EntryPoint
@@ -181,7 +181,7 @@ object DataModule {
     @Provides
     fun providesSearchRepository(
         apiService: ApiService,
-        settings: MainSettings,
+        settings: UserSettings,
         converter: SearchEntityConverter,
     ): SearchRepository {
         return SearchRepository(apiService, settings, converter)
@@ -201,7 +201,7 @@ object DataModule {
     fun providesSeasonalRepository(
         apiService: ApiService,
         converter: SeasonEntityConverter,
-        mainSettings: MainSettings,
+        mainSettings: UserSettings,
     ): SeasonalRepository {
         return SeasonalRepository(apiService, converter, mainSettings)
     }

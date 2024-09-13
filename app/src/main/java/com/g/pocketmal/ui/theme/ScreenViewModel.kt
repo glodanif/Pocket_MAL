@@ -2,7 +2,8 @@ package com.g.pocketmal.ui.theme
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.g.pocketmal.data.keyvalue.MainSettings
+import com.g.pocketmal.data.keyvalue.UserSettings
+import com.g.pocketmal.domain.ThemeMode
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -11,10 +12,10 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ScreenViewModel @Inject constructor(
-    private val mainSettings: MainSettings,
+    private val mainSettings: UserSettings,
 ) : ViewModel() {
 
-    private val _themeMode = MutableStateFlow(ThemeMode.LIGHT)
+    private val _themeMode = MutableStateFlow(ThemeMode.SYSTEM)
     val themeMode = _themeMode.asStateFlow()
 
     init {
@@ -23,8 +24,7 @@ class ScreenViewModel @Inject constructor(
 
     private fun loadThemeMode() {
         viewModelScope.launch {
-            val mode = mainSettings.getTheme()
-            _themeMode.value = ThemeMode.fromTheme(mode)
+            _themeMode.value = mainSettings.getThemeMode()
         }
     }
 }

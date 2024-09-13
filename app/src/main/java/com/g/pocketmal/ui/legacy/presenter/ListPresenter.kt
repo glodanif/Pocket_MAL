@@ -8,7 +8,7 @@ import com.g.pocketmal.data.api.SessionExpiredException
 import com.g.pocketmal.data.common.Status
 import com.g.pocketmal.data.database.model.DbListRecord
 import com.g.pocketmal.data.keyvalue.LocalStorage
-import com.g.pocketmal.data.keyvalue.MainSettings
+import com.g.pocketmal.data.keyvalue.UserSettings
 import com.g.pocketmal.data.keyvalue.SessionStorage
 import com.g.pocketmal.data.util.TitleType
 import com.g.pocketmal.ui.legacy.comparator.RecordComparator
@@ -36,7 +36,7 @@ class ListPresenter(
     private val route: com.g.pocketmal.ui.legacy.route.ListRoute,
     private val listsManager: ListsManager,
     private val localStorage: LocalStorage,
-    private val settings: MainSettings,
+    private val settings: UserSettings,
     private val session: SessionStorage,
     private val recordConverter: ListItemConverter,
     private val converter: ListRecordConverter,
@@ -56,7 +56,7 @@ class ListPresenter(
 
     var status = Status.IN_PROGRESS
         private set
-    var type = settings.defaultListType()
+    var type = settings.getDefaultList()
         private set
     var filter: String? = null
         private set
@@ -74,7 +74,7 @@ class ListPresenter(
     fun attach() {
 
         this.status = Status.IN_PROGRESS
-        this.type = settings.defaultListType()
+        this.type = settings.getDefaultList()
 
         if (settings.isSortingStateSaving()) {
             comparator = RecordComparator(localStorage.getSortingType(), localStorage.getSortingReverse())
@@ -122,7 +122,7 @@ class ListPresenter(
             setList()
         }
 
-        if (!isPreInitialized || settings.isAutoSync()) {
+        if (!isPreInitialized || settings.isAutoSyncEnabled()) {
             if (!listsManager.isActualList(type)) {
                 loadListFromNetwork()
             }
@@ -273,7 +273,7 @@ class ListPresenter(
         if (list.isEmpty()) {
             view.displayEmptyList(statusLabel)
         } else {
-            val useEnglishTitles = settings.showEnglishTitles()
+            val useEnglishTitles = settings.getShowEnglishTitles()
             val viewModels = converter.transform(type, list, useEnglishTitles)
             Collections.sort(viewModels, comparator)
             view.displayList(viewModels, filter, status != Status.COMPLETED, settings.isSimpleViewMode(), settings.showTagsInList())
@@ -295,7 +295,7 @@ class ListPresenter(
 
         view.displayCounts(listsManager.getCountsByType(type))
 
-        settings.setOpenedList(type)
+        settings.setLastOpenedList(type)
 
         localStorageRouter()
     }

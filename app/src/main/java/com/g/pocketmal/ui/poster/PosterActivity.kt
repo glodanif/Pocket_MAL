@@ -36,7 +36,6 @@ import coil.compose.AsyncImage
 import com.g.pocketmal.R
 import com.g.pocketmal.argument
 import com.g.pocketmal.ui.legacy.SkeletonActivity
-import com.g.pocketmal.ui.legacy.SkeletonToolbarActivity
 import com.g.pocketmal.ui.theme.PocketMalTheme
 import dagger.hilt.android.AndroidEntryPoint
 import net.engawapg.lib.zoomable.rememberZoomState

@@ -7,7 +7,7 @@ import com.g.pocketmal.data.api.SessionExpiredException
 import com.g.pocketmal.data.api.UpdateParams
 import com.g.pocketmal.data.common.Status
 import com.g.pocketmal.data.database.model.DbListRecord
-import com.g.pocketmal.data.keyvalue.MainSettings
+import com.g.pocketmal.data.keyvalue.UserSettings
 import com.g.pocketmal.data.platform.ClipboardManager
 import com.g.pocketmal.data.util.TitleType
 import com.g.pocketmal.di.DataModule
@@ -36,7 +36,7 @@ class TitleDetailsPresenter(
     private val view: com.g.pocketmal.ui.legacy.view.TitleDetailsView,
     private val route: com.g.pocketmal.ui.legacy.route.TitleDetailsRoute,
     private val listsManager: ListsManager,
-    private val settings: MainSettings,
+    private val settings: UserSettings,
     private val recordConverter: ListItemConverter,
     private val detailsConverter: TitleDetailsConverter,
     private val clipboardManager: ClipboardManager,
@@ -104,7 +104,7 @@ class TitleDetailsPresenter(
             view.hideUnableToLoadAnything()
         }
 
-        val useEnglishTitles = settings.showEnglishTitles()
+        val useEnglishTitles = settings.getShowEnglishTitles()
 
         getTitleDetailsInteractor.execute(GetTitleDetailsInteractor.Params(recordId, titleType),
             skipNetwork = !networkUpdate,

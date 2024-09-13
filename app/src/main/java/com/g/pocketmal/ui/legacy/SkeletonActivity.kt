@@ -17,7 +17,8 @@ import androidx.appcompat.app.AppCompatDelegate
 import androidx.browser.customtabs.CustomTabsIntent
 import androidx.lifecycle.Lifecycle
 import com.g.pocketmal.R
-import com.g.pocketmal.data.keyvalue.MainSettings
+import com.g.pocketmal.data.keyvalue.UserSettings
+import com.g.pocketmal.domain.ThemeMode
 import com.g.pocketmal.ui.legacy.dialog.LoadingDialog
 import com.g.pocketmal.ui.legacy.dialog.MessageDialog
 import com.g.pocketmal.ui.legacy.popup.ActionPopup
@@ -30,10 +31,9 @@ import com.g.pocketmal.util.Action
 import org.koin.android.ext.android.inject
 import java.util.Locale
 
-open class SkeletonActivity : AppCompatActivity(), BaseSessionView,
-    BaseSessionRoute {
+open class SkeletonActivity : AppCompatActivity(), BaseSessionView, BaseSessionRoute {
 
-    private val settings: MainSettings by inject()
+    private val settings: UserSettings by inject()
 
     private lateinit var actionPopup: ActionPopup
     private lateinit var customTabActivityHelper: CustomTabActivityHelper
@@ -55,25 +55,32 @@ open class SkeletonActivity : AppCompatActivity(), BaseSessionView,
 
     @StyleRes
     protected fun getCurrentTheme(): Int {
-        return when (settings.getTheme()) {
-            MainSettings.DARK -> {
+        return when (settings.getThemeMode()) {
+            ThemeMode.DARK -> {
                 getDarkTheme()
             }
-            MainSettings.BLACK -> {
+
+            ThemeMode.BLACK -> {
                 getBlackTheme()
             }
-            else -> {
+
+            ThemeMode.LIGHT -> {
                 R.style.Theme_Mal
+            }
+
+            //FIXME
+            ThemeMode.SYSTEM -> {
+                getDarkTheme()
             }
         }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
-        val theme = settings.getTheme()
-        if (MainSettings.DARK == theme) {
+        val theme = settings.getThemeMode()
+        if (ThemeMode.DARK == theme) {
             setTheme(getDarkTheme())
-        } else if (MainSettings.BLACK == theme) {
+        } else if (ThemeMode.BLACK == theme) {
             setTheme(getBlackTheme())
         }
 

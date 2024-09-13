@@ -8,7 +8,7 @@ import com.g.pocketmal.data.database.converter.ListRecordDataConverter
 import com.g.pocketmal.data.database.datasource.RecordDataSource
 import com.g.pocketmal.data.database.model.DbListRecord
 import com.g.pocketmal.data.keyvalue.LocalStorage
-import com.g.pocketmal.data.keyvalue.MainSettings
+import com.g.pocketmal.data.keyvalue.UserSettings
 import com.g.pocketmal.data.util.TitleType
 import com.g.pocketmal.domain.exception.ListAccessException
 import com.g.pocketmal.domain.exception.MalDownException
@@ -19,14 +19,14 @@ class LoadListFromNetworkInteractor(
         private val converter: ListRecordDataConverter,
         private val recordStorage: RecordDataSource,
         private val localStorage: LocalStorage,
-        private val settings: MainSettings
+        private val settings: UserSettings
 ) : BaseInteractor<TitleType, List<DbListRecord>>() {
 
     private val notPermitted = "not_permitted"
 
     override suspend fun execute(input: TitleType): List<DbListRecord> {
 
-        val includeNsfw = settings.displayNsfwInList()
+        val includeNsfw = settings.getDisplayNsfwInList()
 
         val list = ArrayList<ListItem>()
 

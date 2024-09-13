@@ -103,7 +103,7 @@
             android:theme="@style/Theme.Mal.NativeDialog.WhiteBackground.DialogWhenLarge" />
 
         <activity
-            android:name=".ui.legacy.SettingsActivity"
+            android:name=".ui.settings.SettingsActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:label="@string/settings__settings"
             android:theme="@style/Theme.Mal.NativeDialog.WhiteBackground" />

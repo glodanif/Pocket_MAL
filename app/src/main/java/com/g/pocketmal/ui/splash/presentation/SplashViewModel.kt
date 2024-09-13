@@ -2,7 +2,7 @@ package com.g.pocketmal.ui.splash.presentation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.g.pocketmal.data.keyvalue.MainSettings
+import com.g.pocketmal.data.keyvalue.UserSettings
 import com.g.pocketmal.data.repository.ListRepository
 import com.g.pocketmal.data.repository.SessionRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -13,7 +13,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SplashViewModel @Inject constructor(
-    private val settings: MainSettings,
+    private val settings: UserSettings,
     private val sessionRepository: SessionRepository,
     private val listRepository: ListRepository,
 ) : ViewModel() {

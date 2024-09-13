@@ -14,7 +14,7 @@ import com.g.pocketmal.data.database.datasource.TitleDetailsDataSourceImpl
 import com.g.pocketmal.data.database.datasource.UserProfileDataSource
 import com.g.pocketmal.data.database.datasource.UserProfileDataSourceImpl
 import com.g.pocketmal.data.keyvalue.LocalStorage
-import com.g.pocketmal.data.keyvalue.MainSettings
+import com.g.pocketmal.data.keyvalue.UserSettings
 import com.g.pocketmal.data.keyvalue.SessionStorage
 import com.g.pocketmal.data.keyvalue.SharingPatternDispatcher
 import com.g.pocketmal.data.platform.ClipboardManager
@@ -38,7 +38,7 @@ val storageModule = module {
     single { UserProfileDataSourceImpl(get()) as UserProfileDataSource }
     single { SessionStorage(androidContext()) }
     single { LocalStorage(androidContext()) }
-    single { MainSettings(androidContext()) }
+    single { UserSettings(androidContext()) }
     single { SharingPatternDispatcher(androidContext()) }
 }
 
