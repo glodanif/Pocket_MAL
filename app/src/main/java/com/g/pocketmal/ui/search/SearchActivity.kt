@@ -60,6 +60,7 @@ import com.g.pocketmal.data.util.TitleType.MANGA
 import com.g.pocketmal.transformedArgument
 import com.g.pocketmal.ui.common.ErrorMessageView
 import com.g.pocketmal.ui.common.ErrorMessageWithRetryView
+import com.g.pocketmal.ui.common.LoadingDialog
 import com.g.pocketmal.ui.common.LoadingView
 import com.g.pocketmal.ui.common.Poster
 import com.g.pocketmal.ui.common.SmallDetailsRow

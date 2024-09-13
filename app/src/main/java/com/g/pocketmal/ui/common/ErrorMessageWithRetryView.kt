@@ -1,5 +1,6 @@
 package com.g.pocketmal.ui.common
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
@@ -20,7 +21,8 @@ fun ErrorMessageWithRetryView(
 ) {
     Column(
         modifier = modifier.padding(32.dp),
-        horizontalAlignment = Alignment.CenterHorizontally
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center,
     ) {
         Text(text = message, textAlign = TextAlign.Center)
         Spacer(modifier = Modifier.height(12.dp))

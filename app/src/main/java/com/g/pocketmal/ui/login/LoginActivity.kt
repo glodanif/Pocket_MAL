@@ -8,18 +8,29 @@ import android.webkit.WebView
 import android.webkit.WebViewClient
 import androidx.activity.compose.BackHandler
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.g.pocketmal.ui.common.ErrorMessageWithRetryView
+import com.g.pocketmal.ui.common.LoadingDialog
 import com.g.pocketmal.ui.common.LoadingView
 import com.g.pocketmal.ui.legacy.ListActivity
 import com.g.pocketmal.ui.legacy.SkeletonActivity
@@ -55,6 +66,7 @@ private fun LoginContent(
 
     val context = LocalContext.current
     val loginState by viewModel.loginState.collectAsState()
+    var isLoading by remember { mutableStateOf(false) }
 
     val webView = remember {
         WebView(context).apply {
@@ -93,26 +105,50 @@ private fun LoginContent(
         }
     }
 
-    when (val state = loginState) {
-        is LoginState.AuthDataReady -> AuthPageLoading(webView, state.url)
-        LoginState.AuthPageReady -> LoginScreen(webView)
-        LoginState.Authorized -> LoadingView()
-        LoginState.Authorizing -> LoadingView()
-        is LoginState.Error -> ErrorMessageWithRetryView(
-            message = "Error",
-            onRetryClicked = { viewModel.loadAuthPageUrlData() },
-        )
+    Scaffold(modifier = Modifier.fillMaxSize()) { innerPaddings ->
+        Box(modifier = Modifier
+            .fillMaxSize()
+            .padding(innerPaddings)) {
+            when (val state = loginState) {
+                is LoginState.AuthDataReady -> AuthPageLoading(webView, state.url)
+                LoginState.AuthPageReady -> LoginScreen(webView)
+                LoginState.Authorized -> {
+                    isLoading = false
+                }
 
-        LoginState.LoadingWebPage -> LoadingView()
-        LoginState.NoInternet -> ErrorMessageWithRetryView(
-            message = "No Internet",
-            onRetryClicked = { viewModel.loadAuthPageUrlData() }
-        )
-    }
+                LoginState.Authorizing -> {
+                    isLoading = true
+                }
 
-    BackHandler {
-        if (webView.canGoBack()) {
-            webView.goBack()
+                is LoginState.Error -> {
+                    isLoading = false
+                    ErrorMessageWithRetryView(
+                        modifier = Modifier.fillMaxSize(),
+                        message = "Error",
+                        onRetryClicked = { viewModel.loadAuthPageUrlData() },
+                    )
+                }
+
+                LoginState.LoadingWebPage -> LoadingView()
+                LoginState.NoInternet -> {
+                    isLoading = false
+                    ErrorMessageWithRetryView(
+                        modifier = Modifier.fillMaxSize(),
+                        message = "Please connect to the Internet in order to proceed",
+                        onRetryClicked = { viewModel.loadAuthPageUrlData() }
+                    )
+                }
+            }
+        }
+
+        if (isLoading) {
+            LoadingDialog()
+        }
+
+        BackHandler {
+            if (webView.canGoBack()) {
+                webView.goBack()
+            }
         }
     }
 }
@@ -128,9 +164,20 @@ fun AuthPageLoading(
 
     Box(modifier = Modifier.fillMaxSize()) {
         AndroidView(factory = { webView }, modifier = Modifier.fillMaxSize())
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(MaterialTheme.colorScheme.background),
+            contentAlignment = Alignment.Center,
+        ) {
+            CircularProgressIndicator(
+                modifier = Modifier.size(64.dp),
+                color = MaterialTheme.colorScheme.secondary,
+                trackColor = MaterialTheme.colorScheme.surfaceVariant,
+            )
+        }
     }
 }
-
 
 @Composable
 fun LoginScreen(
@@ -140,4 +187,3 @@ fun LoginScreen(
         AndroidView(factory = { webView }, modifier = Modifier.fillMaxSize())
     }
 }
-

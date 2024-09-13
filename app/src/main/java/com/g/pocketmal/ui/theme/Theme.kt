@@ -86,7 +86,20 @@ private val darkScheme = darkColorScheme(
     surfaceContainerHighest = surfaceContainerHighestDark,
 )
 
-private val blackScheme = darkScheme.copy(background = backgroundBlack)
+private val blackScheme = darkScheme.copy(
+    background = backgroundBlack,
+    surfaceTint = surfaceBlack,
+    surfaceVariant = surfaceBlack,
+    surface = surfaceBlack,
+    surfaceContainer = surfaceBlack,
+    surfaceDim = surfaceBlack,
+    surfaceBright = surfaceBlack,
+    surfaceContainerLow = surfaceBlack,
+    surfaceContainerHigh = surfaceBlack,
+    surfaceContainerLowest = surfaceBlack,
+    surfaceContainerHighest = surfaceBlack,
+    inverseSurface = surfaceBlack,
+)
 
 @Immutable
 data class ColorFamily(

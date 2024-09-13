@@ -269,7 +269,6 @@ private fun SeasonalItem(
             .shadow(
                 elevation = 8.dp,
                 shape = CardDefaults.shape,
-                spotColor = Color.Black
             ),
         onClick = { onClicked(seasonalItem.id) }
     ) {
