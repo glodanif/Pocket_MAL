@@ -1,6 +1,6 @@
 package com.g.pocketmal.domain.entity
 
-import com.g.pocketmal.data.util.TitleType
+import com.g.pocketmal.domain.TitleType
 import com.g.pocketmal.data.common.Status
 
 data class ListRecordEntity(

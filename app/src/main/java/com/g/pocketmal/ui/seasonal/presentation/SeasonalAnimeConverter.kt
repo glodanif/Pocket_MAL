@@ -2,12 +2,8 @@ package com.g.pocketmal.ui.seasonal.presentation
 
 import android.content.Context
 import android.text.Html
-import android.text.Spannable
-import android.text.SpannableString
-import android.text.TextUtils
-import android.text.style.RelativeSizeSpan
 import com.g.pocketmal.R
-import com.g.pocketmal.data.util.TitleType
+import com.g.pocketmal.domain.TitleType
 import com.g.pocketmal.domain.entity.SeasonEntity
 import com.g.pocketmal.ui.common.inliststatus.InListStatusConverter
 import java.text.DecimalFormat

@@ -136,7 +136,7 @@ android {
         implementation("com.google.android.play:review:2.0.1")
         implementation("com.google.android.play:review-ktx:2.0.1")
 
-        implementation(platform("com.google.firebase:firebase-bom:33.2.0"))
+        implementation(platform("com.google.firebase:firebase-bom:33.3.0"))
         implementation("com.google.firebase:firebase-crashlytics")
         implementation("com.google.firebase:firebase-analytics")
         implementation("com.google.firebase:firebase-perf")

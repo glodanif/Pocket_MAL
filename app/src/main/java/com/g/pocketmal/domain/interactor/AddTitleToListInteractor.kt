@@ -6,7 +6,7 @@ import com.g.pocketmal.data.api.response.ErrorResponse
 import com.g.pocketmal.data.database.datasource.RecordDataSource
 import com.g.pocketmal.data.database.datasource.TitleDetailsDataSource
 import com.g.pocketmal.data.database.model.DbListRecord
-import com.g.pocketmal.data.util.TitleType
+import com.g.pocketmal.domain.TitleType
 import com.g.pocketmal.data.converter.ListRecordEntityConverter
 import com.g.pocketmal.domain.exception.NotApprovedTitleException
 import com.google.gson.Gson

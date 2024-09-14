@@ -3,7 +3,7 @@ package com.g.pocketmal.domain.interactor
 import com.g.pocketmal.data.api.ApiService
 import com.g.pocketmal.data.api.NetworkException
 import com.g.pocketmal.data.database.datasource.RecordDataSource
-import com.g.pocketmal.data.util.TitleType
+import com.g.pocketmal.domain.TitleType
 
 class RemoveTitleFromListInteractor(
         private val apiService: ApiService,

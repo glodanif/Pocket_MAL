@@ -10,7 +10,7 @@ import com.g.pocketmal.data.common.ListCounts
 import com.g.pocketmal.data.common.Status
 import com.g.pocketmal.data.keyvalue.SessionStorage
 import com.g.pocketmal.data.util.RankingType
-import com.g.pocketmal.data.util.TitleType
+import com.g.pocketmal.domain.TitleType
 import com.g.pocketmal.databinding.FragmentDrawerBinding
 import com.g.pocketmal.domain.entity.BaseUserEntity
 import com.g.pocketmal.loadUrl

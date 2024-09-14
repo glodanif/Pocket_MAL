@@ -9,7 +9,7 @@ import android.view.animation.AnimationUtils
 import androidx.annotation.StringRes
 import androidx.fragment.app.Fragment
 import com.g.pocketmal.R
-import com.g.pocketmal.data.util.TitleType
+import com.g.pocketmal.domain.TitleType
 import com.g.pocketmal.databinding.FragmentEntityListBinding
 import com.g.pocketmal.ui.legacy.ListActivity
 import com.g.pocketmal.util.Action

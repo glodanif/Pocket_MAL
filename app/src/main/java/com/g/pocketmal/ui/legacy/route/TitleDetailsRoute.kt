@@ -1,6 +1,6 @@
 package com.g.pocketmal.ui.legacy.route
 
-import com.g.pocketmal.data.util.TitleType
+import com.g.pocketmal.domain.TitleType
 
 interface TitleDetailsRoute: com.g.pocketmal.ui.legacy.route.BaseSessionRoute {
     fun openExternalLink(link: String)

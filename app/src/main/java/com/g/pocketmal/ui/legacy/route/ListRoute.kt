@@ -1,6 +1,6 @@
 package com.g.pocketmal.ui.legacy.route
 
-import com.g.pocketmal.data.util.TitleType
+import com.g.pocketmal.domain.TitleType
 import com.g.pocketmal.ui.legacy.comparator.SortingType
 
 interface ListRoute: com.g.pocketmal.ui.legacy.route.BaseSessionRoute {

@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.g.pocketmal.data.repository.SearchRepository
 import com.g.pocketmal.data.repository.SearchResult
-import com.g.pocketmal.data.util.TitleType
+import com.g.pocketmal.domain.TitleType
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow

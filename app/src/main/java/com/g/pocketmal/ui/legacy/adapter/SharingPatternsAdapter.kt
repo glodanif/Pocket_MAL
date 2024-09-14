@@ -5,7 +5,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
 import com.g.pocketmal.R
-import com.g.pocketmal.data.util.TitleType
+import com.g.pocketmal.domain.TitleType
 import com.g.pocketmal.ui.legacy.fragment.SharingPatternsFragment
 import com.g.pocketmal.ui.legacy.fragment.SharingPatternsFragment.Companion.newInstance
 import com.g.pocketmal.ui.legacy.fragment.SharingPatternsHelpFragment

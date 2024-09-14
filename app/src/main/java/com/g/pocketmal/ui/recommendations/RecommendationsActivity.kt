@@ -10,12 +10,18 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.WindowInsetsSides
+import androidx.compose.foundation.layout.consumeWindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.navigationBarsPadding
+import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
@@ -37,14 +43,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import coil.compose.AsyncImage
 import com.g.pocketmal.argument
-import com.g.pocketmal.data.util.TitleType
+import com.g.pocketmal.domain.TitleType
 import com.g.pocketmal.transformedArgument
 import com.g.pocketmal.ui.common.ErrorMessageView
 import com.g.pocketmal.ui.common.ErrorMessageWithRetryView
@@ -151,10 +156,17 @@ private fun RecommendationsScreen(
                 }
             )
         },
+        contentWindowInsets = WindowInsets(0.dp),
     ) { innerPaddings ->
         Box(
             modifier = Modifier
                 .padding(innerPaddings)
+                .consumeWindowInsets(innerPaddings)
+                .windowInsetsPadding(
+                    WindowInsets.safeDrawing.only(
+                        WindowInsetsSides.Horizontal,
+                    ),
+                )
                 .fillMaxSize(),
             contentAlignment = Alignment.Center,
         ) {
@@ -190,7 +202,12 @@ private fun RecommendationsList(
     LazyColumn(
         modifier = Modifier.fillMaxSize(),
         verticalArrangement = Arrangement.spacedBy(16.dp),
-        contentPadding = PaddingValues(16.dp)
+        contentPadding = PaddingValues(
+            start = 16.dp,
+            end = 16.dp,
+            top = 24.dp,
+            bottom = 64.dp,
+        ),
     ) {
         items(recommendations.size) { index ->
             RecommendationItem(

@@ -6,7 +6,7 @@ import com.g.pocketmal.data.api.PostParamsFactory
 import com.g.pocketmal.data.api.UpdateParams
 import com.g.pocketmal.data.database.datasource.RecordDataSource
 import com.g.pocketmal.data.database.model.DbListRecord
-import com.g.pocketmal.data.util.TitleType
+import com.g.pocketmal.domain.TitleType
 import com.g.pocketmal.data.common.Status
 import com.g.pocketmal.domain.unsetDate
 

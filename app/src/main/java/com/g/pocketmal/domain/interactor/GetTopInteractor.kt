@@ -5,7 +5,7 @@ import com.g.pocketmal.data.api.MalApi
 import com.g.pocketmal.data.api.NetworkException
 import com.g.pocketmal.data.keyvalue.UserSettings
 import com.g.pocketmal.data.util.RankingType
-import com.g.pocketmal.data.util.TitleType
+import com.g.pocketmal.domain.TitleType
 import com.g.pocketmal.domain.entity.RankingEntity
 import com.g.pocketmal.data.converter.RankingEntityConverter
 import com.g.pocketmal.domain.exception.EmptyResponseException
@@ -40,8 +40,8 @@ class GetTopInteractor(
     }
 
     class Params(
-            val titleType: TitleType,
-            val rankingType: RankingType,
-            val offset: Int
+        val titleType: TitleType,
+        val rankingType: RankingType,
+        val offset: Int
     )
 }

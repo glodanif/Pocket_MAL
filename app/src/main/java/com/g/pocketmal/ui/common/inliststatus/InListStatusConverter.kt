@@ -1,7 +1,7 @@
 package com.g.pocketmal.ui.common.inliststatus
 
 import androidx.compose.ui.graphics.Color
-import com.g.pocketmal.data.util.TitleType
+import com.g.pocketmal.domain.TitleType
 import com.g.pocketmal.domain.InListStatus
 
 class InListStatusConverter {

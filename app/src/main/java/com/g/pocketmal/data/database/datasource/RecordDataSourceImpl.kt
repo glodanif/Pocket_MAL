@@ -2,7 +2,7 @@ package com.g.pocketmal.data.database.datasource
 
 import com.g.pocketmal.data.database.ListDbStorage
 import com.g.pocketmal.data.database.model.DbListRecord
-import com.g.pocketmal.data.util.TitleType
+import com.g.pocketmal.domain.TitleType
 
 class RecordDataSourceImpl(listDbStorage: ListDbStorage) : RecordDataSource {
 

@@ -1,7 +1,7 @@
 package com.g.pocketmal.data.database.datasource
 
 import com.g.pocketmal.data.database.model.DbListRecord
-import com.g.pocketmal.data.util.TitleType
+import com.g.pocketmal.domain.TitleType
 
 interface RecordDataSource {
     suspend fun getRecordById(id: Int, type: TitleType): DbListRecord?

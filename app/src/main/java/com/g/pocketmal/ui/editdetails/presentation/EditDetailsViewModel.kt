@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.g.pocketmal.data.api.UpdateParams
 import com.g.pocketmal.data.repository.RecordRepository
-import com.g.pocketmal.data.util.TitleType
+import com.g.pocketmal.domain.TitleType
 import com.g.pocketmal.domain.exception.RecordNotFoundException
 import com.g.pocketmal.domain.unsetDate
 import dagger.hilt.android.lifecycle.HiltViewModel

@@ -3,7 +3,7 @@ package com.g.pocketmal.data.database.model
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.g.pocketmal.data.util.TitleType
+import com.g.pocketmal.domain.TitleType
 import com.g.pocketmal.data.common.Status
 
 @Entity(tableName = "record")

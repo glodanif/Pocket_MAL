@@ -1,17 +1,20 @@
 package com.g.pocketmal.data.keyvalue
 
-import android.content.Context
+import  android.content.Context
 import android.content.SharedPreferences
 import android.preference.PreferenceManager
 import androidx.core.content.edit
-import com.g.pocketmal.data.util.TitleType
+import com.g.pocketmal.domain.DefaultList
+import com.g.pocketmal.domain.FloatingSharingButtonOptions
+import com.g.pocketmal.domain.TitleType
 import com.g.pocketmal.domain.ThemeMode
 import com.g.pocketmal.domain.entity.UserSettingsEntity
+import com.g.pocketmal.ui.legacy.viewentity.RecordViewModel
 import com.g.pocketmal.util.Action
 
 class UserSettings(context: Context) {
 
-    //TODO: DI
+    //FIXME: DI
     private val preferences: SharedPreferences =
         PreferenceManager.getDefaultSharedPreferences(context)
 
@@ -22,68 +25,120 @@ class UserSettings(context: Context) {
             themeMode = getThemeMode(),
             englishTitles = getShowEnglishTitles(),
             listAutoSync = isAutoSyncEnabled(),
+            saveSortingOrder = isSaveSortingOrderEnabled(),
             defaultList = getDefaultList(),
+            useExternalBrowser = useExternalBrowser(),
+            showTagsInList = showTagsInList(),
+            hidePostersInList = hidePostersInList(),
+            enableFloatingSharingButton = getFloatingSharingButtonEnabled(),
+            floatingSharingButtonOptions = getFloatingSharingButtonOptions(),
         )
     }
 
-    fun isSimpleViewMode(): Boolean =
-        preferences.getBoolean(SIMPLE_VIEW_KEY, false)
-
-
-    fun isSortingStateSaving(): Boolean =
-        preferences.getBoolean(SAVE_SORTING_STATE_KEY, false)
-
-    fun isShowActionPopup(): Boolean =
-        preferences.getBoolean(ACTION_POPUP_KEY, true)
-
-
-    fun useExternalBrowser(): Boolean {
-        return preferences.getBoolean(EXTERNAL_BROWSER_KEY, false)
-    }
-
-    fun showTagsInList(): Boolean =
-        preferences.getBoolean(TAGS_IN_LIST_KEY, false)
-
-
-    fun shouldShowPopup(
+    //FIXME: MOVE TO VIEWMODEL/REPOSITORY
+    fun shouldShowFloatingSharingButton(
         actionType: Action,
-        title: com.g.pocketmal.ui.legacy.viewentity.RecordViewModel
+        title: RecordViewModel
     ): Boolean {
 
         if (actionType == Action.ACTION_SHARE) {
             return true
         }
 
-        if (!isShowActionPopup()) {
+        if (!getFloatingSharingButtonEnabled()) {
             return false
         }
 
-        val options = preferences.getString(ACTION_POPUP_OPTIONS_KEY, "1|2|3") ?: "1|2|3"
+        val options = getFloatingSharingButtonOptions()
 
         return when (actionType) {
-            Action.ACTION_EPISODES, Action.ACTION_CHAPTERS, Action.ACTION_VOLUMES -> options.contains(
-                "1"
-            )
-            Action.ACTION_SCORE -> options.contains("2") && title.myScore > 0
-            Action.ACTION_STATUS, Action.ACTION_REWATCHED -> options.contains("3")
+            Action.ACTION_SCORE -> options.onScoreChanges && title.myScore > 0
+            Action.ACTION_STATUS, Action.ACTION_REWATCHED -> options.onStatusChanges
+            Action.ACTION_EPISODES,
+            Action.ACTION_CHAPTERS,
+            Action.ACTION_VOLUMES -> options.onScoreChanges
+
             else -> false
         }
     }
 
+    fun getFloatingSharingButtonOptions(): FloatingSharingButtonOptions {
+        val defaultValue = UserSettingsEntity.default.floatingSharingButtonOptions.toOptionString()
+        val options = preferences.getString(ACTION_POPUP_OPTIONS_KEY, defaultValue) ?: defaultValue
+        return options.fromOptionString()
+    }
 
-
-
-
-    fun getDefaultList(): TitleType {
-        return when (preferences.getString(DEFAULT_LIST_KEY, "1")) {
-            "3" -> TitleType.from(preferences.getInt(LAST_OPENED_LIST_KEY, 0))
-            "1" -> TitleType.ANIME
-            else -> TitleType.MANGA
+    fun setFloatingSharingButtonOptions(options: FloatingSharingButtonOptions) {
+        preferences.edit {
+            putString(ACTION_POPUP_OPTIONS_KEY, options.toOptionString())
         }
     }
 
-    fun setDefaultList(type: TitleType) {
+    fun setFloatingSharingButtonEnabled(enabled: Boolean) {
+        preferences.edit {
+            putBoolean(SIMPLE_VIEW_KEY, enabled)
+        }
+    }
 
+    fun getFloatingSharingButtonEnabled(): Boolean =
+        preferences.getBoolean(
+            ACTION_POPUP_KEY,
+            UserSettingsEntity.default.enableFloatingSharingButton
+        )
+
+    fun setHidePostersInListEnabled(enabled: Boolean) {
+        preferences.edit {
+            putBoolean(SIMPLE_VIEW_KEY, enabled)
+        }
+    }
+
+    fun hidePostersInList(): Boolean =
+        preferences.getBoolean(SIMPLE_VIEW_KEY, UserSettingsEntity.default.hidePostersInList)
+
+    fun setShowTagsInListEnabled(enabled: Boolean) {
+        preferences.edit {
+            putBoolean(TAGS_IN_LIST_KEY, enabled)
+        }
+    }
+
+    fun showTagsInList(): Boolean =
+        preferences.getBoolean(TAGS_IN_LIST_KEY, UserSettingsEntity.default.showTagsInList)
+
+    fun setUseExternalBrowserEnabled(enabled: Boolean) {
+        preferences.edit {
+            putBoolean(EXTERNAL_BROWSER_KEY, enabled)
+        }
+    }
+
+    fun useExternalBrowser(): Boolean {
+        return preferences
+            .getBoolean(EXTERNAL_BROWSER_KEY, UserSettingsEntity.default.useExternalBrowser)
+    }
+
+    fun isSaveSortingOrderEnabled(): Boolean =
+        preferences.getBoolean(SAVE_SORTING_STATE_KEY, UserSettingsEntity.default.saveSortingOrder)
+
+    fun setSaveSortingOrderEnabled(enabled: Boolean) =
+        preferences.edit {
+            putBoolean(SAVE_SORTING_STATE_KEY, enabled)
+        }
+
+    fun getDefaultList(): DefaultList {
+        val defaultListOption = preferences
+            .getString(DEFAULT_LIST_KEY, UserSettingsEntity.default.defaultList.list)
+        return DefaultList.from(defaultListOption)
+    }
+
+    fun setDefaultList(list: DefaultList) {
+        preferences.edit {
+            putString(DEFAULT_LIST_KEY, list.list)
+        }
+    }
+
+    fun getLastOpenedList(): TitleType {
+        val type = preferences
+            .getInt(LAST_OPENED_LIST_KEY, TitleType.ANIME.type)
+        return TitleType.from(type)
     }
 
     fun setLastOpenedList(type: TitleType) {
@@ -170,4 +225,21 @@ class UserSettings(context: Context) {
         const val HENTAI_FILTER_BROWSE_KEY = "hentaiFilter"
         const val HENTAI_FILTER_LIST_KEY = "hentaiFilterList"
     }
+}
+
+private fun FloatingSharingButtonOptions.toOptionString(): String {
+    val options = mutableListOf<String>()
+    if (onScoreChanges) options.add("1")
+    if (onStatusChanges) options.add("2")
+    if (onProgressChanges) options.add("3")
+    return options.joinToString("|")
+}
+
+private fun String.fromOptionString(): FloatingSharingButtonOptions {
+    val options = this.split("|").map { it.trim() }
+    return FloatingSharingButtonOptions(
+        onScoreChanges = "1" in options,
+        onStatusChanges = "2" in options,
+        onProgressChanges = "3" in options
+    )
 }

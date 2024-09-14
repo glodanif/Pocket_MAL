@@ -58,7 +58,7 @@ class ExternalLinksActivity : SkeletonActivity() {
     }
 
     companion object {
-        fun startActivity(context: Context) {
+        fun start(context: Context) {
             context.startActivity(Intent(context, ExternalLinksActivity::class.java))
         }
     }

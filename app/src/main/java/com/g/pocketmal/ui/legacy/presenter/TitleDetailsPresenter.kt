@@ -9,7 +9,7 @@ import com.g.pocketmal.data.common.Status
 import com.g.pocketmal.data.database.model.DbListRecord
 import com.g.pocketmal.data.keyvalue.UserSettings
 import com.g.pocketmal.data.platform.ClipboardManager
-import com.g.pocketmal.data.util.TitleType
+import com.g.pocketmal.domain.TitleType
 import com.g.pocketmal.di.DataModule
 import com.g.pocketmal.domain.exception.NotApprovedTitleException
 import com.g.pocketmal.domain.exception.UnsynchronizedListException

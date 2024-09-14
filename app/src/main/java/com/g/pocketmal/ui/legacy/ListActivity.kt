@@ -1,5 +1,6 @@
 package com.g.pocketmal.ui.legacy
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.res.Configuration
 import android.os.Bundle
@@ -20,7 +21,7 @@ import com.g.pocketmal.R
 import com.g.pocketmal.bind
 import com.g.pocketmal.data.common.ListCounts
 import com.g.pocketmal.data.common.Status
-import com.g.pocketmal.data.util.TitleType
+import com.g.pocketmal.domain.TitleType
 import com.g.pocketmal.ui.legacy.comparator.SortingType
 import com.g.pocketmal.ui.about.AboutActivity
 import com.g.pocketmal.ui.legacy.dialog.SortingDialog
@@ -341,6 +342,7 @@ class ListActivity : SkeletonToolbarActivity(), ListView,
         closeButton?.setImageResource(R.drawable.ic_filter)
     }
 
+    @SuppressLint("MissingSuperCall")
     override fun onBackPressed() {
 
         if (drawerLayout != null && drawerLayout?.isDrawerOpen(GravityCompat.START) == true) {

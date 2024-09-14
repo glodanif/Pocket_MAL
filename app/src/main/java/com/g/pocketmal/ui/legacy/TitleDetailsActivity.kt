@@ -19,7 +19,7 @@ import com.g.pocketmal.argument
 import com.g.pocketmal.bind
 import com.g.pocketmal.data.api.UpdateParams
 import com.g.pocketmal.data.common.Status
-import com.g.pocketmal.data.util.TitleType
+import com.g.pocketmal.domain.TitleType
 import com.g.pocketmal.transformedArgument
 import com.g.pocketmal.ui.editdetails.EditDetailsActivity
 import com.g.pocketmal.ui.externallinks.ExternalLinksActivity
@@ -341,7 +341,7 @@ class TitleDetailsActivity : SkeletonToolbarActivity(),
     }
 
     override fun openExternalLinkSetup() {
-        ExternalLinksActivity.startActivity(this)
+        ExternalLinksActivity.start(this)
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

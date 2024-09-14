@@ -9,7 +9,7 @@ import com.g.pocketmal.data.database.datasource.RecordDataSource
 import com.g.pocketmal.data.database.model.DbListRecord
 import com.g.pocketmal.data.keyvalue.LocalStorage
 import com.g.pocketmal.data.keyvalue.UserSettings
-import com.g.pocketmal.data.util.TitleType
+import com.g.pocketmal.domain.TitleType
 import com.g.pocketmal.domain.exception.ListAccessException
 import com.g.pocketmal.domain.exception.MalDownException
 import com.google.gson.Gson

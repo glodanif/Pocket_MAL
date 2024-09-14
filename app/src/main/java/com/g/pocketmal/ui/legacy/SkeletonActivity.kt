@@ -11,6 +11,7 @@ import android.os.Build
 import android.os.Bundle
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
+import androidx.activity.enableEdgeToEdge
 import androidx.annotation.StyleRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
@@ -76,6 +77,7 @@ open class SkeletonActivity : AppCompatActivity(), BaseSessionView, BaseSessionR
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        enableEdgeToEdge()
 
         val theme = settings.getThemeMode()
         if (ThemeMode.DARK == theme) {
@@ -245,7 +247,7 @@ open class SkeletonActivity : AppCompatActivity(), BaseSessionView, BaseSessionR
     }
 
     fun showActionsPopup(title: RecordViewModel, actionType: Action) {
-        if (!isFinishing && !isDestroyed() && settings.shouldShowPopup(actionType, title)) {
+        if (!isFinishing && !isDestroyed() && settings.shouldShowFloatingSharingButton(actionType, title)) {
             actionPopup.show(title, actionType)
         }
     }

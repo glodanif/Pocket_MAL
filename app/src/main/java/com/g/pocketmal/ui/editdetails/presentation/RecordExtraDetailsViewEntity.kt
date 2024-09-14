@@ -1,6 +1,6 @@
 package com.g.pocketmal.ui.editdetails.presentation
 
-import com.g.pocketmal.data.util.TitleType
+import com.g.pocketmal.domain.TitleType
 import java.util.Date
 
 data class RecordExtraDetailsViewEntity(

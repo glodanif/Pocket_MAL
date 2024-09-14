@@ -8,7 +8,7 @@ import androidx.annotation.StringRes
 
 import com.g.pocketmal.R
 import com.g.pocketmal.data.common.Status
-import com.g.pocketmal.data.util.TitleType
+import com.g.pocketmal.domain.TitleType
 import com.g.pocketmal.ordinal
 import com.g.pocketmal.util.Action
 

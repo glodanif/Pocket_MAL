@@ -10,7 +10,7 @@ import com.g.pocketmal.data.common.Company
 import com.g.pocketmal.data.common.Genre
 import com.g.pocketmal.data.common.StartSeason
 import com.g.pocketmal.data.database.model.FavoriteTitle
-import com.g.pocketmal.data.util.TitleType
+import com.g.pocketmal.domain.TitleType
 import com.g.pocketmal.data.common.Status
 import com.g.pocketmal.data.common.ListCounts
 import com.google.gson.Gson

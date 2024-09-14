@@ -2,7 +2,7 @@ package com.g.pocketmal.ui.legacy.viewentity.converter
 
 import android.content.Context
 import com.g.pocketmal.R
-import com.g.pocketmal.data.util.TitleType
+import com.g.pocketmal.domain.TitleType
 import com.g.pocketmal.domain.entity.RankingEntity
 import com.g.pocketmal.util.list.DataInterpreter
 import java.text.DecimalFormat

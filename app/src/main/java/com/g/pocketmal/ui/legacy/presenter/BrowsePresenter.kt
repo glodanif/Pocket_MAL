@@ -2,7 +2,7 @@ package com.g.pocketmal.ui.legacy.presenter
 
 import com.g.pocketmal.R
 import com.g.pocketmal.data.util.RankingType
-import com.g.pocketmal.data.util.TitleType
+import com.g.pocketmal.domain.TitleType
 import com.g.pocketmal.domain.interactor.GetTopInteractor
 import com.g.pocketmal.domain.interactor.LogoutInteractor
 

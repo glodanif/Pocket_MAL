@@ -1,7 +1,7 @@
 package com.g.pocketmal.ui.legacy.view
 
 import androidx.annotation.StringRes
-import com.g.pocketmal.data.util.TitleType
+import com.g.pocketmal.domain.TitleType
 import com.g.pocketmal.data.common.ListCounts
 import com.g.pocketmal.util.Action
 import com.g.pocketmal.data.common.Status
@@ -33,8 +33,8 @@ interface ListView: com.g.pocketmal.ui.legacy.view.BaseSessionView {
     fun hideLoadingDialog()
 
     class State(
-            val status: Status,
-            val titleType: TitleType,
-            val filter: String?
+        val status: Status,
+        val titleType: TitleType,
+        val filter: String?
     )
 }

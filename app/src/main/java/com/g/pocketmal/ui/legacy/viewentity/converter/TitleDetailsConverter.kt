@@ -13,7 +13,7 @@ import com.g.pocketmal.data.database.model.RelatedTitle
 import com.g.pocketmal.data.database.model.RelatedTitle.Companion.LABEL
 import com.g.pocketmal.data.database.model.RelatedTitle.Companion.LINK
 import com.g.pocketmal.data.database.model.TitleDetailsTable
-import com.g.pocketmal.data.util.TitleType
+import com.g.pocketmal.domain.TitleType
 import com.g.pocketmal.formatToSeparatedText
 import com.g.pocketmal.reformatToViewableDate
 import com.g.pocketmal.util.list.DataInterpreter

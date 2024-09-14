@@ -1,7 +1,7 @@
 package com.g.pocketmal.data.api
 
 import com.g.pocketmal.data.common.Status
-import com.g.pocketmal.data.util.TitleType
+import com.g.pocketmal.domain.TitleType
 
 object PostParamsFactory {
 

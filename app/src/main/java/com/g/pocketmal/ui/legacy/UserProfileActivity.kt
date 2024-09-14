@@ -13,7 +13,7 @@ import android.widget.TextView
 import com.g.pocketmal.R
 import com.g.pocketmal.argument
 import com.g.pocketmal.bind
-import com.g.pocketmal.data.util.TitleType
+import com.g.pocketmal.domain.TitleType
 import com.g.pocketmal.loadUrl
 import com.g.pocketmal.ui.legacy.dialog.YesNoDialog
 import com.g.pocketmal.ui.legacy.fragment.ListStatsFragment

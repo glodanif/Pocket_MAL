@@ -1,7 +1,7 @@
 package com.g.pocketmal.data.repository
 
 import com.g.pocketmal.data.api.ApiService
-import com.g.pocketmal.data.util.TitleType
+import com.g.pocketmal.domain.TitleType
 import com.g.pocketmal.data.converter.RecommendationEntityConverter
 
 class RecommendationsRepository(

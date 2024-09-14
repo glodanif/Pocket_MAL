@@ -1,4 +1,4 @@
-package com.g.pocketmal.data.util
+package com.g.pocketmal.domain
 
 enum class TitleType(val type: Int) {
     ANIME(0),

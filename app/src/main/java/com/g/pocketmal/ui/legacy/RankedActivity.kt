@@ -8,7 +8,7 @@ import androidx.annotation.StringRes
 import com.g.pocketmal.R
 import com.g.pocketmal.bind
 import com.g.pocketmal.data.util.RankingType
-import com.g.pocketmal.data.util.TitleType
+import com.g.pocketmal.domain.TitleType
 import com.g.pocketmal.transformedArgument
 import com.g.pocketmal.ui.legacy.presenter.RankedPresenter
 import com.g.pocketmal.ui.legacy.route.RankedRoute

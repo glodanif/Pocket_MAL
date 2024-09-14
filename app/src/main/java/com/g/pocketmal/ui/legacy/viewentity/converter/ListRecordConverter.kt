@@ -4,7 +4,7 @@ import android.content.Context
 import android.text.TextUtils
 import com.g.pocketmal.R
 import com.g.pocketmal.data.database.model.DbListRecord
-import com.g.pocketmal.data.util.TitleType
+import com.g.pocketmal.domain.TitleType
 import com.g.pocketmal.util.EpisodeType
 import com.g.pocketmal.util.list.DataInterpreter
 import java.util.*

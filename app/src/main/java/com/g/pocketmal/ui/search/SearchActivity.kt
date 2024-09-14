@@ -12,12 +12,18 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.WindowInsetsSides
+import androidx.compose.foundation.layout.consumeWindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -54,13 +60,12 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.g.pocketmal.data.util.TitleType
-import com.g.pocketmal.data.util.TitleType.ANIME
-import com.g.pocketmal.data.util.TitleType.MANGA
+import com.g.pocketmal.domain.TitleType
+import com.g.pocketmal.domain.TitleType.ANIME
+import com.g.pocketmal.domain.TitleType.MANGA
 import com.g.pocketmal.transformedArgument
 import com.g.pocketmal.ui.common.ErrorMessageView
 import com.g.pocketmal.ui.common.ErrorMessageWithRetryView
-import com.g.pocketmal.ui.common.LoadingDialog
 import com.g.pocketmal.ui.common.LoadingView
 import com.g.pocketmal.ui.common.Poster
 import com.g.pocketmal.ui.common.SmallDetailsRow
@@ -155,9 +160,10 @@ private fun SearchScreen(
                             tint = MaterialTheme.colorScheme.onPrimary
                         )
                     }
-                }
+                },
             )
         },
+        contentWindowInsets = WindowInsets(0.dp),
     ) { innerPaddings ->
         var query: String by remember { mutableStateOf("") }
         val keyboardController = LocalSoftwareKeyboardController.current
@@ -165,6 +171,12 @@ private fun SearchScreen(
         Box(
             modifier = Modifier
                 .padding(innerPaddings)
+                .consumeWindowInsets(innerPaddings)
+                .windowInsetsPadding(
+                    WindowInsets.safeDrawing.only(
+                        WindowInsetsSides.Horizontal,
+                    ),
+                )
                 .fillMaxSize(),
             contentAlignment = Alignment.TopCenter,
         ) {
@@ -204,7 +216,7 @@ private fun SearchScreen(
             SearchBar(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(start = 16.dp, end = 16.dp, top = 12.dp, bottom = 16.dp)
+                    .padding(16.dp)
                     .semantics { traversalIndex = 0f },
                 inputField = {
                     SearchBarDefaults.InputField(
@@ -266,7 +278,7 @@ private fun SearchResultList(
     LazyColumn(
         modifier = Modifier.fillMaxSize(),
         verticalArrangement = Arrangement.spacedBy(16.dp),
-        contentPadding = PaddingValues(horizontal = 16.dp, vertical = 116.dp)
+        contentPadding = PaddingValues(horizontal = 16.dp, vertical = 108.dp)
     ) {
         items(searchResults.size) { index ->
             SearchResultItem(

@@ -8,7 +8,7 @@ import android.widget.BaseAdapter
 import android.widget.ImageView
 import android.widget.TextView
 import com.g.pocketmal.R
-import com.g.pocketmal.data.util.TitleType
+import com.g.pocketmal.domain.TitleType
 import com.g.pocketmal.loadUrl
 import com.g.pocketmal.ui.legacy.SkeletonActivity
 import com.g.pocketmal.ui.legacy.adapter.filters.EntityFilter

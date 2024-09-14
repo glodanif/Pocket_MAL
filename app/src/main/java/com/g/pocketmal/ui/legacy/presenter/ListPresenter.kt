@@ -1,5 +1,6 @@
 package com.g.pocketmal.ui.legacy.presenter
 
+import android.icu.text.CaseMap.Title
 import androidx.annotation.StringRes
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.OnLifecycleEvent
@@ -10,7 +11,8 @@ import com.g.pocketmal.data.database.model.DbListRecord
 import com.g.pocketmal.data.keyvalue.LocalStorage
 import com.g.pocketmal.data.keyvalue.UserSettings
 import com.g.pocketmal.data.keyvalue.SessionStorage
-import com.g.pocketmal.data.util.TitleType
+import com.g.pocketmal.domain.DefaultList
+import com.g.pocketmal.domain.TitleType
 import com.g.pocketmal.ui.legacy.comparator.RecordComparator
 import com.g.pocketmal.ui.legacy.comparator.SortingType
 import com.g.pocketmal.domain.exception.ListAccessException
@@ -21,6 +23,7 @@ import com.g.pocketmal.domain.interactor.LogoutInteractor
 import com.g.pocketmal.domain.interactor.UpdateTitleInteractor
 import com.g.pocketmal.getTimePeriod
 import com.g.pocketmal.ordinal
+import com.g.pocketmal.ui.legacy.view.ListView
 import com.g.pocketmal.ui.legacy.viewentity.converter.ListItemConverter
 import com.g.pocketmal.ui.legacy.viewentity.converter.ListRecordConverter
 import com.g.pocketmal.util.Action
@@ -56,7 +59,7 @@ class ListPresenter(
 
     var status = Status.IN_PROGRESS
         private set
-    var type = settings.getDefaultList()
+    var type: TitleType = getListToLoad()
         private set
     var filter: String? = null
         private set
@@ -65,7 +68,16 @@ class ListPresenter(
     private var isPreInitialized = false
     private var isLoading = false
 
-    fun restoreState(state: com.g.pocketmal.ui.legacy.view.ListView.State) {
+    private fun getListToLoad(): TitleType {
+        val defaultList = settings.getDefaultList()
+        return when(defaultList) {
+            DefaultList.ANIME -> TitleType.ANIME
+            DefaultList.MANGA -> TitleType.MANGA
+            DefaultList.LATEST -> settings.getLastOpenedList()
+        }
+    }
+
+    fun restoreState(state: ListView.State) {
         this.status = state.status
         this.type = state.titleType
         this.filter = state.filter
@@ -74,9 +86,9 @@ class ListPresenter(
     fun attach() {
 
         this.status = Status.IN_PROGRESS
-        this.type = settings.getDefaultList()
+        this.type = getListToLoad()
 
-        if (settings.isSortingStateSaving()) {
+        if (settings.isSaveSortingOrderEnabled()) {
             comparator = RecordComparator(localStorage.getSortingType(), localStorage.getSortingReverse())
         }
     }
@@ -276,7 +288,7 @@ class ListPresenter(
             val useEnglishTitles = settings.getShowEnglishTitles()
             val viewModels = converter.transform(type, list, useEnglishTitles)
             Collections.sort(viewModels, comparator)
-            view.displayList(viewModels, filter, status != Status.COMPLETED, settings.isSimpleViewMode(), settings.showTagsInList())
+            view.displayList(viewModels, filter, status != Status.COMPLETED, settings.hidePostersInList(), settings.showTagsInList())
         }
 
         view.setupActionBar(typeLabel, statusLabel)

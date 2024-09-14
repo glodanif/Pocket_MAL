@@ -16,7 +16,7 @@ import android.widget.ImageButton
 import android.widget.LinearLayout
 import android.widget.TextView
 import com.g.pocketmal.R
-import com.g.pocketmal.data.util.TitleType
+import com.g.pocketmal.domain.TitleType
 import com.g.pocketmal.ui.legacy.SkeletonActivity
 import com.g.pocketmal.ui.utils.StartEndAnimatorListener
 

@@ -50,7 +50,7 @@ class SharingPatternsActivity : SkeletonToolbarActivity() {
 
     companion object {
 
-        fun startActivity(context: Context) {
+        fun start(context: Context) {
             context.startActivity(Intent(context, SharingPatternsActivity::class.java))
         }
     }

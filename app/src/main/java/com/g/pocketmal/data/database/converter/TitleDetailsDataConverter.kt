@@ -3,7 +3,7 @@ package com.g.pocketmal.data.database.converter
 import com.g.pocketmal.data.api.response.TitleDetailsResponse
 import com.g.pocketmal.data.database.model.DbListRecord
 import com.g.pocketmal.data.database.model.TitleDetailsTable
-import com.g.pocketmal.data.util.TitleType
+import com.g.pocketmal.domain.TitleType
 import com.g.pocketmal.data.common.Status
 import java.text.SimpleDateFormat
 

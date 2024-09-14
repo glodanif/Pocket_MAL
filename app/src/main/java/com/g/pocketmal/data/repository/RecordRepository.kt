@@ -2,7 +2,7 @@ package com.g.pocketmal.data.repository
 
 import com.g.pocketmal.data.converter.ListRecordEntityConverter
 import com.g.pocketmal.data.database.datasource.RecordDataSource
-import com.g.pocketmal.data.util.TitleType
+import com.g.pocketmal.domain.TitleType
 import com.g.pocketmal.domain.entity.ListRecordEntity
 import com.g.pocketmal.domain.exception.RecordNotFoundException
 

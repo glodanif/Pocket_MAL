@@ -3,7 +3,7 @@ package com.g.pocketmal.util.list
 import android.util.SparseArray
 import com.g.pocketmal.data.common.ListCounts
 import com.g.pocketmal.data.database.model.DbListRecord
-import com.g.pocketmal.data.util.TitleType
+import com.g.pocketmal.domain.TitleType
 import com.g.pocketmal.data.common.Status
 import java.util.*
 

@@ -61,7 +61,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.g.pocketmal.argument
 import com.g.pocketmal.data.api.UpdateParams
-import com.g.pocketmal.data.util.TitleType
+import com.g.pocketmal.domain.TitleType
 import com.g.pocketmal.transformedArgument
 import com.g.pocketmal.ui.common.ErrorMessageView
 import com.g.pocketmal.ui.common.LoadingView
@@ -751,7 +751,7 @@ private fun DateView(
             ) {
                 Icon(
                     Icons.Rounded.Close,
-                    tint = MaterialTheme.colorScheme.primary,
+                    tint = MaterialTheme.colorScheme.onTertiaryContainer,
                     contentDescription = "Set date to Unknown",
                 )
             }

@@ -8,7 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 
 import com.g.pocketmal.data.keyvalue.SharingPatternDispatcher
-import com.g.pocketmal.data.util.TitleType
+import com.g.pocketmal.domain.TitleType
 
 import java.util.ArrayList
 

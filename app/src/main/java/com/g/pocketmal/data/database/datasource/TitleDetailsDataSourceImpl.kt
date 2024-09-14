@@ -1,9 +1,8 @@
 package com.g.pocketmal.data.database.datasource
 
 import com.g.pocketmal.data.database.ListDbStorage
-import com.g.pocketmal.data.database.dao.TitleDetailsDao
 import com.g.pocketmal.data.database.model.TitleDetailsTable
-import com.g.pocketmal.data.util.TitleType
+import com.g.pocketmal.domain.TitleType
 
 class TitleDetailsDataSourceImpl(private val listDbStorage: ListDbStorage) : TitleDetailsDataSource {
 

@@ -6,7 +6,7 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 
 import com.g.pocketmal.data.database.model.TitleDetailsTable
-import com.g.pocketmal.data.util.TitleType
+import com.g.pocketmal.domain.TitleType
 
 @Dao
 interface TitleDetailsDao {

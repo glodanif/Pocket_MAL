@@ -1,6 +1,6 @@
 package com.g.pocketmal.data.database.model
 
-import com.g.pocketmal.data.util.TitleType
+import com.g.pocketmal.domain.TitleType
 
 class RelatedTitle {
 

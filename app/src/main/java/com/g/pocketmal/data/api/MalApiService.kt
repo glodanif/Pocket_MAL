@@ -17,8 +17,8 @@ import com.g.pocketmal.data.keyvalue.SessionStorage
 import com.g.pocketmal.data.util.PKCEHelper
 import com.g.pocketmal.data.util.PartOfYear
 import com.g.pocketmal.data.util.RankingType
-import com.g.pocketmal.data.util.TitleType
-import com.g.pocketmal.data.util.TitleType.ANIME
+import com.g.pocketmal.domain.TitleType
+import com.g.pocketmal.domain.TitleType.ANIME
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Response

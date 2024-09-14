@@ -13,7 +13,7 @@ import com.g.pocketmal.data.api.response.TokenResponse
 import com.g.pocketmal.data.api.response.UserResponse
 import com.g.pocketmal.data.util.PartOfYear
 import com.g.pocketmal.data.util.RankingType
-import com.g.pocketmal.data.util.TitleType
+import com.g.pocketmal.domain.TitleType
 import retrofit2.Response
 
 interface ApiService {

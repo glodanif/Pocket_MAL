@@ -1,7 +1,7 @@
 package com.g.pocketmal.data.converter
 
 import com.g.pocketmal.data.api.response.RecommendationsResponse
-import com.g.pocketmal.data.util.TitleType
+import com.g.pocketmal.domain.TitleType
 import com.g.pocketmal.domain.InListStatus
 import com.g.pocketmal.domain.entity.RecommendationEntity
 
