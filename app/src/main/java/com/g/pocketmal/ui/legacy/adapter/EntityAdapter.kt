@@ -13,6 +13,7 @@ import com.g.pocketmal.loadUrl
 import com.g.pocketmal.ui.legacy.SkeletonActivity
 import com.g.pocketmal.ui.legacy.adapter.filters.EntityFilter
 import com.g.pocketmal.ui.legacy.popup.IncrementPopup
+import com.g.pocketmal.ui.legacy.viewentity.RecordListViewModel
 import com.g.pocketmal.util.Action
 import com.g.pocketmal.util.EpisodeType
 import java.util.*
@@ -59,13 +60,13 @@ class EntityAdapter(private val context: SkeletonActivity, titles: List<com.g.po
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
         var convertView = convertView
 
-        val holder: com.g.pocketmal.ui.legacy.adapter.EntityAdapter.ViewHolder
+        val holder: ViewHolder
         if (convertView == null) {
             convertView = inflater.inflate(if (simpleView) R.layout.item_simple_entity else R.layout.item_feed_item, null)
             holder = com.g.pocketmal.ui.legacy.adapter.EntityAdapter.ViewHolder(convertView)
             convertView!!.tag = holder
         } else {
-            holder = convertView.tag as com.g.pocketmal.ui.legacy.adapter.EntityAdapter.ViewHolder
+            holder = convertView.tag as ViewHolder
         }
 
         val title = currentTitles[position]
@@ -77,7 +78,7 @@ class EntityAdapter(private val context: SkeletonActivity, titles: List<com.g.po
         return convertView
     }
 
-    private fun bindBasicLayout(holder: com.g.pocketmal.ui.legacy.adapter.EntityAdapter.ViewHolder, title: com.g.pocketmal.ui.legacy.viewentity.RecordListViewModel) {
+    private fun bindBasicLayout(holder: ViewHolder, title: RecordListViewModel) {
 
         holder.title.text = title.seriesTitle
         holder.status.text = title.seriesStatus

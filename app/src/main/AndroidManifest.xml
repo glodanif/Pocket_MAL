@@ -65,7 +65,7 @@
             android:theme="@style/Theme.Mal" />
 
         <activity
-            android:name=".ui.legacy.UserProfileActivity"
+            android:name=".ui.userprofile.UserProfileActivity"
             android:label="User Profile"
             android:theme="@style/Theme.Mal" />
 

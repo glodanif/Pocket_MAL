@@ -81,7 +81,7 @@ fun FloatingSharingButtonOptionsDialog(
                         }
                     )
                     Text(
-                        text = "On Score Changes",
+                        text = "On score changes",
                         modifier = Modifier.padding(start = 8.dp),
                     )
                 }
@@ -102,7 +102,7 @@ fun FloatingSharingButtonOptionsDialog(
                         }
                     )
                     Text(
-                        text = "On Status Changes",
+                        text = "On status changes",
                         modifier = Modifier.padding(start = 8.dp),
                     )
                 }
@@ -123,7 +123,7 @@ fun FloatingSharingButtonOptionsDialog(
                         }
                     )
                     Text(
-                        text = "On Progress Changes",
+                        text = "On progress changes",
                         modifier = Modifier.padding(start = 8.dp),
                     )
                 }

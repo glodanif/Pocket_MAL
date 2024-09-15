@@ -23,6 +23,7 @@ import com.g.pocketmal.domain.interactor.LogoutInteractor
 import com.g.pocketmal.domain.interactor.UpdateTitleInteractor
 import com.g.pocketmal.getTimePeriod
 import com.g.pocketmal.ordinal
+import com.g.pocketmal.ui.legacy.route.ListRoute
 import com.g.pocketmal.ui.legacy.view.ListView
 import com.g.pocketmal.ui.legacy.viewentity.converter.ListItemConverter
 import com.g.pocketmal.ui.legacy.viewentity.converter.ListRecordConverter
@@ -35,8 +36,8 @@ import java.util.*
 import kotlin.collections.ArrayList
 
 class ListPresenter(
-    private val view: com.g.pocketmal.ui.legacy.view.ListView,
-    private val route: com.g.pocketmal.ui.legacy.route.ListRoute,
+    private val view: ListView,
+    private val route: ListRoute,
     private val listsManager: ListsManager,
     private val localStorage: LocalStorage,
     private val settings: UserSettings,

@@ -18,9 +18,13 @@ import com.g.pocketmal.data.repository.SearchRepository
 import com.g.pocketmal.data.converter.RecommendationEntityConverter
 import com.g.pocketmal.data.converter.SearchEntityConverter
 import com.g.pocketmal.data.converter.SeasonEntityConverter
+import com.g.pocketmal.data.converter.UserProfileEntityConverter
 import com.g.pocketmal.data.database.ListDbStorage
+import com.g.pocketmal.data.database.converter.UserProfileDataConverter
 import com.g.pocketmal.data.database.datasource.RecordDataSource
 import com.g.pocketmal.data.database.datasource.RecordDataSourceImpl
+import com.g.pocketmal.data.database.datasource.UserProfileDataSource
+import com.g.pocketmal.data.database.datasource.UserProfileDataSourceImpl
 import com.g.pocketmal.data.keyvalue.LocalStorage
 import com.g.pocketmal.data.keyvalue.SharingPatternDispatcher
 import com.g.pocketmal.data.platform.CookieManager
@@ -31,6 +35,7 @@ import com.g.pocketmal.data.repository.ListRepository
 import com.g.pocketmal.data.repository.RecordRepository
 import com.g.pocketmal.data.repository.SeasonalRepository
 import com.g.pocketmal.data.repository.SessionRepository
+import com.g.pocketmal.data.repository.UserProfileRepository
 import com.g.pocketmal.util.list.ListsManager
 import com.google.gson.Gson
 import dagger.Module
@@ -170,6 +175,12 @@ object DataModule {
 
     @Singleton
     @Provides
+    fun providesUserProfileDataSource(listDbStorage: ListDbStorage): UserProfileDataSource {
+        return UserProfileDataSourceImpl(listDbStorage)
+    }
+
+    @Singleton
+    @Provides
     fun providesRecommendationsRepository(
         apiService: ApiService,
         converter: RecommendationEntityConverter,
@@ -236,6 +247,24 @@ object DataModule {
             sharingPatterns = sharingPatternDispatcher,
             localStorage = localStorage,
             networkManager = networkManager,
+        )
+    }
+
+    @Singleton
+    @Provides
+    fun providesUserProfileRepository(
+        apiService: ApiService,
+        storage: UserProfileDataSource,
+        dataConverter: UserProfileDataConverter,
+        converter: UserProfileEntityConverter,
+        sessionRepository: SessionRepository,
+    ): UserProfileRepository {
+        return UserProfileRepository(
+            apiService,
+            storage,
+            dataConverter,
+            converter,
+            sessionRepository,
         )
     }
 }

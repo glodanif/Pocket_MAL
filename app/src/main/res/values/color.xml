@@ -38,12 +38,5 @@
 
     <color name="poster_background">#eeeeee</color>
 
-    <color name="in_progress_graph">#2db039</color>
-    <color name="completed_graph">#26448f</color>
-    <color name="on_hold_graph">#f9d457</color>
-    <color name="dropped_graph">#a12f31</color>
-    <color name="planned_graph">#c3c3c3</color>
-
     <color name="hashtag_selector">#8fff</color>
-
 </resources>

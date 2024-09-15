@@ -14,6 +14,8 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Share
 import androidx.compose.material.icons.filled.StarRate
+import androidx.compose.material.icons.rounded.Share
+import androidx.compose.material.icons.rounded.StarRate
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -109,14 +111,14 @@ private fun AboutContent(
                 actions = {
                     IconButton(onClick = { onRateClicked() }) {
                         Icon(
-                            imageVector = Icons.Filled.StarRate,
+                            imageVector = Icons.Rounded.StarRate,
                             contentDescription = "Rate app button",
                             tint = MaterialTheme.colorScheme.onPrimary
                         )
                     }
                     IconButton(onClick = { onShareClicked() }) {
                         Icon(
-                            imageVector = Icons.Filled.Share,
+                            imageVector = Icons.Rounded.Share,
                             contentDescription = "Share app button",
                             tint = MaterialTheme.colorScheme.onPrimary
                         )
