@@ -30,8 +30,6 @@ import androidx.compose.material.icons.rounded.Female
 import androidx.compose.material.icons.rounded.LocationOn
 import androidx.compose.material.icons.rounded.Male
 import androidx.compose.material.icons.rounded.MoreVert
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -303,22 +301,24 @@ private fun UserProfileDetails(
                     .fillMaxWidth()
                     .padding(16.dp),
             ) {
-                Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                ) {
-                    Icon(
-                        Icons.Rounded.LocationOn,
-                        modifier = Modifier.size(18.dp),
-                        contentDescription = "Location icon",
-                        tint = MaterialTheme.colorScheme.onBackground,
-                    )
-                    Spacer(modifier = Modifier.width(8.dp))
-                    Text(
-                        text = userProfile.location,
-                        style = MaterialTheme.typography.bodyMedium,
-                    )
+                if (userProfile.isLocationAvailable) {
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                    ) {
+                        Icon(
+                            Icons.Rounded.LocationOn,
+                            modifier = Modifier.size(18.dp),
+                            contentDescription = "Location icon",
+                            tint = MaterialTheme.colorScheme.onBackground,
+                        )
+                        Spacer(modifier = Modifier.width(8.dp))
+                        Text(
+                            text = userProfile.location,
+                            style = MaterialTheme.typography.bodyMedium,
+                        )
+                    }
+                    Spacer(modifier = Modifier.height(12.dp))
                 }
-                Spacer(modifier = Modifier.height(12.dp))
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -327,17 +327,19 @@ private fun UserProfileDetails(
                         modifier = Modifier.weight(1f),
                         verticalAlignment = Alignment.CenterVertically,
                     ) {
-                        Icon(
-                            Icons.Rounded.Cake,
-                            modifier = Modifier.size(18.dp),
-                            contentDescription = "Birthday icon",
-                            tint = MaterialTheme.colorScheme.onBackground,
-                        )
-                        Spacer(modifier = Modifier.width(8.dp))
-                        Text(
-                            text = userProfile.birthday,
-                            style = MaterialTheme.typography.bodyMedium,
-                        )
+                        if (userProfile.isBirthdayAvailable) {
+                            Icon(
+                                Icons.Rounded.Cake,
+                                modifier = Modifier.size(18.dp),
+                                contentDescription = "Birthday icon",
+                                tint = MaterialTheme.colorScheme.onBackground,
+                            )
+                            Spacer(modifier = Modifier.width(8.dp))
+                            Text(
+                                text = userProfile.birthday,
+                                style = MaterialTheme.typography.bodyMedium,
+                            )
+                        }
                     }
                     Text(
                         text = "Joined on ${userProfile.joinDate}",

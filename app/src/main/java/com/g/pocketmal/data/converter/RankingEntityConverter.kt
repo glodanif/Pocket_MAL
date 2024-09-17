@@ -12,7 +12,7 @@ class RankingEntityConverter {
 
             val node = item.node
             val english = node.alternativeTitles?.english
-            val titleLabel = if (useEnglishTitle && english != null && english.isNotEmpty())
+            val titleLabel = if (useEnglishTitle && !english.isNullOrEmpty())
                 english else node.title
 
             val episodes = if (titleType == TitleType.ANIME)

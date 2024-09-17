@@ -6,9 +6,9 @@ import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
 import com.g.pocketmal.R
 import com.g.pocketmal.domain.TitleType
-import com.g.pocketmal.ui.legacy.fragment.SharingPatternsFragment
-import com.g.pocketmal.ui.legacy.fragment.SharingPatternsFragment.Companion.newInstance
-import com.g.pocketmal.ui.legacy.fragment.SharingPatternsHelpFragment
+import com.g.pocketmal.ui.sharingpatterns.SharingPatternsFragment
+import com.g.pocketmal.ui.sharingpatterns.SharingPatternsFragment.Companion.newInstance
+import com.g.pocketmal.ui.sharingpatterns.SharingPatternsHelpFragment
 
 class SharingPatternsAdapter(activity: Activity, fragmentManager: FragmentManager) : FragmentPagerAdapter(fragmentManager) {
 

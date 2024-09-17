@@ -10,7 +10,7 @@
     <uses-permission android:name="android.permission.ACCESS_ADSERVICES_ATTRIBUTION" tools:node="remove"/>
 
     <application
-        android:name=".MALApplication"
+        android:name=".PocketMALApplication"
         android:allowBackup="true"
         android:fullBackupContent="@xml/backupscheme"
         android:icon="@mipmap/ic_launcher"
@@ -77,13 +77,13 @@
             android:windowSoftInputMode="stateHidden|stateAlwaysHidden" />
 
         <activity
-            android:name=".ui.legacy.RankedActivity"
+            android:name=".ui.ranked.RankedActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:label="Top"
             android:theme="@style/Theme.Mal" />
 
         <activity
-            android:name=".ui.legacy.BrowseActivity"
+            android:name=".ui.browse.BrowseActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:label="Browse"
             android:theme="@style/Theme.Mal" />
@@ -106,7 +106,7 @@
             android:theme="@style/Theme.Mal.NativeDialog.WhiteBackground" />
 
         <activity
-            android:name=".ui.legacy.SharingPatternsActivity"
+            android:name=".ui.sharingpatterns.SharingPatternsActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:label="Sharing Text Patterns"
             android:theme="@style/Theme.Mal.NativeDialog.WhiteBackground"

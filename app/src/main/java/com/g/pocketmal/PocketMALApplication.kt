@@ -7,13 +7,13 @@ import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
 
 @HiltAndroidApp
-class MALApplication : Application() {
+class PocketMALApplication : Application() {
 
     override fun onCreate() {
         super.onCreate()
 
         startKoin {
-            androidContext(this@MALApplication)
+            androidContext(this@PocketMALApplication)
             modules(
                     listOf(
                             applicationModule,

@@ -46,7 +46,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.g.pocketmal.ui.externallinks.ExternalLinksActivity
-import com.g.pocketmal.ui.legacy.SharingPatternsActivity
+import com.g.pocketmal.ui.sharingpatterns.SharingPatternsActivity
 import com.g.pocketmal.ui.legacy.SkeletonActivity
 import com.g.pocketmal.ui.settings.presentation.SettingsViewModel
 import com.g.pocketmal.ui.theme.PocketMalTheme

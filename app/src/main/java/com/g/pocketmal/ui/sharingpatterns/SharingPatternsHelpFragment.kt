@@ -1,4 +1,4 @@
-package com.g.pocketmal.ui.legacy.fragment
+package com.g.pocketmal.ui.sharingpatterns
 
 import android.os.Bundle
 import android.view.LayoutInflater

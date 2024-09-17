@@ -1,4 +1,4 @@
-package com.g.pocketmal.ui.legacy
+package com.g.pocketmal.ui.sharingpatterns
 
 import android.content.Context
 import android.content.Intent
@@ -8,6 +8,7 @@ import android.view.MenuItem
 import androidx.viewpager.widget.ViewPager
 import com.g.pocketmal.R
 import com.g.pocketmal.bind
+import com.g.pocketmal.ui.legacy.SkeletonToolbarActivity
 import com.g.pocketmal.ui.legacy.adapter.SharingPatternsAdapter
 import com.google.android.material.tabs.TabLayout
 
@@ -20,7 +21,7 @@ class SharingPatternsActivity : SkeletonToolbarActivity() {
 
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_sharing_patterns, SkeletonToolbarActivity.CHILD_ACTIVITY)
+        setContentView(R.layout.activity_sharing_patterns, CHILD_ACTIVITY)
 
         adapter = SharingPatternsAdapter(this, supportFragmentManager)
         patternsContainer.adapter = adapter

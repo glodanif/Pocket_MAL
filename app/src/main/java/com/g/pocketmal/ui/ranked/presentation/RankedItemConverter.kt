@@ -1,4 +1,4 @@
-package com.g.pocketmal.ui.legacy.viewentity.converter
+package com.g.pocketmal.ui.ranked.presentation
 
 import android.content.Context
 import com.g.pocketmal.R
@@ -11,18 +11,18 @@ class RankedItemConverter(private val context: Context) {
 
     private val membersFormatter = DecimalFormat("#,###,###")
 
-    fun transform(topItem: RankingEntity, titleType: TitleType): com.g.pocketmal.ui.legacy.viewentity.RankedItemViewModel {
+    fun transform(topItem: RankingEntity, titleType: TitleType): RankedItemViewEntity {
 
         val members = membersFormatter.format(topItem.menders).toString() + " members"
 
         val episodesLabel = context.getString(
-                if (titleType == TitleType.ANIME) R.string.episodes else R.string.chapters).toLowerCase()
+                if (titleType == TitleType.ANIME) R.string.episodes else R.string.chapters).lowercase()
         val mediaType = DataInterpreter.getMediaTypeLabelFromNetworkConst(topItem.mediaType)
         val episodesValue = if (topItem.numEpisodes == 0) "?" else topItem.numEpisodes.toString()
         val episodes = "$mediaType ($episodesValue $episodesLabel)"
         val details = context.getString(R.string.top__score, episodes, topItem.score ?: "?")
 
-        return com.g.pocketmal.ui.legacy.viewentity.RankedItemViewModel(
+        return RankedItemViewEntity(
             topItem.id,
             topItem.title,
             topItem.mainPicture,
@@ -33,7 +33,7 @@ class RankedItemConverter(private val context: Context) {
         )
     }
 
-    fun transform(topItems: List<RankingEntity>, titleType: TitleType): List<com.g.pocketmal.ui.legacy.viewentity.RankedItemViewModel> {
+    fun transform(topItems: List<RankingEntity>, titleType: TitleType): List<RankedItemViewEntity> {
         return topItems.map { transform(it, titleType) }
     }
 }

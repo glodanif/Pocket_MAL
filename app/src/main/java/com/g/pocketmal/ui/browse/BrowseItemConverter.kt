@@ -1,4 +1,4 @@
-package com.g.pocketmal.ui.legacy.viewentity.converter
+package com.g.pocketmal.ui.browse
 
 import android.content.Context
 import com.g.pocketmal.R
@@ -8,7 +8,7 @@ import com.g.pocketmal.util.list.DataInterpreter
 
 class BrowseItemConverter(private val context: Context) {
 
-    fun transform(topItem: RankingEntity): com.g.pocketmal.ui.legacy.viewentity.BrowseItemViewModel {
+    fun transform(topItem: RankingEntity): BrowseItemViewEntity {
 
         val mediaType = DataInterpreter.getMediaTypeLabelFromNetworkConst(topItem.mediaType)
         val mediaTypeLabel = context.getString(R.string.filter__type, mediaType)
@@ -17,7 +17,7 @@ class BrowseItemConverter(private val context: Context) {
         val dateLabel = context
                 .getString(R.string.filter__start_date, topItem.startDate.reformatToViewableDate())
 
-        return com.g.pocketmal.ui.legacy.viewentity.BrowseItemViewModel(
+        return BrowseItemViewEntity(
             topItem.id,
             topItem.title,
             topItem.mainPicture,
@@ -27,7 +27,7 @@ class BrowseItemConverter(private val context: Context) {
         )
     }
 
-    fun transform(topItems: List<RankingEntity>): List<com.g.pocketmal.ui.legacy.viewentity.BrowseItemViewModel> {
+    fun transform(topItems: List<RankingEntity>): List<BrowseItemViewEntity> {
         return topItems.map { transform(it) }
     }
 }

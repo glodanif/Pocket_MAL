@@ -16,7 +16,6 @@ val interactorModule = module {
     factory { UpdateTitleInteractor(get(), get()) }
     factory { GetListsFromDbInteractor(get()) }
     factory { GetRecordFromDbInteractor(get()) }
-    factory { GetTopInteractor(get(), get(), get()) }
 }
 
 val entityConverterModule = module {

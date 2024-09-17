@@ -9,6 +9,7 @@ import com.g.pocketmal.data.api.ApiService
 import com.g.pocketmal.data.api.MalApiService
 import com.g.pocketmal.data.api.request.OAuthConfig
 import com.g.pocketmal.data.converter.ListRecordEntityConverter
+import com.g.pocketmal.data.converter.RankingEntityConverter
 import com.g.pocketmal.data.keyvalue.UserSettings
 import com.g.pocketmal.data.keyvalue.SessionStorage
 import com.g.pocketmal.data.keyvalue.UserPreferences
@@ -31,6 +32,7 @@ import com.g.pocketmal.data.platform.CookieManager
 import com.g.pocketmal.data.platform.CookieManagerImpl
 import com.g.pocketmal.data.platform.NetworkManager
 import com.g.pocketmal.data.platform.NetworkManagerImpl
+import com.g.pocketmal.data.repository.BrowseRepository
 import com.g.pocketmal.data.repository.ListRepository
 import com.g.pocketmal.data.repository.RecordRepository
 import com.g.pocketmal.data.repository.SeasonalRepository
@@ -266,5 +268,15 @@ object DataModule {
             converter,
             sessionRepository,
         )
+    }
+
+    @Singleton
+    @Provides
+    fun providesBrowseRepository(
+        apiService: ApiService,
+        converter: RankingEntityConverter,
+        userSettings: UserSettings,
+    ): BrowseRepository {
+        return BrowseRepository(apiService, converter, userSettings)
     }
 }

@@ -35,7 +35,6 @@ val storageModule = module {
     single { ListDbStorage(androidContext()) }
     single { RecordDataSourceImpl(get()) as RecordDataSource }
     single { TitleDetailsDataSourceImpl(get()) as TitleDetailsDataSource }
-    single { UserProfileDataSourceImpl(get()) as UserProfileDataSource }
     single { SessionStorage(androidContext()) }
     single { LocalStorage(androidContext()) }
     single { UserSettings(androidContext()) }
@@ -44,12 +43,10 @@ val storageModule = module {
 
 val dataConverterModule = module {
     single { ListRecordDataConverter() }
-    single { UserProfileDataConverter() }
     single { TitleDetailsDataConverter() }
 }
 
 val platformModule = module {
     single { ClipboardManagerImpl(androidContext()) as ClipboardManager }
-    single { CookieManagerImpl() as CookieManager }
     single { NetworkManagerImpl(androidContext()) as NetworkManager }
 }

@@ -1,6 +1,6 @@
-package com.g.pocketmal.ui.legacy.viewentity
+package com.g.pocketmal.ui.browse
 
-data class BrowseItemViewModel(
+data class BrowseItemViewEntity(
         val id: Int,
         val title: String,
         val poster: String?,

@@ -14,9 +14,9 @@ import com.g.pocketmal.domain.TitleType
 import com.g.pocketmal.databinding.FragmentDrawerBinding
 import com.g.pocketmal.domain.entity.BaseUserEntity
 import com.g.pocketmal.loadUrl
-import com.g.pocketmal.ui.legacy.BrowseActivity
+import com.g.pocketmal.ui.browse.BrowseActivity
 import com.g.pocketmal.ui.legacy.ListActivity
-import com.g.pocketmal.ui.legacy.RankedActivity
+import com.g.pocketmal.ui.ranked.RankedActivity
 import com.g.pocketmal.ui.seasonal.SeasonalActivity
 import com.g.pocketmal.ui.userprofile.UserProfileActivity
 import com.g.pocketmal.ui.utils.CircleTransform

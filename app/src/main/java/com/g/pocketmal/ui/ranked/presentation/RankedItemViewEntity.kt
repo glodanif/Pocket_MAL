@@ -1,6 +1,6 @@
-package com.g.pocketmal.ui.legacy.viewentity
+package com.g.pocketmal.ui.ranked.presentation
 
-data class RankedItemViewModel(
+data class RankedItemViewEntity(
         val id: Int,
         val title: String,
         val poster: String?,

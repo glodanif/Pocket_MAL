@@ -1,6 +1,7 @@
 package com.g.pocketmal.di
 
 import com.g.pocketmal.data.converter.ListRecordEntityConverter
+import com.g.pocketmal.data.converter.RankingEntityConverter
 import com.g.pocketmal.data.converter.RecommendationEntityConverter
 import com.g.pocketmal.data.converter.SearchEntityConverter
 import com.g.pocketmal.data.converter.SeasonEntityConverter
@@ -29,4 +30,8 @@ object DataConverterModule {
     @Singleton
     @Provides
     fun providesSeasonalConverter() = SeasonEntityConverter()
+
+    @Singleton
+    @Provides
+    fun providesRankingEntityConverter() = RankingEntityConverter()
 }
