@@ -26,7 +26,6 @@ import com.g.pocketmal.ui.legacy.popup.ActionPopup
 import com.g.pocketmal.ui.legacy.route.BaseSessionRoute
 import com.g.pocketmal.ui.legacy.view.BaseSessionView
 import com.g.pocketmal.ui.legacy.viewentity.RecordViewModel
-import com.g.pocketmal.ui.login.LoginActivity
 import com.g.pocketmal.ui.utils.customtabs.CustomTabActivityHelper
 import com.g.pocketmal.util.Action
 import org.koin.android.ext.android.inject
@@ -290,9 +289,9 @@ open class SkeletonActivity : AppCompatActivity(), BaseSessionView, BaseSessionR
     }
 
     override fun redirectToLoginScreen() {
-        val intent = Intent(this, LoginActivity::class.java).apply {
+        /*val intent = Intent(this, LoginActivity::class.java).apply {
             addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
         }
-        startActivity(intent)
+        startActivity(intent)*/
     }
 }

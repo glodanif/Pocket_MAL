@@ -32,7 +32,6 @@ import com.g.pocketmal.ui.legacy.route.ListRoute
 import com.g.pocketmal.ui.legacy.view.ListView
 import com.g.pocketmal.ui.legacy.viewentity.RecordListViewModel
 import com.g.pocketmal.ui.legacy.viewentity.RecordViewModel
-import com.g.pocketmal.ui.search.SearchActivity
 import com.g.pocketmal.ui.settings.SettingsActivity
 import com.g.pocketmal.util.Action
 import com.g.pocketmal.util.EpisodeType
@@ -289,7 +288,7 @@ class ListActivity : SkeletonToolbarActivity(), ListView,
     }
 
     override fun redirectToSearchScreen(type: TitleType) {
-        SearchActivity.start(this, type)
+        //SearchActivity.start(this, type)
     }
 
     override fun onConfigurationChanged(newConfig: Configuration) {

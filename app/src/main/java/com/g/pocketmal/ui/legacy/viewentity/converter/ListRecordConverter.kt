@@ -5,17 +5,18 @@ import android.text.TextUtils
 import com.g.pocketmal.R
 import com.g.pocketmal.data.database.model.DbListRecord
 import com.g.pocketmal.domain.TitleType
+import com.g.pocketmal.ui.legacy.viewentity.RecordListViewModel
 import com.g.pocketmal.util.EpisodeType
 import com.g.pocketmal.util.list.DataInterpreter
 import java.util.*
 
 class ListRecordConverter(private val context: Context) {
 
-    fun transform(titleType: TitleType, record: DbListRecord, useEnglishTitle: Boolean): com.g.pocketmal.ui.legacy.viewentity.RecordListViewModel {
+    fun transform(titleType: TitleType, record: DbListRecord, useEnglishTitle: Boolean): RecordListViewModel {
 
         val isAnime = titleType == TitleType.ANIME
 
-        return com.g.pocketmal.ui.legacy.viewentity.RecordListViewModel(
+        return RecordListViewModel(
             seriesId = record.seriesId,
             seriesTitle = if (useEnglishTitle) record.seriesEnglishTitle else record.seriesTitle,
             seriesMediaType = DataInterpreter.getMediaTypeLabelFromNetworkConst(record.seriesType),
@@ -51,9 +52,9 @@ class ListRecordConverter(private val context: Context) {
         )
     }
 
-    fun transform(titleType: TitleType, records: List<DbListRecord>, useEnglishTitle: Boolean): List<com.g.pocketmal.ui.legacy.viewentity.RecordListViewModel> {
+    fun transform(titleType: TitleType, records: List<DbListRecord>, useEnglishTitle: Boolean): List<RecordListViewModel> {
 
-        val viewModels = ArrayList<com.g.pocketmal.ui.legacy.viewentity.RecordListViewModel>()
+        val viewModels = ArrayList<RecordListViewModel>()
         for (record in records) {
             viewModels.add(transform(titleType, record, useEnglishTitle))
         }

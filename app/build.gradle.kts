@@ -6,6 +6,7 @@ plugins {
     id("com.android.application")
     id("com.google.devtools.ksp")
     id("kotlin-parcelize")
+    id("org.jetbrains.kotlin.plugin.serialization")
     id("com.google.android.gms.oss-licenses-plugin")
     id("com.google.dagger.hilt.android")
     kotlin("android")
@@ -123,6 +124,11 @@ android {
                 force("androidx.compose.compiler:compiler:1.5.15")
             }
         }
+
+        implementation("androidx.navigation:navigation-compose:2.8.0")
+        implementation("androidx.activity:activity-compose:1.9.2")
+
+        implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.3")
 
         implementation("androidx.appcompat:appcompat:1.7.0")
         implementation("androidx.recyclerview:recyclerview:1.3.2")

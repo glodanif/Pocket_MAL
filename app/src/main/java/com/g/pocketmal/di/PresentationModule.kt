@@ -5,6 +5,7 @@ import com.g.pocketmal.data.converter.UserProfileEntityConverter
 import com.g.pocketmal.data.database.converter.UserProfileDataConverter
 import com.g.pocketmal.ui.common.inliststatus.InListStatusConverter
 import com.g.pocketmal.ui.editdetails.presentation.RecordExtraDetailsConverter
+import com.g.pocketmal.ui.legacy.viewentity.converter.ListRecordConverter
 import com.g.pocketmal.ui.ranked.presentation.RankedItemConverter
 import com.g.pocketmal.ui.recommendations.presentation.RecommendedTitleConverter
 import com.g.pocketmal.ui.search.presentation.SearchResultConverter
@@ -58,15 +59,17 @@ object PresentationModule {
 
     @Singleton
     @Provides
-    fun providesUserProfileDataConverter() = UserProfileDataConverter()
-
-    @Singleton
-    @Provides
     fun providesUserProfileEntityConverter() = UserProfileEntityConverter()
 
     @Singleton
     @Provides
     fun providesUserProfileConverter() = UserProfileConverter()
+
+    @Singleton
+    @Provides
+    fun providesListRecordConverter(
+        @ApplicationContext context: Context,
+    ) = ListRecordConverter(context)
 
     @Singleton
     @Provides

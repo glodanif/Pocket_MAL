@@ -1,9 +1,5 @@
 package com.g.pocketmal.ui.search
 
-import android.content.Context
-import android.content.Intent
-import android.os.Bundle
-import androidx.activity.compose.setContent
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -63,7 +59,6 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.g.pocketmal.domain.TitleType
 import com.g.pocketmal.domain.TitleType.ANIME
 import com.g.pocketmal.domain.TitleType.MANGA
-import com.g.pocketmal.transformedArgument
 import com.g.pocketmal.ui.common.ErrorMessageView
 import com.g.pocketmal.ui.common.ErrorMessageWithRetryView
 import com.g.pocketmal.ui.common.LoadingView
@@ -71,61 +66,18 @@ import com.g.pocketmal.ui.common.Poster
 import com.g.pocketmal.ui.common.SmallDetailsRow
 import com.g.pocketmal.ui.common.inliststatus.InListStatusLabel
 import com.g.pocketmal.ui.common.innerShadow
-import com.g.pocketmal.ui.legacy.SkeletonActivity
-import com.g.pocketmal.ui.legacy.TitleDetailsActivity
 import com.g.pocketmal.ui.search.presentation.SearchResultViewEntity
 import com.g.pocketmal.ui.search.presentation.SearchState
 import com.g.pocketmal.ui.search.presentation.SearchViewModel
-import com.g.pocketmal.ui.theme.PocketMalTheme
-import dagger.hilt.android.AndroidEntryPoint
-
-@AndroidEntryPoint
-class SearchActivity : SkeletonActivity() {
-
-    private val type by transformedArgument<Int, TitleType>(EXTRA_SEARCH_TYPE, TitleType.ANIME) {
-        TitleType.from(it)
-    }
-
-    public override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContent {
-            PocketMalTheme {
-                SearchContent(
-                    titleType = type,
-                    onSearchItemClick = { id ->
-                        TitleDetailsActivity.start(this, id, type)
-                    },
-                    onBackPressed = { finish() },
-                )
-            }
-        }
-    }
-
-    companion object {
-
-        private const val EXTRA_SEARCH_TYPE = "extra.search_type"
-
-        fun start(context: Context, type: TitleType) {
-            val intent = Intent(context, SearchActivity::class.java).apply {
-                putExtra(EXTRA_SEARCH_TYPE, type.type)
-            }
-            context.startActivity(intent)
-        }
-    }
-}
 
 @Composable
-private fun SearchContent(
-    titleType: TitleType,
+fun SearchScreen(
     viewModel: SearchViewModel = hiltViewModel(),
-    onSearchItemClick: (Int) -> Unit,
-    onBackPressed: () -> Unit,
+    onSearchItemClick: (Int, TitleType) -> Unit,
 ) {
     val searchState by viewModel.searchState.collectAsState()
-    SearchScreen(
-        type = titleType,
+    SearchContent(
         searchState = searchState,
-        onBackPressed = onBackPressed,
         onSearchPressed = { query, type ->
             viewModel.search(query, type)
         },
@@ -135,14 +87,12 @@ private fun SearchContent(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun SearchScreen(
-    type: TitleType,
+private fun SearchContent(
     searchState: SearchState,
     onSearchPressed: (String, TitleType) -> Unit,
-    onBackPressed: () -> Unit,
-    onSearchItemClick: (Int) -> Unit,
+    onSearchItemClick: (Int, TitleType) -> Unit,
 ) {
-    var titleType by remember { mutableStateOf(type) }
+    var titleType by remember { mutableStateOf(ANIME) }
 
     Scaffold(
         topBar = {
@@ -152,15 +102,6 @@ private fun SearchScreen(
                     containerColor = MaterialTheme.colorScheme.primary,
                     titleContentColor = MaterialTheme.colorScheme.onPrimary
                 ),
-                navigationIcon = {
-                    IconButton(onClick = { onBackPressed() }) {
-                        Icon(
-                            imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                            contentDescription = "Back",
-                            tint = MaterialTheme.colorScheme.onPrimary
-                        )
-                    }
-                },
             )
         },
         contentWindowInsets = WindowInsets(0.dp),
@@ -188,7 +129,7 @@ private fun SearchScreen(
                     is SearchState.SearchResult -> {
                         SearchResultList(
                             searchResults = searchState.result,
-                            onItemClicked = onSearchItemClick,
+                            onItemClicked = { id -> onSearchItemClick(id, titleType) },
                         )
                     }
 

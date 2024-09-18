@@ -1,9 +1,5 @@
 package com.g.pocketmal.ui.userprofile
 
-import android.content.Context
-import android.content.Intent
-import android.os.Bundle
-import androidx.activity.compose.setContent
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -58,56 +54,18 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
 import com.g.pocketmal.R
-import com.g.pocketmal.argument
 import com.g.pocketmal.ui.common.LoadingView
 import com.g.pocketmal.ui.common.YesNoDialog
-import com.g.pocketmal.ui.legacy.SkeletonActivity
-import com.g.pocketmal.ui.theme.PocketMalTheme
 import com.g.pocketmal.ui.userprofile.presentation.UserProfileState
 import com.g.pocketmal.ui.userprofile.presentation.UserProfileViewEntity
 import com.g.pocketmal.ui.userprofile.presentation.UserProfileViewModel
-import dagger.hilt.android.AndroidEntryPoint
-
-@AndroidEntryPoint
-class UserProfileActivity : SkeletonActivity() {
-
-    private val userId: Int by argument(EXTRA_USER_ID, 0)
-
-    public override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContent {
-            PocketMalTheme {
-                UserProfileContent(
-                    userId = userId,
-                    onLoggedOut = {
-                        redirectToLoginScreen()
-                    },
-                    onBackPressed = { finish() }
-                )
-            }
-        }
-    }
-
-    companion object {
-
-        private const val EXTRA_USER_ID = "extra.user_id"
-
-        fun start(context: Context, userId: Int) {
-            val intent = Intent(context, UserProfileActivity::class.java).apply {
-                putExtra(EXTRA_USER_ID, userId)
-            }
-            context.startActivity(intent)
-        }
-    }
-}
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun UserProfileContent(
+fun UserProfileScreen(
     userId: Int,
     viewModel: UserProfileViewModel = hiltViewModel(),
     onLoggedOut: () -> Unit,
-    onBackPressed: () -> Unit,
 ) {
 
     val userProfileState by viewModel.userProfileState.collectAsState()
@@ -136,15 +94,6 @@ private fun UserProfileContent(
                     containerColor = MaterialTheme.colorScheme.primary,
                     titleContentColor = MaterialTheme.colorScheme.onPrimary
                 ),
-                navigationIcon = {
-                    IconButton(onClick = { onBackPressed() }) {
-                        Icon(
-                            imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                            contentDescription = "Back",
-                            tint = MaterialTheme.colorScheme.onPrimary
-                        )
-                    }
-                },
                 actions = {
                     IconButton(onClick = { menuExpanded = true }) {
                         Icon(
@@ -190,7 +139,7 @@ private fun UserProfileContent(
             if (state is UserProfileState.Loading) {
                 LoadingView()
             } else if (state is UserProfileState.UserProfileLoaded) {
-                UserProfileView(state.userProfile)
+                UserProfileContent(state.userProfile)
             }
         }
     }
@@ -210,7 +159,7 @@ private fun UserProfileContent(
 }
 
 @Composable
-private fun UserProfileView(
+private fun UserProfileContent(
     userProfile: UserProfileViewEntity,
 ) {
     Column(

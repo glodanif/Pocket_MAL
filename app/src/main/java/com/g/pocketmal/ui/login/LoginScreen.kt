@@ -1,13 +1,10 @@
 package com.g.pocketmal.ui.login
 
 import android.annotation.SuppressLint
-import android.content.Intent
-import android.os.Bundle
 import android.webkit.WebResourceRequest
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import androidx.activity.compose.BackHandler
-import androidx.activity.compose.setContent
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -32,36 +29,14 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.g.pocketmal.ui.common.ErrorMessageWithRetryView
 import com.g.pocketmal.ui.common.LoadingDialog
 import com.g.pocketmal.ui.common.LoadingView
-import com.g.pocketmal.ui.legacy.ListActivity
-import com.g.pocketmal.ui.legacy.SkeletonActivity
 import com.g.pocketmal.ui.login.presentation.LoginState
 import com.g.pocketmal.ui.login.presentation.LoginViewModel
-import com.g.pocketmal.ui.theme.PocketMalTheme
-import dagger.hilt.android.AndroidEntryPoint
-
-@AndroidEntryPoint
-class LoginActivity : SkeletonActivity() {
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContent {
-            PocketMalTheme {
-                LoginContent(
-                    onAuthorized = {
-                        startActivity(Intent(this, ListActivity::class.java))
-                        finish()
-                    }
-                )
-            }
-        }
-    }
-}
 
 @SuppressLint("SetJavaScriptEnabled")
 @Composable
-private fun LoginContent(
+fun LoginScreen(
     viewModel: LoginViewModel = hiltViewModel(),
-    onAuthorized: () -> Unit,
+    onLoggedIn: () -> Unit,
 ) {
 
     val context = LocalContext.current
@@ -101,7 +76,7 @@ private fun LoginContent(
 
     LaunchedEffect(loginState) {
         if (loginState is LoginState.Authorized) {
-            onAuthorized()
+            onLoggedIn()
         }
     }
 
@@ -111,7 +86,7 @@ private fun LoginContent(
             .padding(innerPaddings)) {
             when (val state = loginState) {
                 is LoginState.AuthDataReady -> AuthPageLoading(webView, state.url)
-                LoginState.AuthPageReady -> LoginScreen(webView)
+                LoginState.AuthPageReady -> LoginContent(webView)
                 LoginState.Authorized -> {
                     isLoading = false
                 }
@@ -154,7 +129,7 @@ private fun LoginContent(
 }
 
 @Composable
-fun AuthPageLoading(
+private fun AuthPageLoading(
     webView: WebView,
     url: String,
 ) {
@@ -180,7 +155,7 @@ fun AuthPageLoading(
 }
 
 @Composable
-fun LoginScreen(
+private fun LoginContent(
     webView: WebView,
 ) {
     Box(modifier = Modifier.fillMaxSize()) {

@@ -21,6 +21,7 @@ import com.g.pocketmal.data.converter.SearchEntityConverter
 import com.g.pocketmal.data.converter.SeasonEntityConverter
 import com.g.pocketmal.data.converter.UserProfileEntityConverter
 import com.g.pocketmal.data.database.ListDbStorage
+import com.g.pocketmal.data.database.converter.ListRecordDataConverter
 import com.g.pocketmal.data.database.converter.UserProfileDataConverter
 import com.g.pocketmal.data.database.datasource.RecordDataSource
 import com.g.pocketmal.data.database.datasource.RecordDataSourceImpl
@@ -222,10 +223,14 @@ object DataModule {
     @Singleton
     @Provides
     fun providesListRepository(
+        apiService: ApiService,
+        converter: ListRecordDataConverter,
+        localStorage: LocalStorage,
+        mainSettings: UserSettings,
         recordStorage: RecordDataSource,
         listsManager: ListsManager,
     ): ListRepository {
-        return ListRepository(recordStorage, listsManager)
+        return ListRepository(apiService, converter, localStorage, mainSettings, recordStorage, listsManager)
     }
 
     @Singleton
@@ -279,4 +284,12 @@ object DataModule {
     ): BrowseRepository {
         return BrowseRepository(apiService, converter, userSettings)
     }
+
+    @Singleton
+    @Provides
+    fun providesUserProfileDataConverter() = UserProfileDataConverter()
+
+    @Singleton
+    @Provides
+    fun providesListRecordDataConverter() = ListRecordDataConverter()
 }

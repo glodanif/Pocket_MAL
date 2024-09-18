@@ -18,7 +18,6 @@ import com.g.pocketmal.ui.browse.BrowseActivity
 import com.g.pocketmal.ui.legacy.ListActivity
 import com.g.pocketmal.ui.ranked.RankedActivity
 import com.g.pocketmal.ui.seasonal.SeasonalActivity
-import com.g.pocketmal.ui.userprofile.UserProfileActivity
 import com.g.pocketmal.ui.utils.CircleTransform
 import com.g.pocketmal.ui.utils.CollapseAnimator
 
@@ -126,7 +125,7 @@ class LeftMenuFragment : Fragment(), View.OnClickListener {
             R.id.tv_upcoming_button -> BrowseActivity.start(activity, RankingType.UPCOMING, titleType)
             R.id.tv_airing_button -> BrowseActivity.start(activity, RankingType.AIRING, titleType)
             R.id.rl_user_info -> currentUser?.let { user ->
-                UserProfileActivity.start(activity, user.id)
+                //UserProfileActivity.start(activity, user.id)
             }
             R.id.rl_in_progress_holder -> statusListener?.invoke(Status.IN_PROGRESS)
             R.id.rl_completed_holder -> statusListener?.invoke(Status.COMPLETED)
