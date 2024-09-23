@@ -194,7 +194,5 @@ android {
         androidTestImplementation 'androidx.test:runner:1.3.0'
         androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
         androidTestImplementation 'junit:junit:4.13.1'*/
-
-
     }
 }

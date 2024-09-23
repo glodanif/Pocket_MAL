@@ -8,13 +8,11 @@ import com.g.pocketmal.domain.interactor.*
 import org.koin.dsl.module
 
 val interactorModule = module {
-    factory { LoadListFromNetworkInteractor(get(), get(), get(), get(), get()) }
     factory { LogoutInteractor(get(), get(), get(), get(), get()) }
     factory { RemoveTitleFromListInteractor(get(), get()) }
     factory { AddTitleToListInteractor(get(), get(), get(), get()) }
     factory { GetTitleDetailsInteractor(get(), get(), get(), get()) }
     factory { UpdateTitleInteractor(get(), get()) }
-    factory { GetListsFromDbInteractor(get()) }
     factory { GetRecordFromDbInteractor(get()) }
 }
 

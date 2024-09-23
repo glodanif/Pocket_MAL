@@ -7,6 +7,7 @@ import androidx.room.Query
 
 import com.g.pocketmal.data.database.model.DbListRecord
 import com.g.pocketmal.domain.TitleType
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface RecordDao {

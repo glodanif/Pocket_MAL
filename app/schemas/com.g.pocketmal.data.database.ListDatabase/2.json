@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 2,
-    "identityHash": "7251886bcb2c70f6f5c82a4e7738f7af",
+    "identityHash": "a628eaa259f6d93063b5d6d14d4fc6d4",
     "entities": [
       {
         "tableName": "user_profile",
@@ -152,7 +152,7 @@
       },
       {
         "tableName": "record",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`uid` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `series_id` INTEGER NOT NULL, `series_title` TEXT NOT NULL, `series_english_title` TEXT NOT NULL, `series_type` TEXT NOT NULL, `series_episodes` INTEGER NOT NULL, `series_sub_episodes` INTEGER NOT NULL, `series_status` TEXT NOT NULL, `series_image` TEXT, `my_start_date` TEXT, `my_finish_date` TEXT, `my_episodes` INTEGER NOT NULL, `my_sub_episodes` INTEGER NOT NULL, `my_score` INTEGER NOT NULL, `my_status` TEXT NOT NULL, `my_re` INTEGER NOT NULL, `my_re_value` INTEGER NOT NULL, `my_re_times` INTEGER NOT NULL, `my_last_updated` INTEGER NOT NULL, `my_tags` TEXT NOT NULL, `my_comments` TEXT, `my_priority` INTEGER NOT NULL DEFAULT 0, `title_type` INTEGER NOT NULL)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`uid` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `series_id` INTEGER NOT NULL, `series_title` TEXT NOT NULL, `series_english_title` TEXT NOT NULL, `series_type` TEXT NOT NULL, `series_episodes` INTEGER NOT NULL, `series_sub_episodes` INTEGER NOT NULL, `series_status` TEXT NOT NULL, `series_image` TEXT, `nsfw` TEXT, `my_start_date` TEXT, `my_finish_date` TEXT, `my_episodes` INTEGER NOT NULL, `my_sub_episodes` INTEGER NOT NULL, `my_score` INTEGER NOT NULL, `my_status` TEXT NOT NULL, `my_re` INTEGER NOT NULL, `my_re_value` INTEGER NOT NULL, `my_re_times` INTEGER NOT NULL, `my_last_updated` INTEGER NOT NULL, `my_tags` TEXT NOT NULL, `my_comments` TEXT, `my_priority` INTEGER NOT NULL DEFAULT 0, `title_type` INTEGER NOT NULL)",
         "fields": [
           {
             "fieldPath": "uid",
@@ -205,6 +205,12 @@
           {
             "fieldPath": "seriesImage",
             "columnName": "series_image",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "seriesNsfw",
+            "columnName": "nsfw",
             "affinity": "TEXT",
             "notNull": false
           },
@@ -525,7 +531,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '7251886bcb2c70f6f5c82a4e7738f7af')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'a628eaa259f6d93063b5d6d14d4fc6d4')"
     ]
   }
 }

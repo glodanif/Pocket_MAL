@@ -1,31 +1,14 @@
 package com.g.pocketmal.di
 
-import com.g.pocketmal.ui.legacy.presenter.ListPresenter
 import com.g.pocketmal.ui.legacy.presenter.TitleDetailsPresenter
 import com.g.pocketmal.ui.legacy.viewentity.converter.ListItemConverter
-import com.g.pocketmal.ui.legacy.viewentity.converter.ListRecordConverter
+import com.g.pocketmal.ui.list.ListRecordConverter
 import com.g.pocketmal.ui.legacy.viewentity.converter.TitleDetailsConverter
 import dagger.hilt.android.EntryPointAccessors
 import org.koin.android.ext.koin.androidContext
 import org.koin.dsl.module
 
 val applicationModule = module {
-    factory { params ->
-        ListPresenter(
-            params[0],
-            params[0],
-            get(),
-            get(),
-            get(),
-            get(),
-            get(),
-            get(),
-            get(),
-            get(),
-            get(),
-            get()
-        )
-    }
     factory { params ->
         TitleDetailsPresenter(
             params[0],

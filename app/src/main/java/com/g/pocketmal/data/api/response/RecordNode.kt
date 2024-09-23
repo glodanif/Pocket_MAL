@@ -18,6 +18,7 @@ data class RecordNode(
     val numVolumes: Int?,
     val status: String,
     val broadcast: Broadcast?,
+    val nsfw: String?,
     @SerializedName("my_list_status")
     val listStatus: ListStatus?,
     @SerializedName("alternative_titles")

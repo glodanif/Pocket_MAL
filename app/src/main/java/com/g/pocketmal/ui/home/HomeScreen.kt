@@ -1,55 +1,89 @@
 package com.g.pocketmal.ui.home
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.MenuBook
+import androidx.compose.material.icons.rounded.KeyboardDoubleArrowUp
 import androidx.compose.material.icons.rounded.LibraryAdd
+import androidx.compose.material.icons.rounded.OndemandVideo
 import androidx.compose.material.icons.rounded.Person
 import androidx.compose.material.icons.rounded.Search
 import androidx.compose.material.icons.rounded.VideoLibrary
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FilledIconButton
+import androidx.compose.material3.FilledTonalButton
 import androidx.compose.material3.Icon
-import androidx.compose.material3.NavigationBar
-import androidx.compose.material3.NavigationBarItem
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.ModalBottomSheet
+import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import androidx.navigation.toRoute
+import com.g.pocketmal.data.common.Status
 import com.g.pocketmal.domain.TitleType
 import com.g.pocketmal.ui.list.ListScreen
 import com.g.pocketmal.ui.search.SearchScreen
 import com.g.pocketmal.ui.userprofile.UserProfileScreen
 import kotlinx.serialization.Serializable
 
-@Serializable
-data object AnimeList
+sealed class HomeScreenTabs {
+    @Serializable
+    data object AnimeList : HomeScreenTabs()
 
-@Serializable
-data object MangaList
+    @Serializable
+    data object MangaList : HomeScreenTabs()
 
-@Serializable
-data object Seasonal
+    @Serializable
+    data object Seasonal : HomeScreenTabs()
 
-@Serializable
-data object Ranked
+    @Serializable
+    data object Ranked : HomeScreenTabs()
 
-@Serializable
-data object Browse
+    @Serializable
+    data object Browse : HomeScreenTabs()
 
-@Serializable
-data object Search
+    @Serializable
+    data object Search : HomeScreenTabs()
 
-@Serializable
-data object UserProfile
+    @Serializable
+    data object UserProfile : HomeScreenTabs()
+}
+
+data class NavigationOption(
+    val label: String,
+    val icon: ImageVector,
+    val screen: HomeScreenTabs,
+)
 
 @Composable
 fun HomeScreen(
@@ -59,138 +93,166 @@ fun HomeScreen(
 ) {
 
     val navController = rememberNavController()
+    var selectedTab by remember { mutableStateOf<HomeScreenTabs>(HomeScreenTabs.AnimeList) }
+
+    val navigationOptions = listOf(
+        NavigationOption(
+            label = "Anime",
+            icon = Icons.Rounded.OndemandVideo,
+            screen = HomeScreenTabs.AnimeList,
+        ),
+        NavigationOption(
+            label = "Manga",
+            icon = Icons.AutoMirrored.Rounded.MenuBook,
+            screen = HomeScreenTabs.MangaList,
+        ),
+        NavigationOption(
+            label = "Browse",
+            icon = Icons.Rounded.LibraryAdd,
+            screen = HomeScreenTabs.Browse,
+        ),
+        NavigationOption(
+            label = "Search",
+            icon = Icons.Rounded.Search,
+            screen = HomeScreenTabs.Search,
+        ),
+        NavigationOption(
+            label = "Profile",
+            icon = Icons.Rounded.Person,
+            screen = HomeScreenTabs.UserProfile,
+        )
+    )
 
     Scaffold(
         bottomBar = {
-            NavigationBar {
-                NavigationBarItem(
-                    icon = { Icon(Icons.Rounded.VideoLibrary, contentDescription = "Anime List") },
-                    label = { Text("Anime") },
-                    selected = false,//navController.currentBackStackEntry?.toRoute<AnimeList>() == AnimeList,
-                    onClick = {
-                        navController.navigate(AnimeList) {
-                            popUpTo(navController.graph.startDestinationId) { saveState = true }
-                            launchSingleTop = true
-                            restoreState = true
-                        }
-                    }
-                )
-                NavigationBarItem(
-                    icon = {
-                        Icon(
-                            Icons.AutoMirrored.Rounded.MenuBook,
-                            contentDescription = "Manga List"
+            Surface(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(100.dp)
+                    .background(MaterialTheme.colorScheme.surface),
+                tonalElevation = 4.dp,
+                shadowElevation = 4.dp,
+            ) {
+                Row(
+                    modifier = Modifier
+                        .fillMaxSize(),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.SpaceEvenly,
+                ) {
+                    navigationOptions.forEach { option ->
+                        NavItem(
+                            label = option.label,
+                            icon = option.icon,
+                            isSelected = selectedTab == option.screen,
+                            onClicked = {
+                                navController.navigate(option.screen) {
+                                    popUpTo(navController.graph.startDestinationId) {
+                                        saveState = true
+                                    }
+                                    launchSingleTop = true
+                                    restoreState = true
+                                }
+                                selectedTab = option.screen
+                            }
                         )
-                    },
-                    label = { Text("Manga") },
-                    selected = false,//navController.currentBackStackEntry?.toRoute<MangaList>() == MangaList,
-                    onClick = {
-                        navController.navigate(MangaList) {
-                            popUpTo(navController.graph.startDestinationId) { saveState = true }
-                            launchSingleTop = true
-                            restoreState = true
-                        }
                     }
-                )
-                NavigationBarItem(
-                    icon = { Icon(Icons.Rounded.LibraryAdd, contentDescription = "Browse") },
-                    label = { Text("Browse") },
-                    selected = false,//navController.currentBackStackEntry?.toRoute<Browse>() == Browse,
-                    onClick = {
-                        navController.navigate(Browse) {
-                            popUpTo(navController.graph.startDestinationId) { saveState = true }
-                            launchSingleTop = true
-                            restoreState = true
-                        }
-                    }
-                )
-                NavigationBarItem(
-                    icon = { Icon(Icons.Rounded.Search, contentDescription = "Search") },
-                    label = { Text("Search") },
-                    selected = false,//navController.currentBackStackEntry?.toRoute<Search>() == Search,
-                    onClick = {
-                        navController.navigate(Search) {
-                            popUpTo(navController.graph.startDestinationId) { saveState = true }
-                            launchSingleTop = true
-                            restoreState = true
-                        }
-                    }
-                )
-                NavigationBarItem(
-                    icon = { Icon(Icons.Rounded.Person, contentDescription = "Profile") },
-                    label = { Text("Profile") },
-                    selected = false,//navController.currentBackStackEntry?.toRoute<UserProfile>() == UserProfile,
-                    onClick = {
-                        navController.navigate(UserProfile) {
-                            popUpTo(navController.graph.startDestinationId) { saveState = true }
-                            launchSingleTop = true
-                            restoreState = true
-                        }
-                    }
-                )
+                }
             }
         },
         contentWindowInsets = WindowInsets(0.dp),
     ) { innerPaddings ->
-        NavHost(
+        Box(
             modifier = Modifier
                 .padding(innerPaddings)
                 .fillMaxSize(),
-            navController = navController,
-            startDestination = AnimeList
         ) {
-            composable<AnimeList> {
-                ListScreen(
-                    titleType = TitleType.ANIME,
-                    onRecordClicked = { id, type ->
+            NavHost(
+                modifier = Modifier.fillMaxSize(),
+                navController = navController,
+                startDestination = HomeScreenTabs.AnimeList
+            ) {
+                composable<HomeScreenTabs.AnimeList> {
+                    ListScreen(
+                        titleType = TitleType.ANIME,
+                        onRecordClicked = { id, type ->
 
-                    }
-                )
-            }
-            composable<MangaList> {
-                ListScreen(
-                    titleType = TitleType.MANGA,
-                    onRecordClicked = { id, type ->
+                        },
+                    )
+                }
+                composable<HomeScreenTabs.MangaList> {
+                    ListScreen(
+                        titleType = TitleType.MANGA,
+                        onRecordClicked = { id, type ->
 
-                    }
-                )
-            }
-            composable<Seasonal> {
-                Box(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .background(Color.Red)
-                )
-            }
-            composable<Ranked> {
-                Box(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .background(Color.Magenta)
-                )
-            }
-            composable<Browse> {
-                Box(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .background(Color.Gray)
-                )
-            }
-            composable<Search> {
-                SearchScreen(
-                    onSearchItemClick = { id, type ->
-                        onTitleClicked(id, type)
-                    }
-                )
-            }
-            composable<UserProfile> {
-                UserProfileScreen(
-                    userId = 0,
-                    onLoggedOut = {
+                        }
+                    )
+                }
+                composable<HomeScreenTabs.Seasonal> {
+                    Box(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .background(Color.Red)
+                    )
+                }
+                composable<HomeScreenTabs.Ranked> {
+                    Box(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .background(Color.Magenta)
+                    )
+                }
+                composable<HomeScreenTabs.Browse> {
+                    Box(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .background(Color.Gray)
+                    )
+                }
+                composable<HomeScreenTabs.Search> {
+                    SearchScreen(
+                        onSearchItemClick = { id, type ->
+                            onTitleClicked(id, type)
+                        }
+                    )
+                }
+                composable<HomeScreenTabs.UserProfile> {
+                    UserProfileScreen(
+                        userId = 0,
+                        onLoggedOut = {
 
-                    },
-                )
+                        },
+                    )
+                }
             }
         }
+    }
+}
+
+@Composable
+private fun NavItem(
+    label: String,
+    icon: ImageVector,
+    isSelected: Boolean,
+    onClicked: () -> Unit,
+) {
+    var modifier = Modifier
+        .fillMaxHeight()
+        .width(72.dp)
+
+    if (isSelected) {
+        modifier = modifier.background(MaterialTheme.colorScheme.secondaryContainer)
+    }
+
+    Column(
+        modifier = modifier.clickable {
+            onClicked()
+        },
+        verticalArrangement = Arrangement.Top,
+        horizontalAlignment = Alignment.CenterHorizontally,
+    ) {
+        Spacer(modifier = Modifier.height(16.dp))
+        Icon(icon, contentDescription = "$label navigation bar icon")
+        Spacer(modifier = Modifier.height(4.dp))
+        Text(text = label, style = MaterialTheme.typography.labelSmall)
     }
 }

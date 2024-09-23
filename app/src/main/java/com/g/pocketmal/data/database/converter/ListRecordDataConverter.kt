@@ -59,6 +59,7 @@ class ListRecordDataConverter {
             seriesSubEpisodes,
             node.status,
             node.mainPicture?.large,
+            node.nsfw,
             listStatus?.startDate,
             listStatus?.finishDate,
             myEpisodes,

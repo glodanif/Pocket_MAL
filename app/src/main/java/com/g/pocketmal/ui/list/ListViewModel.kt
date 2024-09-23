@@ -1,13 +1,15 @@
 package com.g.pocketmal.ui.list
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.g.pocketmal.data.common.RecordsSubList
 import com.g.pocketmal.data.common.Status
 import com.g.pocketmal.data.repository.ListRepository
-import com.g.pocketmal.data.repository.ListResult
+import com.g.pocketmal.data.repository.ListStatus
+import com.g.pocketmal.domain.RecordLists
 import com.g.pocketmal.domain.TitleType
-import com.g.pocketmal.ui.legacy.viewentity.converter.ListRecordConverter
-import com.g.pocketmal.util.list.ListsManager
+import com.g.pocketmal.util.list.DataInterpreter
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -17,32 +19,78 @@ import javax.inject.Inject
 @HiltViewModel
 class ListViewModel @Inject constructor(
     private val listRepository: ListRepository,
-    private val listsManager: ListsManager,
     private val converter: ListRecordConverter,
 ) : ViewModel() {
 
     private val _listState = MutableStateFlow<ListState>(ListState.Initial)
     val listState = _listState.asStateFlow()
 
-    fun loadList(titleType: TitleType, status: Status = Status.IN_PROGRESS) {
-        _listState.value = ListState.RecordsList(emptyList())
+    private val _recordsState = MutableStateFlow<ListStatus?>(null)
 
+    private var currentStatus: Status = Status.IN_PROGRESS
+
+    fun watchRecords(titleType: TitleType) {
         viewModelScope.launch {
-
-            val list = listsManager.getListByStatus(status, titleType)
-            val dbEntities = converter.transform(titleType, list, false)
-            _listState.value = ListState.RecordsList(dbEntities)
-
-            val response = listRepository.loadListFromNetwork(titleType)
-            when (response) {
-                is ListResult.RecordsList -> {
-                    val networkEntities = converter.transform(titleType, list, false)
-                    _listState.value = ListState.RecordsList(networkEntities)
-                }
-                is ListResult.Error -> {
-                    _listState.value = ListState.Error(response.throwable.message?: "")
+            if (titleType.isAnime()) {
+                listRepository.animeRecordsState.collect { status ->
+                    Log.i("ListViewModel", "===> $status")
+                    val statusLabel = DataInterpreter.getStatusById(currentStatus, titleType)
+                    _recordsState.value = status
+                    val state = _listState.value
+                    if (state is ListState.RecordsList) {
+                        _listState.value = state.copy(
+                            list = getRecordsByStatus(titleType, currentStatus),
+                            status = currentStatus,
+                            statusLabel = statusLabel,
+                            counts = status.getCounts(),
+                            isSynchronizing = status.isListSynchronizing,
+                        )
+                    } else {
+                        _listState.value = ListState.RecordsList(
+                            list = getRecordsByStatus(titleType, currentStatus),
+                            status = currentStatus,
+                            statusLabel = statusLabel,
+                            counts = status.getCounts(),
+                            isSynchronizing = status.isListSynchronizing,
+                        )
+                    }
                 }
             }
         }
+    }
+
+    fun synchronizeList(titleType: TitleType) {
+        viewModelScope.launch {
+            listRepository.loadRecords(titleType)
+        }
+    }
+
+    fun switchStatus(titleType: TitleType, status: Status) {
+        currentStatus = status
+        val statusLabel = DataInterpreter.getStatusById(currentStatus, titleType)
+        val state = _listState.value
+        if (state is ListState.RecordsList) {
+            _listState.value = state.copy(
+                list = getRecordsByStatus(titleType, currentStatus),
+                status = currentStatus,
+                statusLabel = statusLabel,
+            )
+        }
+    }
+
+    private fun getRecordsByStatus(
+        titleType: TitleType,
+        status: Status,
+    ): List<RecordListViewEntity> {
+        val records = _recordsState.value?.lists ?: RecordLists()
+        val list = when (status) {
+            Status.IN_PROGRESS -> records.inProgress
+            Status.COMPLETED -> records.completed
+            Status.ON_HOLD -> records.onHold
+            Status.DROPPED -> records.dropped
+            Status.PLANNED -> records.planned
+            else -> RecordsSubList()
+        }
+        return converter.transform(titleType, list.list, false)
     }
 }

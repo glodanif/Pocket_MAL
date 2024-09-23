@@ -1,13 +1,13 @@
-package com.g.pocketmal.ui.legacy.comparator
+package com.g.pocketmal.data.common
 
-import com.g.pocketmal.ui.legacy.viewentity.RecordListViewModel
-import java.util.Comparator
+import com.g.pocketmal.data.database.model.DbListRecord
+import com.g.pocketmal.domain.SortingType
 
-class RecordComparator(val sortingType: SortingType = SortingType.TITLE, val reverse: Boolean = false) : Comparator<RecordListViewModel> {
+class RecordComparator(val sortingType: SortingType = SortingType.TITLE, val reverse: Boolean = false) : Comparator<DbListRecord> {
 
     private val typesOrder = listOf("tv", "ova", "movie", "special", "ona", "music", "manga", "one_shot", "doujin", "novel", "manhwa", "manhua")
 
-    override fun compare(item1: RecordListViewModel, item2: RecordListViewModel): Int {
+    override fun compare(item1: DbListRecord, item2: DbListRecord): Int {
 
         when (sortingType) {
             SortingType.TITLE ->
@@ -25,17 +25,17 @@ class RecordComparator(val sortingType: SortingType = SortingType.TITLE, val rev
                 return applyTitleSorting(firstComparing, item1, item2)
             }
             SortingType.TYPE -> {
-                val firstComparing = typesOrder.indexOf(item1.seriesMediaTypeRaw).compareTo(typesOrder.indexOf(item2.seriesMediaTypeRaw))
+                val firstComparing = typesOrder.indexOf(item1.seriesType).compareTo(typesOrder.indexOf(item2.seriesType))
                 return applyTitleSorting(firstComparing, item1, item2)
             }
             SortingType.LAST_UPDATED -> {
-                val firstComparing = if (item1.lastUpdated < item2.lastUpdated) +1 else if (item1.lastUpdated == item2.lastUpdated) 0 else -1
+                val firstComparing = if (item1.myLastUpdated < item2.myLastUpdated) +1 else if (item1.myLastUpdated == item2.myLastUpdated) 0 else -1
                 return applyTitleSorting(firstComparing, item1, item2)
             }
         }
     }
 
-    private fun applyTitleSorting(firstComparing: Int, item1: RecordListViewModel, item2: RecordListViewModel): Int {
+    private fun applyTitleSorting(firstComparing: Int, item1: DbListRecord, item2: DbListRecord): Int {
         return if (firstComparing != 0) {
             (if (reverse) -1 else +1) * firstComparing
         } else {

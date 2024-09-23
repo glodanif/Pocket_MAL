@@ -21,7 +21,7 @@ interface ApiService {
     suspend fun getMyInfo(): Response<BasicUserResponse>
     suspend fun getMyUserInfo(): Response<UserResponse>
     suspend fun getAccessToken(code: String, codeVerifier: String): Response<TokenResponse>
-    suspend fun getFirstListPage(type: TitleType, includeNsfw: Boolean): Response<ListResponse>
+    suspend fun getFirstListPage(type: TitleType): Response<ListResponse>
     suspend fun getListPage(url: String): Response<ListResponse>
     suspend fun getUserInfo(userId: Int): Response<UserResponse>
     suspend fun getTitleDetails(id: Int, type: TitleType): Response<TitleDetailsResponse>

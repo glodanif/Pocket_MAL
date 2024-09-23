@@ -230,7 +230,7 @@ object DataModule {
         recordStorage: RecordDataSource,
         listsManager: ListsManager,
     ): ListRepository {
-        return ListRepository(apiService, converter, localStorage, mainSettings, recordStorage, listsManager)
+        return ListRepository(apiService, converter, localStorage, mainSettings, recordStorage)
     }
 
     @Singleton

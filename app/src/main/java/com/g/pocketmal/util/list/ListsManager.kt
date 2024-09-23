@@ -24,22 +24,18 @@ class ListsManager {
     val mangaCounts: ListCounts
         get() = ListCounts(generalMangaList)
 
-    fun initAnimeLists(generalList: List<DbListRecord>?) {
-        if (!generalList.isNullOrEmpty()) {
-            for (anime in generalList) {
-                this.generalAnimeList.put(anime.seriesId, anime)
-            }
-            isAnimeListInitialized = true
+    fun initAnimeLists(generalList: List<DbListRecord>) {
+        for (anime in generalList) {
+            this.generalAnimeList.put(anime.seriesId, anime)
         }
+        isAnimeListInitialized = true
     }
 
-    fun initMangaLists(generalList: List<DbListRecord>?) {
-        if (!generalList.isNullOrEmpty()) {
-            for (manga in generalList) {
-                this.generalMangaList.put(manga.seriesId, manga)
-            }
-            isMangaListInitialized = true
+    fun initMangaLists(generalList: List<DbListRecord>) {
+        for (manga in generalList) {
+            this.generalMangaList.put(manga.seriesId, manga)
         }
+        isMangaListInitialized = true
     }
 
     fun clearInstance() {

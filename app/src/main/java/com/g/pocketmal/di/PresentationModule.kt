@@ -2,10 +2,9 @@ package com.g.pocketmal.di
 
 import android.content.Context
 import com.g.pocketmal.data.converter.UserProfileEntityConverter
-import com.g.pocketmal.data.database.converter.UserProfileDataConverter
 import com.g.pocketmal.ui.common.inliststatus.InListStatusConverter
 import com.g.pocketmal.ui.editdetails.presentation.RecordExtraDetailsConverter
-import com.g.pocketmal.ui.legacy.viewentity.converter.ListRecordConverter
+import com.g.pocketmal.ui.list.ListRecordConverter
 import com.g.pocketmal.ui.ranked.presentation.RankedItemConverter
 import com.g.pocketmal.ui.recommendations.presentation.RecommendedTitleConverter
 import com.g.pocketmal.ui.search.presentation.SearchResultConverter

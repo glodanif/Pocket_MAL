@@ -26,6 +26,8 @@ class DbListRecord(
         val seriesStatus: String,
         @ColumnInfo(name = "series_image")
         val seriesImage: String?,
+        @ColumnInfo(name = "nsfw")
+        var seriesNsfw: String?,
         @ColumnInfo(name = "my_start_date")
         var myStartDate: String?,
         @ColumnInfo(name = "my_finish_date")
@@ -53,5 +55,5 @@ class DbListRecord(
         @ColumnInfo(name = "my_priority", defaultValue = "0")
         var myPriority: Int,
         @ColumnInfo(name = "title_type")
-        val titleType: TitleType
+        val titleType: TitleType,
 )

@@ -1,4 +1,4 @@
-package com.g.pocketmal.ui.legacy.comparator
+package com.g.pocketmal.domain
 
 enum class SortingType(val type: Int) {
     TITLE(0),

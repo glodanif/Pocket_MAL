@@ -32,24 +32,6 @@
         </activity>
 
         <activity
-            android:name=".ui.legacy.ListActivity"
-            android:exported="true"
-            android:windowSoftInputMode="stateHidden">
-
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-
-                <category android:name="android.intent.category.BROWSABLE" />
-                <category android:name="android.intent.category.DEFAULT" />
-
-                <data android:host="myanimelist.net" />
-                <data android:pathPattern="/anime/.*" />
-                <data android:pathPattern="/manga/.*" />
-                <data android:scheme="https" />
-            </intent-filter>
-        </activity>
-
-        <activity
             android:name=".ui.legacy.TitleDetailsActivity"
             android:theme="@style/Theme.Mal.WhiteBackground"
             android:windowSoftInputMode="stateAlwaysHidden" />

@@ -49,6 +49,8 @@ class ListRecordEntityConverter {
             record.subEpisodes,
             record.status,
             record.imageUrl,
+            //FIXME
+            null,
             null,
             null,
             0,

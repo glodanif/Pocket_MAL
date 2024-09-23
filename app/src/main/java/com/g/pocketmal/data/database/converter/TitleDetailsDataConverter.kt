@@ -99,6 +99,7 @@ class TitleDetailsDataConverter {
             seriesSubEpisodes,
             details.status,
             details.mainPicture?.large,
+            details.nsfw,
             listStatus?.startDate,
             listStatus?.finishDate,
             myEpisodes,

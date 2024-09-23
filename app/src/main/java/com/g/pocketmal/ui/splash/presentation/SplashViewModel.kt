@@ -33,7 +33,7 @@ class SplashViewModel @Inject constructor(
     private fun dispatch() {
         viewModelScope.launch {
             if (sessionRepository.isUserLoggedIn()) {
-                listRepository.loadListFromDb()
+                //listRepository.loadListFromDb()
                 _sessionState.value = SplashState.LoggedIn
             } else {
                 _sessionState.value = SplashState.NotLoggedIn

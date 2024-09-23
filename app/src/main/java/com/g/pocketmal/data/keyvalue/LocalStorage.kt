@@ -3,7 +3,7 @@ package com.g.pocketmal.data.keyvalue
 import android.content.Context
 import androidx.core.content.edit
 import com.g.pocketmal.domain.TitleType
-import com.g.pocketmal.ui.legacy.comparator.SortingType
+import com.g.pocketmal.domain.SortingType
 
 class LocalStorage(context: Context) {
 
