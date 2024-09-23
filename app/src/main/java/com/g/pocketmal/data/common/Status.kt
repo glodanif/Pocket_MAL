@@ -10,8 +10,6 @@ enum class Status(val status: String) {
     PLANNED("plan_to_watch");
 
     companion object {
-
-        fun from(status: String?): Status =
-                values().find { value -> value.status == status } ?: NOT_IN_LIST
+        fun from(status: String?) = entries.find { value -> value.status == status } ?: NOT_IN_LIST
     }
 }

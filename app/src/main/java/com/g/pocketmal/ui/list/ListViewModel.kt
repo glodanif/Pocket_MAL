@@ -1,6 +1,5 @@
 package com.g.pocketmal.ui.list
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.g.pocketmal.data.common.RecordsSubList
@@ -33,27 +32,19 @@ class ListViewModel @Inject constructor(
         viewModelScope.launch {
             if (titleType.isAnime()) {
                 listRepository.animeRecordsState.collect { status ->
-                    Log.i("ListViewModel", "===> $status")
                     val statusLabel = DataInterpreter.getStatusById(currentStatus, titleType)
                     _recordsState.value = status
-                    val state = _listState.value
-                    if (state is ListState.RecordsList) {
-                        _listState.value = state.copy(
-                            list = getRecordsByStatus(titleType, currentStatus),
-                            status = currentStatus,
-                            statusLabel = statusLabel,
-                            counts = status.getCounts(),
-                            isSynchronizing = status.isListSynchronizing,
-                        )
-                    } else {
-                        _listState.value = ListState.RecordsList(
-                            list = getRecordsByStatus(titleType, currentStatus),
-                            status = currentStatus,
-                            statusLabel = statusLabel,
-                            counts = status.getCounts(),
-                            isSynchronizing = status.isListSynchronizing,
-                        )
-                    }
+                    _listState.value = ListState.RecordsList(
+                        list = getRecordsByStatus(titleType, currentStatus),
+                        status = currentStatus,
+                        statusLabel = statusLabel,
+                        counts = status.getCounts(),
+                        isSynchronizing = status.isListSynchronizing,
+                        isSynchronized = status.isListSynchronized,
+                        isPreloaded = status.isListFetchedFromDb,
+                        synchronizationError = status.syncError,
+                        synchronizedAt = status.syncAt.toString(),
+                    )
                 }
             }
         }

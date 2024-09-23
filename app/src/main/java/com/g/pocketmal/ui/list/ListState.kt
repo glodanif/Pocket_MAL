@@ -11,13 +11,11 @@ sealed class ListState {
         @StringRes val statusLabel: Int,
         val counts: ListCounts,
         val isSynchronizing: Boolean,
-        val synchronizationError: SynchronizationError? = null,
+        val isSynchronized: Boolean,
+        val isPreloaded: Boolean,
+        val synchronizationError: String? = null,
+        val synchronizedAt: String? = null,
     ) : ListState()
 
-    data class Error(
-        val message: String,
-    ) : ListState()
-
-    data object Loading : ListState()
     data object Initial : ListState()
 }

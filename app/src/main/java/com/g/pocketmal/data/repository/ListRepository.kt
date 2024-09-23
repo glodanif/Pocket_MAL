@@ -20,6 +20,7 @@ import com.g.pocketmal.domain.exception.MalDownException
 import com.google.gson.Gson
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import java.util.Date
 
 class ListRepository(
     private val apiService: ApiService,
@@ -98,11 +99,13 @@ class ListRepository(
                     _animeRecordsState.value = prepareList(result).copy(
                         isListSynchronizing = false,
                         isListSynchronized = true,
+                        isListFetchedFromDb = true,
                     )
                 } else {
                     _mangaRecordsState.value = prepareList(result).copy(
                         isListSynchronizing = false,
                         isListSynchronized = true,
+                        isListFetchedFromDb = true,
                     )
                 }
             } else {
@@ -132,12 +135,14 @@ class ListRepository(
                     isListSynchronizing = false,
                     isListSynchronized = false,
                     syncError = e.message ?: "error",
+                    syncAt = Date(localStorage.getLastSynchronizing(titleType))
                 )
             } else {
                 _mangaRecordsState.value = _mangaRecordsState.value.copy(
                     isListSynchronizing = false,
                     isListSynchronized = false,
                     syncError = e.message ?: "error",
+                    syncAt = Date(localStorage.getLastSynchronizing(titleType))
                 )
             }
         }
@@ -157,6 +162,7 @@ class ListRepository(
         return ListStatus(
             lists = lists,
             sortingOptions = sortingOptions,
+            isListFetchedFromDb = list.isNotEmpty()
         )
     }
 

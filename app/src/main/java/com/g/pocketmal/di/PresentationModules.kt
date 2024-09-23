@@ -41,8 +41,5 @@ val viewConverterModule = module {
             DataModule.ListsManagerEntryPoint::class.java
         ).getListsManager()
     }
-
-    single { ListItemConverter(androidContext()) }
-    single { ListRecordConverter(androidContext()) }
     single { TitleDetailsConverter(androidContext()) }
 }

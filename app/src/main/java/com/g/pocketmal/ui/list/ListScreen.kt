@@ -1,5 +1,6 @@
 package com.g.pocketmal.ui.list
 
+import android.widget.Toast
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -52,6 +53,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -63,6 +65,7 @@ import com.g.pocketmal.R
 import com.g.pocketmal.data.common.ListCounts
 import com.g.pocketmal.data.common.Status
 import com.g.pocketmal.domain.TitleType
+import com.g.pocketmal.ui.common.ErrorMessageWithRetryView
 import com.g.pocketmal.ui.common.LoadingView
 import com.g.pocketmal.ui.common.Poster
 
@@ -109,14 +112,6 @@ fun ListScreen(
         contentWindowInsets = WindowInsets(0.dp),
     ) { innerPaddings ->
 
-        var isRefreshing by remember { mutableStateOf(false) }
-
-        if (state is ListState.RecordsList) {
-            LaunchedEffect(state) {
-                isRefreshing = state.isSynchronizing
-            }
-        }
-
         Box(
             modifier = Modifier
                 .padding(innerPaddings)
@@ -130,26 +125,16 @@ fun ListScreen(
             contentAlignment = Alignment.Center,
         ) {
 
-            if (state is ListState.Loading) {
-                LoadingView()
-            } else if (state is ListState.RecordsList) {
-                PullToRefreshBox(
-                    isRefreshing = isRefreshing,
-                    onRefresh = {
-                        viewModel.synchronizeList(titleType)
+            if (state is ListState.RecordsList) {
+                RecordsContent(
+                    state = state,
+                    onRecordClicked = { id ->
+
                     },
-                ) {
-                    if (state.list.isNotEmpty()) {
-                        RecordsList(
-                            records = state.list,
-                            onRecordClicked = { id ->
-                                onRecordClicked(id, titleType)
-                            },
-                        )
-                    } else {
-                        EmptyList(stringResource(id = state.statusLabel))
+                    onPulledToRefresh = {
+                        viewModel.synchronizeList(titleType)
                     }
-                }
+                )
             }
 
             Row(
@@ -227,6 +212,66 @@ fun ListScreen(
     if (state is ListState.RecordsList) {
         BackHandler(enabled = state.status != Status.IN_PROGRESS) {
             viewModel.switchStatus(titleType, Status.IN_PROGRESS)
+        }
+    }
+}
+
+@Composable
+private fun RecordsContent(
+    state: ListState.RecordsList,
+    onPulledToRefresh: () -> Unit,
+    onRecordClicked: (Int) -> Unit
+) {
+
+    if (!state.isPreloaded && state.isSynchronizing) {
+        LoadingView()
+    } else if (!state.isPreloaded && !state.isSynchronized && state.synchronizationError != null) {
+        ErrorMessageWithRetryView(message = "EROROR ${state.synchronizationError}", onRetryClicked = {  })
+    } else if (state.isPreloaded && !state.isSynchronized && state.synchronizationError != null) {
+        Text("LAST SYNC: ${state.synchronizedAt}")
+        RecordsListContainer(
+            state = state,
+            onRecordClicked = onRecordClicked,
+            onPulledToRefresh = onPulledToRefresh,
+        )
+        val context = LocalContext.current
+        LaunchedEffect(Unit) {
+            Toast.makeText(context, "EROROR ${state.synchronizationError}", Toast.LENGTH_LONG).show()
+        }
+    } else {
+        RecordsListContainer(
+            state = state,
+            onRecordClicked = onRecordClicked,
+            onPulledToRefresh = onPulledToRefresh,
+        )
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+private fun RecordsListContainer(
+    state: ListState.RecordsList,
+    onPulledToRefresh: () -> Unit,
+    onRecordClicked: (Int) -> Unit
+) {
+    var isRefreshing by remember { mutableStateOf(false) }
+    LaunchedEffect(state) {
+        isRefreshing = state.isSynchronizing
+    }
+
+    PullToRefreshBox(
+        isRefreshing = isRefreshing,
+        onRefresh = {
+            onPulledToRefresh()
+        },
+    ) {
+        if (state.list.isNotEmpty()) {
+            RecordsList(
+                records = state.list,
+                onRecordClicked = onRecordClicked,
+            )
+        } else {
+            EmptyList(stringResource(id = state.statusLabel))
         }
     }
 }
