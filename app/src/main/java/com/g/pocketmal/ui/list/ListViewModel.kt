@@ -1,5 +1,6 @@
 package com.g.pocketmal.ui.list
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.g.pocketmal.data.common.RecordsSubList
@@ -32,6 +33,7 @@ class ListViewModel @Inject constructor(
         viewModelScope.launch {
             if (titleType.isAnime()) {
                 listRepository.animeRecordsState.collect { status ->
+                    Log.e("watchRecords", "===> $status")
                     val statusLabel = DataInterpreter.getStatusById(currentStatus, titleType)
                     _recordsState.value = status
                     _listState.value = ListState.RecordsList(

@@ -28,6 +28,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.KeyboardDoubleArrowUp
+import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -141,6 +142,7 @@ fun ListScreen(
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(48.dp)
+                    .padding(horizontal = 8.dp)
                     .align(Alignment.BottomCenter),
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.SpaceEvenly,
@@ -151,7 +153,7 @@ fun ListScreen(
                             .width(72.dp)
                             .fillMaxHeight()
                             .clip(RoundedCornerShape(topStart = 8.dp, topEnd = 8.dp))
-                            .background(MaterialTheme.colorScheme.secondaryContainer)
+                            .background(MaterialTheme.colorScheme.inversePrimary)
                             .clickable {
                                 isListStatusSelectorOpened = true
                             },
@@ -172,7 +174,7 @@ fun ListScreen(
                             .width(72.dp)
                             .fillMaxHeight()
                             .clip(RoundedCornerShape(topStart = 8.dp, topEnd = 8.dp))
-                            .background(MaterialTheme.colorScheme.secondaryContainer)
+                            .background(MaterialTheme.colorScheme.inversePrimary)
                             .clickable {
                                 isListStatusSelectorOpened = true
                             },
@@ -223,20 +225,36 @@ private fun RecordsContent(
     onRecordClicked: (Int) -> Unit
 ) {
 
-    if (!state.isPreloaded && state.isSynchronizing) {
-        LoadingView()
-    } else if (!state.isPreloaded && !state.isSynchronized && state.synchronizationError != null) {
-        ErrorMessageWithRetryView(message = "EROROR ${state.synchronizationError}", onRetryClicked = {  })
-    } else if (state.isPreloaded && !state.isSynchronized && state.synchronizationError != null) {
-        Text("LAST SYNC: ${state.synchronizedAt}")
-        RecordsListContainer(
-            state = state,
-            onRecordClicked = onRecordClicked,
-            onPulledToRefresh = onPulledToRefresh,
-        )
+    if (!state.isPreloaded) {
+        if (!state.isSynchronized && state.synchronizationError != null) {
+            ErrorMessageWithRetryView(
+                message = "EROROR ${state.synchronizationError}",
+                onRetryClicked = { })
+        } else {
+            LoadingView()
+        }
+    } else if (!state.isSynchronized && state.synchronizationError != null) {
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+        ) {
+            Text(
+                "Last sync: ${state.synchronizedAt}",
+                style = MaterialTheme.typography.bodyMedium,
+                textAlign = TextAlign.Center,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(12.dp)
+            )
+            RecordsListContainer(
+                state = state,
+                onRecordClicked = onRecordClicked,
+                onPulledToRefresh = onPulledToRefresh,
+            )
+        }
         val context = LocalContext.current
-        LaunchedEffect(Unit) {
-            Toast.makeText(context, "EROROR ${state.synchronizationError}", Toast.LENGTH_LONG).show()
+        LaunchedEffect(state.synchronizationError) {
+            Toast.makeText(context, state.synchronizationError, Toast.LENGTH_LONG).show()
         }
     } else {
         RecordsListContainer(
@@ -305,7 +323,9 @@ private fun EmptyList(
     statusLabel: String,
 ) {
     Column(
-        modifier = Modifier.fillMaxSize(),
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(horizontal = 48.dp),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
@@ -385,27 +405,32 @@ private fun StatusSelector(
 ) {
     val statusSelectorItems = listOf(
         StatusSelectorItem(
-            label = "${if (titleType.isAnime()) "Watching" else "Reading"} (${counts.inProgressCount})",
+            label = if (titleType.isAnime()) "Watching" else "Reading",
             status = Status.IN_PROGRESS,
+            count = counts.inProgressCount.toString(),
             isSelected = selectedStatus == Status.IN_PROGRESS,
         ),
         StatusSelectorItem(
-            label = "Completed (${counts.completedCount})",
+            label = "Completed",
+            count = counts.completedCount.toString(),
             status = Status.COMPLETED,
             isSelected = selectedStatus == Status.COMPLETED,
         ),
         StatusSelectorItem(
-            label = "On hold (${counts.onHoldCount})",
+            label = "On hold",
+            count = counts.onHoldCount.toString(),
             status = Status.ON_HOLD,
             isSelected = selectedStatus == Status.ON_HOLD,
         ),
         StatusSelectorItem(
-            label = "Dropped (${counts.droppedCount})",
+            label = "Dropped",
+            count = counts.droppedCount.toString(),
             status = Status.DROPPED,
             isSelected = selectedStatus == Status.DROPPED,
         ),
         StatusSelectorItem(
-            label = "${if (titleType.isAnime()) "Plan to watch" else "Plan to read"} (${counts.plannedCount})",
+            label = if (titleType.isAnime()) "Plan to watch" else "Plan to read",
+            count = counts.plannedCount.toString(),
             status = Status.PLANNED,
             isSelected = selectedStatus == Status.PLANNED,
         ),
@@ -422,24 +447,72 @@ private fun StatusSelector(
             .wrapContentHeight(),
         shape = RoundedCornerShape(topStart = 24.dp, topEnd = 24.dp),
     ) {
-        Column(modifier = Modifier.fillMaxWidth()) {
-            Text(text = "ALL: ${counts.generalCount}")
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(bottom = 48.dp, top = 24.dp, start = 36.dp, end = 36.dp),
+            horizontalAlignment = Alignment.CenterHorizontally,
+        ) {
+            Text(
+                text = "Your Anime List",
+                style = MaterialTheme.typography.headlineMedium,
+            )
+            Spacer(modifier = Modifier.height(36.dp))
             statusSelectorItems.forEach { item ->
-                OutlinedButton(onClick = {
-                    onNewStatusSelected(item.status)
+                if (item.isSelected) {
+                    Button(
+                        modifier = Modifier.fillMaxWidth(),
+                        onClick = {},
+                    ) {
+                        StatusButtonContent(item.label, item.count)
+                    }
+                } else {
+                    OutlinedButton(
+                        modifier = Modifier.fillMaxWidth(),
+                        onClick = {
+                            onNewStatusSelected(item.status)
+                        },
+                    ) {
+                        StatusButtonContent(item.label, item.count)
+                    }
                 }
-
-                ) {
-                    val curr = if (item.isSelected) "<===" else ""
-                    Text(text = "${item.label} $curr")
-                }
+                Spacer(modifier = Modifier.height(8.dp))
             }
+            Spacer(modifier = Modifier.height(8.dp))
+            StatusButtonContent(
+                label = "Total",
+                value = counts.generalCount.toString(),
+                modifier = Modifier.padding(horizontal = 24.dp)
+            )
+            Spacer(modifier = Modifier.height(16.dp))
         }
+    }
+}
+
+@Composable
+private fun StatusButtonContent(
+    label: String,
+    value: String,
+    modifier: Modifier = Modifier,
+) {
+    Row(
+        modifier = modifier.fillMaxWidth(),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.SpaceBetween,
+    ) {
+        Spacer(modifier = Modifier.width(54.dp))
+        Text(text = label)
+        Text(
+            text = value,
+            modifier = Modifier.width(54.dp),
+            textAlign = TextAlign.End,
+        )
     }
 }
 
 data class StatusSelectorItem(
     val label: String,
+    val count: String,
     val status: Status,
     val isSelected: Boolean,
 )

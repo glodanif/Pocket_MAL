@@ -135,7 +135,8 @@ fun HomeScreen(
             ) {
                 Row(
                     modifier = Modifier
-                        .fillMaxSize(),
+                        .fillMaxSize()
+                        .padding(horizontal = 8.dp),
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.SpaceEvenly,
                 ) {
@@ -240,7 +241,7 @@ private fun NavItem(
         .width(72.dp)
 
     if (isSelected) {
-        modifier = modifier.background(MaterialTheme.colorScheme.secondaryContainer)
+        modifier = modifier.background(MaterialTheme.colorScheme.inversePrimary)
     }
 
     Column(

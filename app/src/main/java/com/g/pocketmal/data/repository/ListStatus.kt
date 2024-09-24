@@ -24,4 +24,10 @@ data class ListStatus(
             plannedCount = lists.planned.quantity,
         )
     }
+
+    override fun toString(): String {
+        return "ListStatus(inProgress.list.size=${lists.inProgress.list.size}, isListSynchronizing=$isListSynchronizing, isListSynchronized=$isListSynchronized, isListFetchedFromDb=$isListFetchedFromDb)"
+    }
+
+
 }
