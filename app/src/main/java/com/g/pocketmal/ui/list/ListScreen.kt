@@ -23,25 +23,21 @@ import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.windowInsetsPadding
-import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.KeyboardDoubleArrowUp
-import androidx.compose.material3.Button
+import androidx.compose.material.icons.rounded.Star
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.ModalBottomSheet
-import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.pulltorefresh.PullToRefreshBox
-import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -60,15 +56,19 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
 import com.g.pocketmal.R
-import com.g.pocketmal.data.common.ListCounts
 import com.g.pocketmal.data.common.Status
 import com.g.pocketmal.domain.TitleType
 import com.g.pocketmal.ui.common.ErrorMessageWithRetryView
 import com.g.pocketmal.ui.common.LoadingView
 import com.g.pocketmal.ui.common.Poster
+import com.g.pocketmal.ui.common.ReLabel
+import com.g.pocketmal.ui.list.presentation.ListState
+import com.g.pocketmal.ui.list.presentation.ListViewModel
+import com.g.pocketmal.ui.list.presentation.RecordListViewEntity
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -82,6 +82,8 @@ fun ListScreen(
     val state = listState
 
     var isListStatusSelectorOpened by remember { mutableStateOf(false) }
+    var isRecordUpdatedOpened by remember { mutableStateOf(false) }
+    var recordToUpdate by remember { mutableStateOf<RecordListViewEntity?>(null) }
 
     LaunchedEffect(listState) {
         if (state == ListState.Initial) {
@@ -130,10 +132,14 @@ fun ListScreen(
                 RecordsContent(
                     state = state,
                     onRecordClicked = { id ->
-
+                        onRecordClicked(id, titleType)
                     },
                     onPulledToRefresh = {
                         viewModel.synchronizeList(titleType)
+                    },
+                    onUpdateClicked = { record ->
+                        recordToUpdate = record
+                        isRecordUpdatedOpened = true
                     }
                 )
             }
@@ -197,7 +203,7 @@ fun ListScreen(
     }
 
     if (isListStatusSelectorOpened && state is ListState.RecordsList) {
-        StatusSelector(
+        StatusSelectorBottomSheet(
             titleType = titleType,
             selectedStatus = state.status,
             counts = state.counts,
@@ -211,6 +217,23 @@ fun ListScreen(
         )
     }
 
+    recordToUpdate?.let { record ->
+        if (isRecordUpdatedOpened && state is ListState.RecordsList) {
+            UpdateRecordBottomSheet(
+                record = record,
+                onDismissRequest = {
+                    isRecordUpdatedOpened = false
+                },
+                onEpisodesClicked = {
+                    isRecordUpdatedOpened = false
+                },
+                onSubEpisodesClicked = {
+                    isRecordUpdatedOpened = false
+                },
+            )
+        }
+    }
+
     if (state is ListState.RecordsList) {
         BackHandler(enabled = state.status != Status.IN_PROGRESS) {
             viewModel.switchStatus(titleType, Status.IN_PROGRESS)
@@ -222,14 +245,16 @@ fun ListScreen(
 private fun RecordsContent(
     state: ListState.RecordsList,
     onPulledToRefresh: () -> Unit,
-    onRecordClicked: (Int) -> Unit
+    onRecordClicked: (Int) -> Unit,
+    onUpdateClicked: (RecordListViewEntity) -> Unit,
 ) {
 
     if (!state.isPreloaded) {
         if (!state.isSynchronized && state.synchronizationError != null) {
             ErrorMessageWithRetryView(
-                message = "EROROR ${state.synchronizationError}",
-                onRetryClicked = { })
+                message = state.synchronizationError,
+                onRetryClicked = onPulledToRefresh,
+            )
         } else {
             LoadingView()
         }
@@ -250,6 +275,7 @@ private fun RecordsContent(
                 state = state,
                 onRecordClicked = onRecordClicked,
                 onPulledToRefresh = onPulledToRefresh,
+                onUpdateClicked = onUpdateClicked,
             )
         }
         val context = LocalContext.current
@@ -261,6 +287,7 @@ private fun RecordsContent(
             state = state,
             onRecordClicked = onRecordClicked,
             onPulledToRefresh = onPulledToRefresh,
+            onUpdateClicked = onUpdateClicked,
         )
     }
 }
@@ -270,7 +297,8 @@ private fun RecordsContent(
 private fun RecordsListContainer(
     state: ListState.RecordsList,
     onPulledToRefresh: () -> Unit,
-    onRecordClicked: (Int) -> Unit
+    onRecordClicked: (Int) -> Unit,
+    onUpdateClicked: (RecordListViewEntity) -> Unit,
 ) {
     var isRefreshing by remember { mutableStateOf(false) }
     LaunchedEffect(state) {
@@ -287,6 +315,7 @@ private fun RecordsListContainer(
             RecordsList(
                 records = state.list,
                 onRecordClicked = onRecordClicked,
+                onUpdateClicked = onUpdateClicked,
             )
         } else {
             EmptyList(stringResource(id = state.statusLabel))
@@ -298,6 +327,7 @@ private fun RecordsListContainer(
 private fun RecordsList(
     records: List<RecordListViewEntity>,
     onRecordClicked: (Int) -> Unit,
+    onUpdateClicked: (RecordListViewEntity) -> Unit,
 ) {
     LazyColumn(
         modifier = Modifier.fillMaxSize(),
@@ -313,6 +343,7 @@ private fun RecordsList(
             RecordItem(
                 record = records[index],
                 onClick = onRecordClicked,
+                onUpdateClicked = onUpdateClicked,
             )
         }
     }
@@ -347,6 +378,7 @@ private fun EmptyList(
 private fun RecordItem(
     record: RecordListViewEntity,
     onClick: (Int) -> Unit,
+    onUpdateClicked: (RecordListViewEntity) -> Unit,
 ) {
     Card(
         modifier = Modifier
@@ -372,7 +404,8 @@ private fun RecordItem(
                 )
                 Column(
                     modifier = Modifier
-                        .fillMaxSize()
+                        .fillMaxWidth()
+                        .height(150.dp)
                         .padding(horizontal = 16.dp, vertical = 8.dp),
                 ) {
                     Text(
@@ -380,139 +413,90 @@ private fun RecordItem(
                         style = MaterialTheme.typography.titleMedium
                             .copy(fontWeight = FontWeight.SemiBold),
                         maxLines = 2,
+                        lineHeight = 18.sp,
                         overflow = TextOverflow.Ellipsis,
                     )
-                    Text(
-                        text = record.seriesDetails,
-                        style = MaterialTheme.typography.bodyMedium,
-                        maxLines = 1,
-                        overflow = TextOverflow.Ellipsis,
-                    )
+                    Spacer(modifier = Modifier.height(4.dp))
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        verticalAlignment = Alignment.CenterVertically,
+                    ) {
+                        Text(
+                            text = record.seriesDetails,
+                            style = MaterialTheme.typography.bodySmall,
+                            maxLines = 1,
+                            overflow = TextOverflow.Ellipsis,
+                            modifier = Modifier.weight(1f)
+                        )
+                        if (record.isRe) {
+                            ReLabel(titleType = record.titleType)
+                        }
+                    }
+                    Spacer(modifier = Modifier.weight(1f))
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .clip(RoundedCornerShape(12.dp))
+                            .clickable {
+                                onUpdateClicked(record)
+                            }
+                            .padding(8.dp),
+                        verticalAlignment = Alignment.CenterVertically,
+                    ) {
+                        Row(
+                            modifier = Modifier.weight(1f),
+                            horizontalArrangement = Arrangement.Center,
+                        ) {
+                            Column(
+                                horizontalAlignment = Alignment.CenterHorizontally,
+                            ) {
+                                Text(
+                                    text = "${record.myEpisodes}/${record.seriesEpisodes}",
+                                    style = MaterialTheme.typography.headlineSmall.copy(color = MaterialTheme.colorScheme.primary),
+                                )
+                                Text(
+                                    text = record.episodesName,
+                                    style = MaterialTheme.typography.labelSmall.copy(color = MaterialTheme.colorScheme.primary),
+                                )
+                            }
+                            if (record.isSubEpisodesAvailable) {
+                                Spacer(modifier = Modifier.width(16.dp))
+                                Column(
+                                    horizontalAlignment = Alignment.CenterHorizontally,
+                                ) {
+                                    Text(
+                                        text = "${record.mySubEpisodes}/${record.seriesSubEpisodes}",
+                                        style = MaterialTheme.typography.headlineSmall.copy(color = MaterialTheme.colorScheme.primary),
+                                    )
+                                    Text(
+                                        text = record.subEpisodesName,
+                                        style = MaterialTheme.typography.labelSmall.copy(color = MaterialTheme.colorScheme.primary),
+                                    )
+                                }
+                            }
+                        }
+                        Spacer(modifier = Modifier.width(16.dp))
+                        Column(
+                            horizontalAlignment = Alignment.CenterHorizontally,
+                        ) {
+                            Text(
+                                text = record.myScoreLabel,
+                                style = MaterialTheme.typography.headlineSmall.copy(
+                                    color = MaterialTheme.colorScheme.primary,
+                                    fontWeight = FontWeight.Bold,
+                                ),
+                            )
+                            Icon(
+                                Icons.Rounded.Star,
+                                modifier = Modifier.size(16.dp),
+                                tint = MaterialTheme.colorScheme.primary,
+                                contentDescription = "Score star icon",
+                            )
+                        }
+                    }
+                    Spacer(modifier = Modifier.height(8.dp))
                 }
             }
         }
     }
 }
-
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-private fun StatusSelector(
-    titleType: TitleType,
-    selectedStatus: Status,
-    counts: ListCounts,
-    onNewStatusSelected: (Status) -> Unit,
-    onDismissRequest: () -> Unit,
-) {
-    val statusSelectorItems = listOf(
-        StatusSelectorItem(
-            label = if (titleType.isAnime()) "Watching" else "Reading",
-            status = Status.IN_PROGRESS,
-            count = counts.inProgressCount.toString(),
-            isSelected = selectedStatus == Status.IN_PROGRESS,
-        ),
-        StatusSelectorItem(
-            label = "Completed",
-            count = counts.completedCount.toString(),
-            status = Status.COMPLETED,
-            isSelected = selectedStatus == Status.COMPLETED,
-        ),
-        StatusSelectorItem(
-            label = "On hold",
-            count = counts.onHoldCount.toString(),
-            status = Status.ON_HOLD,
-            isSelected = selectedStatus == Status.ON_HOLD,
-        ),
-        StatusSelectorItem(
-            label = "Dropped",
-            count = counts.droppedCount.toString(),
-            status = Status.DROPPED,
-            isSelected = selectedStatus == Status.DROPPED,
-        ),
-        StatusSelectorItem(
-            label = if (titleType.isAnime()) "Plan to watch" else "Plan to read",
-            count = counts.plannedCount.toString(),
-            status = Status.PLANNED,
-            isSelected = selectedStatus == Status.PLANNED,
-        ),
-    )
-    val sheetState = rememberModalBottomSheetState(
-        skipPartiallyExpanded = true
-    )
-
-    ModalBottomSheet(
-        onDismissRequest = onDismissRequest,
-        sheetState = sheetState,
-        modifier = Modifier
-            .fillMaxWidth()
-            .wrapContentHeight(),
-        shape = RoundedCornerShape(topStart = 24.dp, topEnd = 24.dp),
-    ) {
-        Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(bottom = 48.dp, top = 24.dp, start = 36.dp, end = 36.dp),
-            horizontalAlignment = Alignment.CenterHorizontally,
-        ) {
-            Text(
-                text = "Your Anime List",
-                style = MaterialTheme.typography.headlineMedium,
-            )
-            Spacer(modifier = Modifier.height(36.dp))
-            statusSelectorItems.forEach { item ->
-                if (item.isSelected) {
-                    Button(
-                        modifier = Modifier.fillMaxWidth(),
-                        onClick = {},
-                    ) {
-                        StatusButtonContent(item.label, item.count)
-                    }
-                } else {
-                    OutlinedButton(
-                        modifier = Modifier.fillMaxWidth(),
-                        onClick = {
-                            onNewStatusSelected(item.status)
-                        },
-                    ) {
-                        StatusButtonContent(item.label, item.count)
-                    }
-                }
-                Spacer(modifier = Modifier.height(8.dp))
-            }
-            Spacer(modifier = Modifier.height(8.dp))
-            StatusButtonContent(
-                label = "Total",
-                value = counts.generalCount.toString(),
-                modifier = Modifier.padding(horizontal = 24.dp)
-            )
-            Spacer(modifier = Modifier.height(16.dp))
-        }
-    }
-}
-
-@Composable
-private fun StatusButtonContent(
-    label: String,
-    value: String,
-    modifier: Modifier = Modifier,
-) {
-    Row(
-        modifier = modifier.fillMaxWidth(),
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.SpaceBetween,
-    ) {
-        Spacer(modifier = Modifier.width(54.dp))
-        Text(text = label)
-        Text(
-            text = value,
-            modifier = Modifier.width(54.dp),
-            textAlign = TextAlign.End,
-        )
-    }
-}
-
-data class StatusSelectorItem(
-    val label: String,
-    val count: String,
-    val status: Status,
-    val isSelected: Boolean,
-)

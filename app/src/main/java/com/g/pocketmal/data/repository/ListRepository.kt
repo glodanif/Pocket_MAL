@@ -55,7 +55,7 @@ class ListRepository(
             if (type.isAnime()) {
                 _animeRecordsState.value = prepareList(list)
             } else {
-                _animeRecordsState.value = prepareList(list)
+                _mangaRecordsState.value = prepareList(list)
             }
         }
     }

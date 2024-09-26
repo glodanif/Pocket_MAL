@@ -1,8 +1,6 @@
 package com.g.pocketmal.di
 
 import com.g.pocketmal.ui.legacy.presenter.TitleDetailsPresenter
-import com.g.pocketmal.ui.legacy.viewentity.converter.ListItemConverter
-import com.g.pocketmal.ui.list.ListRecordConverter
 import com.g.pocketmal.ui.legacy.viewentity.converter.TitleDetailsConverter
 import dagger.hilt.android.EntryPointAccessors
 import org.koin.android.ext.koin.androidContext

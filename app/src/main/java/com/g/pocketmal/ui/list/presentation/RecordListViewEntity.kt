@@ -1,6 +1,7 @@
-package com.g.pocketmal.ui.list
+package com.g.pocketmal.ui.list.presentation
 
 import androidx.annotation.StringRes
+import com.g.pocketmal.domain.TitleType
 import com.g.pocketmal.util.EpisodeType
 
 data class RecordListViewEntity(
@@ -30,4 +31,5 @@ data class RecordListViewEntity(
         val episodesType: EpisodeType,
         val subEpisodesType: EpisodeType,
         val seriesDetails: String,
+        val titleType: TitleType,
 )

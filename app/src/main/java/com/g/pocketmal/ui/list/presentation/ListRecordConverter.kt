@@ -1,4 +1,4 @@
-package com.g.pocketmal.ui.list
+package com.g.pocketmal.ui.list.presentation
 
 import android.content.Context
 import android.text.TextUtils
@@ -53,6 +53,7 @@ class ListRecordConverter(private val context: Context) {
             episodesType = if (isAnime) EpisodeType.EPISODE else EpisodeType.CHAPTER,
             subEpisodesType = if (isAnime) EpisodeType.EPISODE else EpisodeType.VOLUME,
             seriesDetails = "$seriesStatus • $seriesType",
+            titleType = titleType,
         )
     }
 

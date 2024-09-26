@@ -1,6 +1,5 @@
-package com.g.pocketmal.ui.list
+package com.g.pocketmal.ui.list.presentation
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.g.pocketmal.data.common.RecordsSubList
@@ -33,23 +32,30 @@ class ListViewModel @Inject constructor(
         viewModelScope.launch {
             if (titleType.isAnime()) {
                 listRepository.animeRecordsState.collect { status ->
-                    Log.e("watchRecords", "===> $status")
-                    val statusLabel = DataInterpreter.getStatusById(currentStatus, titleType)
-                    _recordsState.value = status
-                    _listState.value = ListState.RecordsList(
-                        list = getRecordsByStatus(titleType, currentStatus),
-                        status = currentStatus,
-                        statusLabel = statusLabel,
-                        counts = status.getCounts(),
-                        isSynchronizing = status.isListSynchronizing,
-                        isSynchronized = status.isListSynchronized,
-                        isPreloaded = status.isListFetchedFromDb,
-                        synchronizationError = status.syncError,
-                        synchronizedAt = status.syncAt.toString(),
-                    )
+                    handleNewListStatus(titleType, status)
+                }
+            } else {
+                listRepository.mangaRecordsState.collect { status ->
+                    handleNewListStatus(titleType, status)
                 }
             }
         }
+    }
+
+    private fun handleNewListStatus(titleType: TitleType, status: ListStatus) {
+        val statusLabel = DataInterpreter.getStatusById(currentStatus, titleType)
+        _recordsState.value = status
+        _listState.value = ListState.RecordsList(
+            list = getRecordsByStatus(titleType, currentStatus),
+            status = currentStatus,
+            statusLabel = statusLabel,
+            counts = status.getCounts(),
+            isSynchronizing = status.isListSynchronizing,
+            isSynchronized = status.isListSynchronized,
+            isPreloaded = status.isListFetchedFromDb,
+            synchronizationError = status.syncError,
+            synchronizedAt = status.syncAt.toString(),
+        )
     }
 
     fun synchronizeList(titleType: TitleType) {

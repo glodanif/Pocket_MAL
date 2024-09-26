@@ -1,4 +1,4 @@
-package com.g.pocketmal.ui.list
+package com.g.pocketmal.ui.list.presentation
 
 import androidx.annotation.StringRes
 import com.g.pocketmal.data.common.ListCounts

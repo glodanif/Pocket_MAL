@@ -87,3 +87,6 @@ val droppedBright = Color(0xFFa12f31)
 val droppedBlend = Color(0xFF832f30)
 val plannedBright = Color(0xFFc3c3c3)
 val plannedBlend = Color(0xFF747474)
+
+val re = Color(0xFFebab05)
+val onRe = Color(0xFF241a00)

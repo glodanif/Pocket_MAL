@@ -1,4 +1,4 @@
-package com.g.pocketmal.ui.list
+package com.g.pocketmal.ui.list.presentation
 
 data class SynchronizationError(
     val message: String,
