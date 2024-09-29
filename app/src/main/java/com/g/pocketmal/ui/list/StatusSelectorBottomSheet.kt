@@ -85,8 +85,9 @@ fun StatusSelectorBottomSheet(
                 .padding(bottom = 48.dp, top = 24.dp, start = 36.dp, end = 36.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
+            val titleTypeLabel = if (titleType.isAnime()) "Anime" else "Manga"
             Text(
-                text = "Your Anime List",
+                text = "Your $titleTypeLabel List",
                 style = MaterialTheme.typography.headlineMedium,
             )
             Spacer(modifier = Modifier.height(36.dp))

@@ -1,9 +1,5 @@
 package com.g.pocketmal.ui.seasonal
 
-import android.content.Context
-import android.content.Intent
-import android.os.Bundle
-import androidx.activity.compose.setContent
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -60,50 +56,20 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.g.pocketmal.domain.TitleType
 import com.g.pocketmal.ui.common.ErrorMessageView
 import com.g.pocketmal.ui.common.ErrorMessageWithRetryView
 import com.g.pocketmal.ui.common.LoadingView
 import com.g.pocketmal.ui.common.Poster
 import com.g.pocketmal.ui.common.ScoreLabel
 import com.g.pocketmal.ui.common.inliststatus.InListStatusLabel
-import com.g.pocketmal.ui.legacy.SkeletonActivity
-import com.g.pocketmal.ui.legacy.TitleDetailsActivity
 import com.g.pocketmal.ui.seasonal.presentation.Season
 import com.g.pocketmal.ui.seasonal.presentation.SeasonalAnimeViewEntity
 import com.g.pocketmal.ui.seasonal.presentation.SeasonalSectionViewEntity
 import com.g.pocketmal.ui.seasonal.presentation.SeasonalState
 import com.g.pocketmal.ui.seasonal.presentation.SeasonalViewModel
-import com.g.pocketmal.ui.theme.PocketMalTheme
-import dagger.hilt.android.AndroidEntryPoint
-
-@AndroidEntryPoint
-class SeasonalActivity : SkeletonActivity() {
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContent {
-            PocketMalTheme {
-                SeasonalContent(
-                    onAnimeClicked = { id ->
-                        TitleDetailsActivity.start(this, id, TitleType.ANIME)
-                    },
-                    onBackPressed = { finish() },
-                )
-            }
-        }
-    }
-
-    companion object {
-
-        fun start(context: Context) {
-            context.startActivity(Intent(context, SeasonalActivity::class.java))
-        }
-    }
-}
 
 @Composable
-private fun SeasonalContent(
+fun SeasonalScreen(
     viewModel: SeasonalViewModel = hiltViewModel(),
     onAnimeClicked: (Int) -> Unit,
     onBackPressed: () -> Unit,
@@ -116,7 +82,7 @@ private fun SeasonalContent(
         viewModel.loadSeason(season)
     }
 
-    SeasonalScreen(
+    SeasonalContent(
         season = season,
         seasonalState = seasonalState,
         onBackPressed = onBackPressed,
@@ -132,7 +98,7 @@ private fun SeasonalContent(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun SeasonalScreen(
+private fun SeasonalContent(
     season: Season,
     seasonalState: SeasonalState,
     onSeasonSelected: (Season) -> Unit,

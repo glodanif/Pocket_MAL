@@ -77,13 +77,6 @@ class DetailsFragment : Fragment() {
         for (genre in details.genres) {
             val genreView =
                 com.g.pocketmal.ui.legacy.widget.GenreView(requireActivity(), genre.id, genre.name)
-            //TODO: Uncomment when AS is available through the API
-            /*genreView.setOnClickListener {
-                val params = SearchParams()
-                params.addGenre(Integer.parseInt(it.tag.toString()))
-                params.sorting = SearchParams.SEARCH_SCORE
-                SearchActivity.start(requireActivity(), viewModel!!.titleType, params)
-            }*/
             views.add(genreView)
         }
         binding.glGenres.post { binding.glGenres.populateText(views) }

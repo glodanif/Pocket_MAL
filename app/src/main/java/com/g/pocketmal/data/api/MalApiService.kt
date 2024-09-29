@@ -149,7 +149,7 @@ class MalApiService(sessionStorage: SessionStorage, private val oAuthConfig: OAu
         val titleTypeValue = if (titleType == ANIME) "anime" else "manga"
         val topTypeValue = when (rankingType) {
             RankingType.UPCOMING -> "upcoming"
-            RankingType.AIRING -> "airing"
+            RankingType.RELEASING -> "airing"
             RankingType.BY_POPULARITY -> "bypopularity"
             else -> "all"
         }

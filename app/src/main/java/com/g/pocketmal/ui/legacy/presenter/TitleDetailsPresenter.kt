@@ -8,7 +8,6 @@ import com.g.pocketmal.data.api.UpdateParams
 import com.g.pocketmal.data.common.Status
 import com.g.pocketmal.data.database.model.DbListRecord
 import com.g.pocketmal.data.keyvalue.UserSettings
-import com.g.pocketmal.data.platform.ClipboardManager
 import com.g.pocketmal.domain.TitleType
 import com.g.pocketmal.di.DataModule
 import com.g.pocketmal.domain.exception.NotApprovedTitleException
@@ -39,7 +38,6 @@ class TitleDetailsPresenter(
     private val settings: UserSettings,
     private val recordConverter: ListItemConverter,
     private val detailsConverter: TitleDetailsConverter,
-    private val clipboardManager: ClipboardManager,
     private val getTitleDetailsInteractor: GetTitleDetailsInteractor,
     private val addTitleToListInteractor: AddTitleToListInteractor,
     private val removeTitleFromListInteractor: RemoveTitleFromListInteractor,
@@ -319,7 +317,7 @@ class TitleDetailsPresenter(
         }
 
         currentRecord?.let {
-            clipboardManager.copyToClipboard(it.seriesTitle)
+            //clipboardManager.copyToClipboard(it.seriesTitle)
             view.showCopied()
         }
     }

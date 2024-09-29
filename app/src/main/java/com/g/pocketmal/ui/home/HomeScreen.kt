@@ -16,7 +16,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.MenuBook
-import androidx.compose.material.icons.rounded.LibraryAdd
+import androidx.compose.material.icons.rounded.Explore
 import androidx.compose.material.icons.rounded.OndemandVideo
 import androidx.compose.material.icons.rounded.Person
 import androidx.compose.material.icons.rounded.Search
@@ -32,16 +32,25 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
+import androidx.navigation.activity
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.toRoute
+import com.g.pocketmal.data.util.RankingType
 import com.g.pocketmal.domain.TitleType
+import com.g.pocketmal.ui.about.AboutScreen
+import com.g.pocketmal.ui.browse.BrowseScreen
+import com.g.pocketmal.ui.explore.ExploreScreen
 import com.g.pocketmal.ui.list.ListScreen
+import com.g.pocketmal.ui.ranked.RankedScreen
 import com.g.pocketmal.ui.search.SearchScreen
+import com.g.pocketmal.ui.seasonal.SeasonalScreen
+import com.g.pocketmal.ui.settings.SettingsScreen
 import com.g.pocketmal.ui.userprofile.UserProfileScreen
+import com.google.android.gms.oss.licenses.OssLicensesMenuActivity
 import kotlinx.serialization.Serializable
 
 sealed class HomeScreenTabs {
@@ -52,13 +61,7 @@ sealed class HomeScreenTabs {
     data object MangaList : HomeScreenTabs()
 
     @Serializable
-    data object Seasonal : HomeScreenTabs()
-
-    @Serializable
-    data object Ranked : HomeScreenTabs()
-
-    @Serializable
-    data object Browse : HomeScreenTabs()
+    data object Explore : HomeScreenTabs()
 
     @Serializable
     data object Search : HomeScreenTabs()
@@ -66,6 +69,39 @@ sealed class HomeScreenTabs {
     @Serializable
     data object UserProfile : HomeScreenTabs()
 }
+
+@Serializable
+data class Details(val id: Int, val type: TitleType)
+
+@Serializable
+data object Settings
+
+@Serializable
+data object About
+
+@Serializable
+data object LinkPattern
+
+@Serializable
+data object SharingPatterns
+
+@Serializable
+data object OpenSourceLibraries
+
+@Serializable
+data object SeasonalAnime
+
+@Serializable
+data class MostPopular(val type: TitleType)
+
+@Serializable
+data class TopRated(val type: TitleType)
+
+@Serializable
+data class Releasing(val type: TitleType)
+
+@Serializable
+data class Upcoming(val type: TitleType)
 
 data class NavigationOption(
     val label: String,
@@ -75,9 +111,10 @@ data class NavigationOption(
 
 @Composable
 fun HomeScreen(
-    onSettingsClicked: () -> Unit,
-    onAboutClicked: () -> Unit,
-    onTitleClicked: (Int, TitleType) -> Unit,
+    rateApp: () -> Unit,
+    shareText: (String) -> Unit,
+    openLink: (String) -> Unit,
+    copyToClipboard: (String) -> Unit,
 ) {
 
     val navController = rememberNavController()
@@ -95,9 +132,9 @@ fun HomeScreen(
             screen = HomeScreenTabs.MangaList,
         ),
         NavigationOption(
-            label = "Browse",
-            icon = Icons.Rounded.LibraryAdd,
-            screen = HomeScreenTabs.Browse,
+            label = "Explore",
+            icon = Icons.Rounded.Explore,
+            screen = HomeScreenTabs.Explore,
         ),
         NavigationOption(
             label = "Search",
@@ -164,7 +201,13 @@ fun HomeScreen(
                     ListScreen(
                         titleType = TitleType.ANIME,
                         onRecordClicked = { id, type ->
-
+                            navController.navigate(Details(id, type))
+                        },
+                        onSettingsClicked = {
+                            navController.navigate(Settings)
+                        },
+                        onAboutClicked = {
+                            navController.navigate(About)
                         },
                     )
                 }
@@ -172,35 +215,39 @@ fun HomeScreen(
                     ListScreen(
                         titleType = TitleType.MANGA,
                         onRecordClicked = { id, type ->
-
-                        }
+                            navController.navigate(Details(id, type))
+                        },
+                        onSettingsClicked = {
+                            navController.navigate(Settings)
+                        },
+                        onAboutClicked = {
+                            navController.navigate(About)
+                        },
                     )
                 }
-                composable<HomeScreenTabs.Seasonal> {
-                    Box(
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .background(Color.Red)
-                    )
-                }
-                composable<HomeScreenTabs.Ranked> {
-                    Box(
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .background(Color.Magenta)
-                    )
-                }
-                composable<HomeScreenTabs.Browse> {
-                    Box(
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .background(Color.Gray)
+                composable<HomeScreenTabs.Explore> {
+                    ExploreScreen(
+                        onSeasonalAnimeClicked = {
+                            navController.navigate(SeasonalAnime)
+                        },
+                        onTopRatedClicked = { type ->
+                            navController.navigate(TopRated(type))
+                        },
+                        onMostPopularClicked = { type ->
+                            navController.navigate(MostPopular(type))
+                        },
+                        onReleasingClicked = { type ->
+                            navController.navigate(Releasing(type))
+                        },
+                        onUpcomingClicked = { type ->
+                            navController.navigate(Upcoming(type))
+                        },
                     )
                 }
                 composable<HomeScreenTabs.Search> {
                     SearchScreen(
                         onSearchItemClick = { id, type ->
-                            onTitleClicked(id, type)
+                            navController.navigate(Details(id, type))
                         }
                     )
                 }
@@ -211,6 +258,96 @@ fun HomeScreen(
 
                         },
                     )
+                }
+                composable<SeasonalAnime> {
+                    SeasonalScreen(
+                        onAnimeClicked = {
+                            navController.navigate(Details(id, TitleType.ANIME))
+                        },
+                        onBackPressed = {
+                            navController.popBackStack()
+                        }
+                    )
+                }
+                composable<TopRated> {
+                    val topRated = it.toRoute<TopRated>()
+                    RankedScreen(
+                        rankingType = RankingType.ALL,
+                        titleType = topRated.type,
+                        onRankedItemClicked = { id, type ->
+                            navController.navigate(Details(id, type))
+                        },
+                        onBackPressed = {
+                            navController.popBackStack()
+                        },
+                    )
+                }
+                composable<MostPopular> {
+                    val mostPopular = it.toRoute<MostPopular>()
+                    RankedScreen(
+                        rankingType = RankingType.BY_POPULARITY,
+                        titleType = mostPopular.type,
+                        onRankedItemClicked = { id, type ->
+                            navController.navigate(Details(id, type))
+                        },
+                        onBackPressed = {
+                            navController.popBackStack()
+                        },
+                    )
+                }
+                composable<Releasing> {
+                    val releasing = it.toRoute<Releasing>()
+                    BrowseScreen(
+                        rankingType = RankingType.RELEASING,
+                        titleType = releasing.type,
+                        onBrowseItemClicked = { id, type ->
+                            navController.navigate(Details(id, type))
+                        },
+                        onBackPressed = {
+                            navController.popBackStack()
+                        },
+                    )
+                }
+                composable<Upcoming> {
+                    val upcoming = it.toRoute<Upcoming>()
+                    BrowseScreen(
+                        rankingType = RankingType.UPCOMING,
+                        titleType = upcoming.type,
+                        onBrowseItemClicked = { id, type ->
+                            navController.navigate(Details(id, type))
+                        },
+                        onBackPressed = {
+                            navController.popBackStack()
+                        },
+                    )
+                }
+                composable<Settings> {
+                    SettingsScreen(
+                        onSetupExternalLinksClicked = {
+                            navController.navigate(LinkPattern)
+                        },
+                        onSetupSharingPatternsClicked = {
+                            navController.navigate(SharingPatterns)
+                        },
+                        onBackPressed = {
+                            navController.popBackStack()
+                        }
+                    )
+                }
+                composable<About> {
+                    AboutScreen(
+                        onShareClicked = shareText,
+                        onRateClicked = rateApp,
+                        onOpenSourceLibrariesClicked = {
+                            navController.navigate(OpenSourceLibraries)
+                        },
+                        onBackPressed = {
+                            navController.popBackStack()
+                        }
+                    )
+                }
+                activity<OpenSourceLibraries> {
+                    activityClass = OssLicensesMenuActivity::class
                 }
             }
         }

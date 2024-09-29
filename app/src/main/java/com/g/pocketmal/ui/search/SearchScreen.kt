@@ -70,28 +70,13 @@ import com.g.pocketmal.ui.search.presentation.SearchResultViewEntity
 import com.g.pocketmal.ui.search.presentation.SearchState
 import com.g.pocketmal.ui.search.presentation.SearchViewModel
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SearchScreen(
     viewModel: SearchViewModel = hiltViewModel(),
     onSearchItemClick: (Int, TitleType) -> Unit,
 ) {
     val searchState by viewModel.searchState.collectAsState()
-    SearchContent(
-        searchState = searchState,
-        onSearchPressed = { query, type ->
-            viewModel.search(query, type)
-        },
-        onSearchItemClick = onSearchItemClick,
-    )
-}
-
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-private fun SearchContent(
-    searchState: SearchState,
-    onSearchPressed: (String, TitleType) -> Unit,
-    onSearchItemClick: (Int, TitleType) -> Unit,
-) {
     var titleType by remember { mutableStateOf(ANIME) }
 
     Scaffold(
@@ -125,23 +110,23 @@ private fun SearchContent(
                 modifier = Modifier.fillMaxSize(),
                 contentAlignment = Alignment.Center,
             ) {
-                when (searchState) {
+                when (val state = searchState) {
                     is SearchState.SearchResult -> {
                         SearchResultList(
-                            searchResults = searchState.result,
+                            searchResults = state.result,
                             onItemClicked = { id -> onSearchItemClick(id, titleType) },
                         )
                     }
 
                     is SearchState.FailedToLoad ->
                         ErrorMessageWithRetryView(
-                            message = searchState.errorMessage,
-                            onRetryClicked = { onSearchPressed(query.trim(), titleType) },
+                            message = state.errorMessage,
+                            onRetryClicked = { viewModel.search(query, titleType) },
                         )
 
                     is SearchState.IncorrectInput ->
                         ErrorMessageView(
-                            message = "Query must be at least ${searchState.minQueryLength} characters long",
+                            message = "Query must be at least ${state.minQueryLength} characters long",
                         )
 
                     SearchState.NoSearchResult ->
@@ -165,7 +150,7 @@ private fun SearchContent(
                         onQueryChange = { query = it },
                         onSearch = {
                             keyboardController?.hide()
-                            onSearchPressed(it.trim(), titleType)
+                            viewModel.search(it.trim(), titleType)
                         },
                         expanded = false,
                         onExpandedChange = { },

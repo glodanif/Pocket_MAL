@@ -2,7 +2,7 @@ package com.g.pocketmal.data.util
 
 enum class RankingType(val type: Int) {
     ALL(0),
-    AIRING(1),
+    RELEASING(1),
     UPCOMING(2),
     TV(3),
     OVA(4),

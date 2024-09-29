@@ -1,9 +1,5 @@
 package com.g.pocketmal.ui.about
 
-import android.content.Context
-import android.content.Intent
-import android.os.Bundle
-import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -12,8 +8,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.filled.Share
-import androidx.compose.material.icons.filled.StarRate
 import androidx.compose.material.icons.rounded.Share
 import androidx.compose.material.icons.rounded.StarRate
 import androidx.compose.material3.Button
@@ -33,61 +27,14 @@ import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.g.pocketmal.BuildConfig
 import com.g.pocketmal.R
-import com.g.pocketmal.ui.legacy.SkeletonActivity
-import com.g.pocketmal.ui.theme.PocketMalTheme
-import com.google.android.gms.oss.licenses.OssLicensesMenuActivity
-import com.google.android.play.core.review.ReviewException
-import com.google.android.play.core.review.ReviewManagerFactory
-import com.google.android.play.core.review.model.ReviewErrorCode
-import dagger.hilt.android.AndroidEntryPoint
 
-@AndroidEntryPoint
-class AboutActivity : SkeletonActivity() {
-
-    public override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContent {
-            PocketMalTheme {
-                AboutContent(
-                    onShareClicked = { shareText(APPLICATION_LINK) },
-                    onRateClicked = { promptAppReview() },
-                    onOpenSourceLibrariesClicked = {
-                        startActivity(Intent(this, OssLicensesMenuActivity::class.java))
-                    },
-                    onBackPressed = { finish() },
-                )
-            }
-        }
-    }
-
-    private fun promptAppReview() {
-        val manager = ReviewManagerFactory.create(this)
-        val request = manager.requestReviewFlow()
-        request.addOnCompleteListener { task ->
-            if (task.isSuccessful) {
-                manager.launchReviewFlow(this, task.result)
-            } else {
-                @ReviewErrorCode
-                val reviewErrorCode = (task.exception as ReviewException).errorCode
-                showToast("Unable to launch the review process ($reviewErrorCode)")
-            }
-        }
-    }
-
-    companion object {
-        const val APPLICATION_LINK = "https://play.google.com/store/apps/details?id=com.g.pocketmal"
-
-        fun startActivity(context: Context) {
-            context.startActivity(Intent(context, AboutActivity::class.java))
-        }
-    }
-}
+const val APPLICATION_LINK = "https://play.google.com/store/apps/details?id=com.g.pocketmal"
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun AboutContent(
+fun AboutScreen(
     onRateClicked: () -> Unit,
-    onShareClicked: () -> Unit,
+    onShareClicked: (String) -> Unit,
     onOpenSourceLibrariesClicked: () -> Unit,
     onBackPressed: () -> Unit,
 ) {
@@ -116,7 +63,7 @@ private fun AboutContent(
                             tint = MaterialTheme.colorScheme.onPrimary
                         )
                     }
-                    IconButton(onClick = { onShareClicked() }) {
+                    IconButton(onClick = { onShareClicked(APPLICATION_LINK) }) {
                         Icon(
                             imageVector = Icons.Rounded.Share,
                             contentDescription = "Share app button",

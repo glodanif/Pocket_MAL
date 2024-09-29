@@ -1,9 +1,5 @@
 package com.g.pocketmal.ui.settings
 
-import android.content.Context
-import android.content.Intent
-import android.os.Bundle
-import androidx.activity.compose.setContent
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -45,45 +41,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.g.pocketmal.ui.externallinks.ExternalLinksActivity
-import com.g.pocketmal.ui.sharingpatterns.SharingPatternsActivity
-import com.g.pocketmal.ui.legacy.SkeletonActivity
 import com.g.pocketmal.ui.settings.presentation.SettingsViewModel
-import com.g.pocketmal.ui.theme.PocketMalTheme
-import dagger.hilt.android.AndroidEntryPoint
-
-@AndroidEntryPoint
-class SettingsActivity : SkeletonActivity() {
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContent {
-            PocketMalTheme {
-                SettingsContent(
-                    onSetupExternalLinksClicked = {
-                        ExternalLinksActivity.start(this)
-                    },
-                    onSetupSharingPatternsClicked = {
-                        SharingPatternsActivity.start(this)
-                    },
-                    onBackPressed = {
-                        finish()
-                    }
-                )
-            }
-        }
-    }
-
-    companion object {
-        fun start(context: Context) {
-            context.startActivity(Intent(context, SettingsActivity::class.java))
-        }
-    }
-}
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun SettingsContent(
+fun SettingsScreen(
     viewModel: SettingsViewModel = hiltViewModel(),
     onSetupExternalLinksClicked: () -> Unit,
     onSetupSharingPatternsClicked: () -> Unit,
@@ -474,7 +436,6 @@ private fun SettingsContent(
             onDismissRequest = {
                 isFloatingSharingButtonDialogDisplayed = false
             },
-
-            )
+        )
     }
 }

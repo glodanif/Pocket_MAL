@@ -23,7 +23,6 @@ val applicationModule = module {
             get(),
             get(),
             get(),
-            get(),
             EntryPointAccessors.fromApplication(
                 androidContext(),
                 DataModule.DataStoreEntryPoint::class.java

@@ -13,8 +13,6 @@ import com.g.pocketmal.data.keyvalue.LocalStorage
 import com.g.pocketmal.data.keyvalue.SessionStorage
 import com.g.pocketmal.data.keyvalue.SharingPatternDispatcher
 import com.g.pocketmal.data.keyvalue.UserSettings
-import com.g.pocketmal.data.platform.ClipboardManager
-import com.g.pocketmal.data.platform.ClipboardManagerImpl
 import com.g.pocketmal.data.platform.NetworkManager
 import com.g.pocketmal.data.platform.NetworkManagerImpl
 import org.koin.android.ext.koin.androidContext
@@ -40,6 +38,5 @@ val dataConverterModule = module {
 }
 
 val platformModule = module {
-    single { ClipboardManagerImpl(androidContext()) as ClipboardManager }
     single { NetworkManagerImpl(androidContext()) as NetworkManager }
 }

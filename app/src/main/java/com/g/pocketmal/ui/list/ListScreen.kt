@@ -27,11 +27,15 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.KeyboardDoubleArrowUp
+import androidx.compose.material.icons.rounded.MoreVert
 import androidx.compose.material.icons.rounded.Star
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -76,6 +80,8 @@ fun ListScreen(
     viewModel: ListViewModel = hiltViewModel(),
     titleType: TitleType,
     onRecordClicked: (Int, TitleType) -> Unit,
+    onSettingsClicked: () -> Unit,
+    onAboutClicked: () -> Unit,
 ) {
 
     val listState by viewModel.listState.collectAsState()
@@ -84,6 +90,7 @@ fun ListScreen(
     var isListStatusSelectorOpened by remember { mutableStateOf(false) }
     var isRecordUpdatedOpened by remember { mutableStateOf(false) }
     var recordToUpdate by remember { mutableStateOf<RecordListViewEntity?>(null) }
+    var menuExpanded by remember { mutableStateOf(false) }
 
     LaunchedEffect(listState) {
         if (state == ListState.Initial) {
@@ -109,7 +116,45 @@ fun ListScreen(
                 colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
                     containerColor = MaterialTheme.colorScheme.primary,
                     titleContentColor = MaterialTheme.colorScheme.onPrimary
-                )
+                ),
+                actions = {
+                    IconButton(onClick = { menuExpanded = true }) {
+                        Icon(
+                            Icons.Rounded.MoreVert,
+                            contentDescription = "Menu",
+                            tint = MaterialTheme.colorScheme.onPrimary,
+                        )
+                    }
+                    DropdownMenu(
+                        expanded = menuExpanded,
+                        onDismissRequest = { menuExpanded = false }
+                    ) {
+                        DropdownMenuItem(
+                            text = {
+                                Text(
+                                    "Settings",
+                                    style = MaterialTheme.typography.labelLarge,
+                                )
+                            },
+                            onClick = {
+                                menuExpanded = false
+                                onSettingsClicked()
+                            }
+                        )
+                        DropdownMenuItem(
+                            text = {
+                                Text(
+                                    "About",
+                                    style = MaterialTheme.typography.labelLarge,
+                                )
+                            },
+                            onClick = {
+                                menuExpanded = false
+                                onAboutClicked()
+                            }
+                        )
+                    }
+                }
             )
         },
         contentWindowInsets = WindowInsets(0.dp),

@@ -1,11 +1,5 @@
 package com.g.pocketmal.ui.ranked
 
-import android.content.Context
-import android.content.Intent
-import android.os.Bundle
-import android.widget.ListView
-import androidx.activity.compose.setContent
-import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -50,88 +44,22 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.g.pocketmal.R
-import com.g.pocketmal.bind
 import com.g.pocketmal.data.util.RankingType
 import com.g.pocketmal.domain.TitleType
-import com.g.pocketmal.transformedArgument
-import com.g.pocketmal.ui.common.ErrorMessageView
 import com.g.pocketmal.ui.common.ErrorMessageWithRetryView
 import com.g.pocketmal.ui.common.LoadingView
 import com.g.pocketmal.ui.common.Poster
-import com.g.pocketmal.ui.common.SmallDetailsRow
-import com.g.pocketmal.ui.common.inliststatus.InListStatusLabel
-import com.g.pocketmal.ui.legacy.SkeletonActivity
-import com.g.pocketmal.ui.legacy.SkeletonToolbarActivity
-import com.g.pocketmal.ui.legacy.TitleDetailsActivity
-import com.g.pocketmal.ui.legacy.widget.LazyLoadFooter
 import com.g.pocketmal.ui.ranked.presentation.RankedItemViewEntity
 import com.g.pocketmal.ui.ranked.presentation.RankedState
 import com.g.pocketmal.ui.ranked.presentation.RankedViewModel
-import com.g.pocketmal.ui.recommendations.presentation.RecommendationsState
-import com.g.pocketmal.ui.recommendations.presentation.RecommendedTitleViewEntity
-import com.g.pocketmal.ui.theme.PocketMalTheme
-import com.g.pocketmal.ui.utils.LazyLoadOnScrollListener
-import com.google.android.material.snackbar.Snackbar
-import dagger.hilt.android.AndroidEntryPoint
-import org.koin.android.ext.android.inject
-import org.koin.core.parameter.parametersOf
-
-@AndroidEntryPoint
-class RankedActivity : SkeletonActivity() {
-
-    private val rankingType by transformedArgument<Int, RankingType>(
-        EXTRA_TOP_TYPE,
-        RankingType.ALL
-    ) {
-        RankingType.from(it)
-    }
-    private val titleType by transformedArgument<Int, TitleType>(
-        EXTRA_TITLE_TYPE,
-        TitleType.ANIME
-    ) {
-        TitleType.from(it)
-    }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContent {
-            PocketMalTheme {
-                RankedContent(
-                    rankingType = rankingType,
-                    titleType = titleType,
-                    onRankedItemClicked = { id ->
-                        TitleDetailsActivity.start(this, id, titleType)
-                    },
-                    onBackPressed = { finish() },
-                )
-            }
-        }
-    }
-
-    companion object {
-
-        private const val EXTRA_TOP_TYPE = "extra_top_type"
-        private const val EXTRA_TITLE_TYPE = "extra_title_type"
-
-        private const val TITLES_IN_BUNCH = 50
-        private const val LAZY_LOAD_OFFSET = 5
-
-        fun start(context: Context, topType: RankingType, titleType: TitleType) {
-            val intent = Intent(context, RankedActivity::class.java)
-                .putExtra(EXTRA_TOP_TYPE, topType.type)
-                .putExtra(EXTRA_TITLE_TYPE, titleType.type)
-            context.startActivity(intent)
-        }
-    }
-}
 
 @Composable
-private fun RankedContent(
+fun RankedScreen(
+    viewModel: RankedViewModel = hiltViewModel(),
     rankingType: RankingType,
     titleType: TitleType,
-    viewModel: RankedViewModel = hiltViewModel(),
+    onRankedItemClicked: (Int, TitleType) -> Unit,
     onBackPressed: () -> Unit,
-    onRankedItemClicked: (Int) -> Unit,
 ) {
 
     val rankedState by viewModel.rankedState.collectAsState()
@@ -140,21 +68,23 @@ private fun RankedContent(
         viewModel.loadRankedTitles(rankingType, titleType)
     }
 
-    RankedScreen(
+    RankedContent(
         rankedState = rankedState,
         rankingType = rankingType,
         titleType = titleType,
         onRetryPressed = {
             viewModel.loadRankedTitles(rankingType, titleType)
         },
-        onRankedItemClicked = onRankedItemClicked,
+        onRankedItemClicked = { id ->
+            onRankedItemClicked(id, titleType)
+        },
         onBackPressed = onBackPressed,
     )
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun RankedScreen(
+private fun RankedContent(
     rankedState: RankedState,
     rankingType: RankingType,
     titleType: TitleType,
