@@ -1,7 +1,6 @@
 package com.g.pocketmal.ui.seasonal.presentation
 
-import com.g.pocketmal.domain.entity.SeasonEntity
-import com.g.pocketmal.domain.entity.SeasonSection
+import com.g.pocketmal.domain.entity.SeasonalAnime
 import com.g.pocketmal.util.AnimeSeason
 
 class SeasonalSectionConverter(private val converter: SeasonalAnimeConverter) {
@@ -18,11 +17,11 @@ class SeasonalSectionConverter(private val converter: SeasonalAnimeConverter) {
     )
 
     fun transform(
-        items: List<SeasonEntity>,
+        items: List<SeasonalAnime>,
         season: Season,
     ): List<SeasonalSectionViewEntity> {
 
-        val sections = HashMap<String, SeasonSection>()
+        val sections = HashMap<String, com.g.pocketmal.domain.entity.SeasonSection>()
 
         items.forEach { item ->
 
@@ -41,7 +40,7 @@ class SeasonalSectionConverter(private val converter: SeasonalAnimeConverter) {
             val section = if (sections.containsKey(mediaType)) {
                 sections[mediaType]
             } else {
-                SeasonSection(mediaType)
+                com.g.pocketmal.domain.entity.SeasonSection(mediaType)
             }
 
             if (section != null) {

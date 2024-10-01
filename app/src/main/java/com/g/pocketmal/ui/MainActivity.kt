@@ -1,11 +1,18 @@
 package com.g.pocketmal.ui
 
+import android.annotation.SuppressLint
+import android.app.DownloadManager
 import android.content.ActivityNotFoundException
+import android.content.BroadcastReceiver
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
+import android.net.Uri
+import android.os.Build
 import android.os.Bundle
+import android.os.Environment
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -27,6 +34,7 @@ import kotlinx.serialization.Serializable
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         enableEdgeToEdge()
         super.onCreate(savedInstanceState)
@@ -45,9 +53,17 @@ class MainActivity : ComponentActivity() {
                     copyToClipboard = { text ->
                         copyToClipboard(text)
                     },
+                    downloadFile = { url ->
+                        downloadFile(url)
+                    }
                 )
             }
         }
+    }
+
+    override fun onStop() {
+        super.onStop()
+        unregisterReceiver(downloadingReceiver)
     }
 
     private fun promptAppReview() {
@@ -92,6 +108,57 @@ class MainActivity : ComponentActivity() {
         (getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager)
             .setPrimaryClip(ClipData.newPlainText(text, text))
     }
+
+    private val downloadingReceiver = object : BroadcastReceiver() {
+        override fun onReceive(context: Context, intent: Intent) {
+            unregisterReceiver(this)
+            Toast.makeText(context, R.string.poster__downloading_completed, Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    @SuppressLint("UnspecifiedRegisterReceiverFlag")
+    private fun downloadFile(url: String) {
+
+        val isValidUrl = url.startsWith("http", false)
+        if (url.isEmpty() || !isValidUrl) {
+            return
+        }
+
+        val manager = getSystemService(DOWNLOAD_SERVICE) as DownloadManager
+
+        val downloadsDirectory =
+            Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
+        if (!downloadsDirectory.exists()) {
+            downloadsDirectory.mkdirs()
+        }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            registerReceiver(
+                downloadingReceiver,
+                IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE), RECEIVER_EXPORTED
+            )
+        } else {
+            registerReceiver(
+                downloadingReceiver,
+                IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE)
+            )
+        }
+
+        val posterUri = Uri.parse(url)
+        manager.enqueue(
+            DownloadManager.Request(posterUri)
+                .setAllowedNetworkTypes(
+                    DownloadManager.Request.NETWORK_WIFI or DownloadManager.Request.NETWORK_MOBILE
+                )
+                .setAllowedOverRoaming(false)
+                .setTitle(getString(R.string.poster__downloading_title))
+                .setDescription(getString(R.string.poster__downloading_description))
+                .setDestinationInExternalPublicDir(
+                    Environment.DIRECTORY_DOWNLOADS,
+                    posterUri.lastPathSegment
+                )
+        )
+    }
 }
 
 @Serializable
@@ -109,6 +176,7 @@ private fun PocketMalApp(
     shareText: (String) -> Unit,
     openLink: (String) -> Unit,
     copyToClipboard: (String) -> Unit,
+    downloadFile: (String) -> Unit,
 ) {
     val navController = rememberNavController()
 

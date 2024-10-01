@@ -2,9 +2,8 @@ package com.g.pocketmal.ui.seasonal.presentation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.g.pocketmal.data.repository.SeasonalRepository
-import com.g.pocketmal.data.repository.SeasonalResult
-import com.g.pocketmal.data.util.PartOfYear
+import com.g.pocketmal.domain.repository.SeasonalRepository
+import com.g.pocketmal.domain.result.SeasonalResult
 import com.g.pocketmal.util.AnimeSeason
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow

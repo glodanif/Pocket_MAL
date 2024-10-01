@@ -1,6 +1,7 @@
 package com.g.pocketmal.ui.legacy.popup
 
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.provider.CalendarContract
@@ -11,14 +12,11 @@ import android.widget.ImageButton
 import android.widget.Toast
 
 import com.g.pocketmal.R
-import com.g.pocketmal.data.common.Status
-import com.g.pocketmal.data.keyvalue.SharingPatternDispatcher
-import com.g.pocketmal.domain.TitleType
-import com.g.pocketmal.ui.legacy.SkeletonActivity
+import com.g.pocketmal.domain.InListStatus
 import com.g.pocketmal.util.Action
 
 //FIXME unload of business logic
-class ActionPopup(private val activity: SkeletonActivity) : SkeletonPopupWindows(activity, true) {
+class ActionPopup(private val activity: Activity) : SkeletonPopupWindows(activity, true) {
 
     private lateinit var rootView: View
 
@@ -62,7 +60,7 @@ class ActionPopup(private val activity: SkeletonActivity) : SkeletonPopupWindows
         }
 
         rootView.findViewById<View>(R.id.fab_share).setOnClickListener {
-            activity.shareText(testToShare!!)
+            //activity.shareText(testToShare!!)
         }
     }
 
@@ -79,7 +77,8 @@ class ActionPopup(private val activity: SkeletonActivity) : SkeletonPopupWindows
             remindAction.visibility = View.GONE
         }
         discussionUrl = title.discussionLink
-        testToShare = SharingPatternDispatcher(context).getPattern(title, action)
+        //testToShare = SharingPatternDispatcher(context)
+        //    .getPattern(title, action)
 
         showPopup()
     }
@@ -98,15 +97,15 @@ class ActionPopup(private val activity: SkeletonActivity) : SkeletonPopupWindows
         showAtLocation(rootView, Gravity.NO_GRAVITY, xPosition, yPosition)
     }
 
-    private fun shouldShowReminderIcon(status: Status, actionType: Action): Boolean {
-        return actionType == Action.ACTION_STATUS && (status == Status.ON_HOLD || status == Status.PLANNED)
+    private fun shouldShowReminderIcon(status: InListStatus, actionType: Action): Boolean {
+        return actionType == Action.ACTION_STATUS && (status == InListStatus.ON_HOLD || status == InListStatus.PLANNED)
     }
 
     private fun getReminderDescription(title: com.g.pocketmal.ui.legacy.viewentity.RecordViewModel): String {
 
-        val isAnime = title.recordType === TitleType.ANIME
+        val isAnime = title.recordType.isAnime()
 
-        return if (title.myStatus == Status.ON_HOLD)
+        return if (title.myStatus == InListStatus.ON_HOLD)
             context.getString(if (isAnime)
                 R.string.reminder__continue_watching
             else

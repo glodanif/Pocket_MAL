@@ -44,7 +44,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.g.pocketmal.R
-import com.g.pocketmal.data.util.RankingType
+import com.g.pocketmal.domain.ExploreType
 import com.g.pocketmal.domain.TitleType
 import com.g.pocketmal.ui.common.ErrorMessageWithRetryView
 import com.g.pocketmal.ui.common.LoadingView
@@ -56,7 +56,7 @@ import com.g.pocketmal.ui.ranked.presentation.RankedViewModel
 @Composable
 fun RankedScreen(
     viewModel: RankedViewModel = hiltViewModel(),
-    rankingType: RankingType,
+    exploreType: ExploreType,
     titleType: TitleType,
     onRankedItemClicked: (Int, TitleType) -> Unit,
     onBackPressed: () -> Unit,
@@ -65,15 +65,15 @@ fun RankedScreen(
     val rankedState by viewModel.rankedState.collectAsState()
 
     LaunchedEffect(Unit) {
-        viewModel.loadRankedTitles(rankingType, titleType)
+        viewModel.loadRankedTitles(exploreType, titleType)
     }
 
     RankedContent(
         rankedState = rankedState,
-        rankingType = rankingType,
+        exploreType = exploreType,
         titleType = titleType,
         onRetryPressed = {
-            viewModel.loadRankedTitles(rankingType, titleType)
+            viewModel.loadRankedTitles(exploreType, titleType)
         },
         onRankedItemClicked = { id ->
             onRankedItemClicked(id, titleType)
@@ -86,17 +86,17 @@ fun RankedScreen(
 @Composable
 private fun RankedContent(
     rankedState: RankedState,
-    rankingType: RankingType,
+    exploreType: ExploreType,
     titleType: TitleType,
     onRetryPressed: () -> Unit,
     onBackPressed: () -> Unit,
     onRankedItemClicked: (Int) -> Unit,
 ) {
-    val labelId = when (rankingType) {
-        RankingType.ALL ->
+    val labelId = when (exploreType) {
+        ExploreType.TOP_RATED ->
             if (titleType == TitleType.ANIME) R.string.topAnime else R.string.topManga
 
-        RankingType.BY_POPULARITY ->
+        ExploreType.MOST_POPULAR ->
             if (titleType == TitleType.ANIME) R.string.mostPopularAnime else R.string.mostPopularManga
 
         else -> R.string.topAnime

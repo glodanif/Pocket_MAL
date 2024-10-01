@@ -3,7 +3,7 @@ package com.g.pocketmal.ui.recommendations.presentation
 import android.content.Context
 import com.g.pocketmal.R
 import com.g.pocketmal.domain.TitleType
-import com.g.pocketmal.domain.entity.RecommendationEntity
+import com.g.pocketmal.domain.entity.RecommendedTitle
 import com.g.pocketmal.ui.common.inliststatus.InListStatusConverter
 import com.g.pocketmal.util.list.DataInterpreter
 
@@ -12,7 +12,7 @@ class RecommendedTitleConverter(
     private val statusConverter: InListStatusConverter,
 ) {
 
-    fun transform(title: RecommendationEntity, titleType: TitleType): RecommendedTitleViewEntity {
+    fun transform(title: RecommendedTitle, titleType: TitleType): RecommendedTitleViewEntity {
 
         val numRecommendations = if (title.numRecommendations == 1) {
             context.getString(R.string.readRecommendation)
@@ -20,7 +20,8 @@ class RecommendedTitleConverter(
             context.getString(R.string.readRecommendations, title.numRecommendations)
         }
 
-        val score = if (title.score != null && title.score > .01) title.score.toString() else "—"
+        val score = title.score
+        val scoreLabel = if (score != null && score > .01) score.toString() else "—"
 
         val mediaType = DataInterpreter.getMediaTypeLabelFromNetworkConst(title.mediaType)
         val episodes = title.episodes
@@ -45,13 +46,13 @@ class RecommendedTitleConverter(
             title.picture,
             numRecommendations,
             details,
-            score,
+            scoreLabel,
             inListStatus,
         )
     }
 
     fun transform(
-        titles: List<RecommendationEntity>,
+        titles: List<RecommendedTitle>,
         titleType: TitleType
     ): List<RecommendedTitleViewEntity> {
         val viewModels: MutableList<RecommendedTitleViewEntity> = ArrayList()

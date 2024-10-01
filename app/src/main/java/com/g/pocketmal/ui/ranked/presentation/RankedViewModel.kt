@@ -2,10 +2,10 @@ package com.g.pocketmal.ui.ranked.presentation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.g.pocketmal.data.repository.BrowseRepository
-import com.g.pocketmal.data.repository.BrowseResult
-import com.g.pocketmal.data.util.RankingType
+import com.g.pocketmal.domain.ExploreType
 import com.g.pocketmal.domain.TitleType
+import com.g.pocketmal.domain.repository.BrowseRepository
+import com.g.pocketmal.domain.result.BrowseResult
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -21,7 +21,7 @@ class RankedViewModel @Inject constructor(
     private val _rankedState = MutableStateFlow<RankedState>(RankedState.Loading)
     val rankedState = _rankedState.asStateFlow()
 
-    fun loadRankedTitles(rankedType: RankingType, titleType: TitleType, offset: Int = 0) {
+    fun loadRankedTitles(rankedType: ExploreType, titleType: TitleType, offset: Int = 0) {
         _rankedState.value = RankedState.Loading
         viewModelScope.launch {
             val result = rankedRepository.loadRankedTitles(titleType, rankedType, offset)
@@ -29,9 +29,11 @@ class RankedViewModel @Inject constructor(
                 BrowseResult.EmptyResult -> {
 
                 }
+
                 is BrowseResult.NetworkError -> {
                     _rankedState.value = RankedState.Error(result.message)
                 }
+
                 is BrowseResult.Result -> {
                     val items = converter.transform(result.rankedItems, titleType)
                     _rankedState.value = RankedState.RankedItems(items)

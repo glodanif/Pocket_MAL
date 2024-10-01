@@ -4,8 +4,8 @@ import java.util.Properties
 
 plugins {
     id("com.android.application")
-    id("com.google.devtools.ksp")
     id("kotlin-parcelize")
+    id("com.google.devtools.ksp")
     id("org.jetbrains.kotlin.plugin.serialization")
     id("com.google.android.gms.oss-licenses-plugin")
     id("com.google.dagger.hilt.android")
@@ -26,14 +26,9 @@ android {
         applicationId = "com.g.pocketmal"
         multiDexEnabled = true
         vectorDrawables.useSupportLibrary = true
-        //testInstrumentationRunner("androidx.test.runner.AndroidJUnitRunner")
-        ksp {
-            arg("room.schemaLocation", "$projectDir/schemas")
-        }
     }
 
     buildFeatures {
-        viewBinding = true
         buildConfig = true
         compose = true
     }
@@ -104,6 +99,9 @@ android {
     }
 
     dependencies {
+
+        implementation(project(":domain"))
+
         implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
         implementation(kotlin("stdlib-jdk7", KotlinCompilerVersion.VERSION))
 
@@ -115,9 +113,9 @@ android {
         debugImplementation("androidx.compose.ui:ui-tooling")
         androidTestImplementation("androidx.compose.ui:ui-test-junit4")
         debugImplementation("androidx.compose.ui:ui-test-manifest")
-        implementation("androidx.compose.ui:ui-text-google-fonts:1.7.1")
+        implementation("androidx.compose.ui:ui-text-google-fonts:1.7.2")
         implementation("androidx.hilt:hilt-navigation-compose:1.2.0")
-        implementation("androidx.compose.material:material-icons-extended:1.7.1")
+        implementation("androidx.compose.material:material-icons-extended:1.7.2")
 
         configurations.all {
             resolutionStrategy {
@@ -125,7 +123,7 @@ android {
             }
         }
 
-        implementation("androidx.navigation:navigation-compose:2.8.0")
+        implementation("androidx.navigation:navigation-compose:2.8.1")
         implementation("androidx.activity:activity-compose:1.9.2")
 
         implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.3")
@@ -137,7 +135,6 @@ android {
         implementation("androidx.browser:browser:1.8.0")
         implementation("androidx.constraintlayout:constraintlayout:2.1.4")
         implementation("com.google.android.material:material:1.12.0")
-        implementation("androidx.datastore:datastore-preferences:1.1.1")
 
         implementation("com.google.android.play:review:2.0.1")
         implementation("com.google.android.play:review-ktx:2.0.1")
@@ -147,30 +144,12 @@ android {
         implementation("com.google.firebase:firebase-analytics")
         implementation("com.google.firebase:firebase-perf")
 
-        implementation("com.github.DogusTeknoloji:compose-date-picker:1.1.0")
-
-        implementation("io.insert-koin:koin-android:2.2.2")
-
-        implementation("com.squareup.okhttp:okhttp:2.7.5")
-        implementation("com.squareup.okhttp:okhttp-urlconnection:2.7.5")
         implementation("com.squareup.picasso:picasso:2.71828")
-        implementation("com.squareup.retrofit2:retrofit:2.9.0")
-        implementation("com.squareup.retrofit2:converter-gson:2.9.0")
-        implementation("com.squareup.retrofit2:converter-scalars:2.9.0")
-        implementation("com.squareup.okhttp3:okhttp:4.12.0")
-        implementation("com.squareup.okhttp3:logging-interceptor:4.12.0")
-        implementation("com.google.code.gson:gson:2.11.0")
         implementation("androidx.core:core-ktx:1.13.1")
         implementation("io.coil-kt:coil-compose:2.7.0")
         implementation("net.engawapg.lib:zoomable:1.6.2")
 
         implementation("com.google.android.gms:play-services-oss-licenses:17.1.0")
-
-        implementation("at.favre.lib:armadillo:1.0.0")
-
-        implementation("androidx.room:room-runtime:2.6.1")
-        implementation("androidx.room:room-ktx:2.6.1")
-        ksp("androidx.room:room-compiler:2.6.1")
 
         val activityVersion = "1.9.2"
         implementation("androidx.activity:activity:$activityVersion")

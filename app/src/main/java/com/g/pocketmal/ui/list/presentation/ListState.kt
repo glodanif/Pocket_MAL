@@ -1,13 +1,13 @@
 package com.g.pocketmal.ui.list.presentation
 
 import androidx.annotation.StringRes
-import com.g.pocketmal.data.common.ListCounts
-import com.g.pocketmal.data.common.Status
+import com.g.pocketmal.domain.InListStatus
+import com.g.pocketmal.domain.ListCounts
 
 sealed class ListState {
     data class RecordsList(
         val list: List<RecordListViewEntity>,
-        val status: Status,
+        val status: InListStatus,
         @StringRes val statusLabel: Int,
         val counts: ListCounts,
         val isSynchronizing: Boolean,

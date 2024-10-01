@@ -1,9 +1,9 @@
 package com.g.pocketmal.ui.legacy.viewentity
 
 import android.text.Spannable
-import com.g.pocketmal.data.common.Genre
-import com.g.pocketmal.data.database.model.RelatedTitle
 import com.g.pocketmal.domain.TitleType
+import com.g.pocketmal.domain.entity.Genre
+import com.g.pocketmal.domain.entity.RelatedTitle
 
 class TitleDetailsViewModel(
     val id: Int,
@@ -25,8 +25,6 @@ class TitleDetailsViewModel(
     val ranked: String?,
     val genres: List<Genre>,
     val relatedTitles: List<RelatedTitle>,
-    val openingThemes: List<String>?,
-    val endingThemes: List<String>?,
     val screenTitle: String,
     val detailsList: List<Pair<String, String>>,
     val airingStats: String?,

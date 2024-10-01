@@ -8,14 +8,12 @@ import android.text.TextUtils
 import android.text.style.RelativeSizeSpan
 import androidx.annotation.StringRes
 import com.g.pocketmal.R
-import com.g.pocketmal.data.api.response.RelatedTitleEdge
-import com.g.pocketmal.data.database.model.RelatedTitle
-import com.g.pocketmal.data.database.model.RelatedTitle.Companion.LABEL
-import com.g.pocketmal.data.database.model.RelatedTitle.Companion.LINK
-import com.g.pocketmal.data.database.model.TitleDetailsTable
 import com.g.pocketmal.domain.TitleType
+import com.g.pocketmal.domain.entity.RelatedTitle
+import com.g.pocketmal.domain.entity.TitleDetails
 import com.g.pocketmal.formatToSeparatedText
 import com.g.pocketmal.reformatToViewableDate
+import com.g.pocketmal.ui.legacy.viewentity.TitleDetailsViewModel
 import com.g.pocketmal.util.list.DataInterpreter
 import java.text.DecimalFormat
 import java.text.DecimalFormatSymbols
@@ -27,7 +25,7 @@ class TitleDetailsConverter(private val context: Context) {
     private var scoreFormat = DecimalFormat("0.00", DecimalFormatSymbols(Locale.US))
     private var sizeSpan = RelativeSizeSpan(.6f)
 
-    fun transform(details: TitleDetailsTable): com.g.pocketmal.ui.legacy.viewentity.TitleDetailsViewModel {
+    fun transform(details: TitleDetails): TitleDetailsViewModel {
 
         val score = details.score
         val scoreLabel = if (score != null) {
@@ -39,7 +37,8 @@ class TitleDetailsConverter(private val context: Context) {
         }
 
         val synopsis = if (TextUtils.isEmpty(details.synopsis))
-            context.getString(R.string.emptySynopsis) else Html.fromHtml(details.synopsis).toString()
+            context.getString(R.string.emptySynopsis) else Html.fromHtml(details.synopsis)
+            .toString()
 
         //FIXME move to strings
         val scoredCount = if (details.scoredUsersCount == 1)
@@ -50,29 +49,32 @@ class TitleDetailsConverter(private val context: Context) {
             null else TextUtils.join(", ", synonyms)
 
         val episodesTypeLabel = context.getString(
-                if (details.titleType == TitleType.ANIME) R.string.episodes else R.string.chapters)
+            if (details.titleType == TitleType.ANIME) R.string.episodes else R.string.chapters
+        )
         val subEpisodesTypeLabel =
-                if (details.titleType == TitleType.ANIME) "" else context.getString(R.string.volumes)
+            if (details.titleType == TitleType.ANIME) "" else context.getString(R.string.volumes)
 
         val episodesPlural = episodesTypeLabel.toLowerCase()
-                .substring(0, episodesTypeLabel.length - if (details.episodes == 1) 1 else 0)
+            .substring(0, episodesTypeLabel.length - if (details.episodes == 1) 1 else 0)
         val episodesLabel = (if (details.episodes == 0)
             "?" else details.episodes.toString()) + " " + episodesPlural
 
         val subEpisodesPlural: String = subEpisodesTypeLabel.toLowerCase()
-                .substring(0, subEpisodesTypeLabel.length - if (details.subEpisodes == 1) 1 else 0)
+            .substring(0, subEpisodesTypeLabel.length - if (details.subEpisodes == 1) 1 else 0)
         val subEpisodesLabel = (if (details.subEpisodes == 0)
             "?" else details.subEpisodes.toString()) + " " + subEpisodesPlural
 
-        val rankedLabel = if (details.ranked == null) "N/A" else "#${details.ranked.formatToSeparatedText()}"
+        val ranked = details.ranked
+        val rankedLabel = if (ranked == null) "N/A" else "#${ranked.formatToSeparatedText()}"
 
         val screenTitle = context.getString(
-                if (details.titleType == TitleType.ANIME) R.string.animeDetailsTitle else R.string.mangaDetailsTitle)
+            if (details.titleType == TitleType.ANIME) R.string.animeDetailsTitle else R.string.mangaDetailsTitle
+        )
 
         val airingLabel = getAiringLine(details)
         val titleDetails = getDetailsList(details)
 
-        return com.g.pocketmal.ui.legacy.viewentity.TitleDetailsViewModel(
+        return TitleDetailsViewModel(
             details.id,
             details.titleType,
             details.startDate.reformatToViewableDate(),
@@ -92,8 +94,6 @@ class TitleDetailsConverter(private val context: Context) {
             rankedLabel,
             details.genres,
             getRelatedTitles(details),
-            details.openingThemes,
-            details.endingThemes,
             screenTitle,
             titleDetails,
             airingLabel,
@@ -103,8 +103,8 @@ class TitleDetailsConverter(private val context: Context) {
         )
     }
 
-    fun transform(details: List<TitleDetailsTable>): List<com.g.pocketmal.ui.legacy.viewentity.TitleDetailsViewModel> {
-        val viewModels: MutableList<com.g.pocketmal.ui.legacy.viewentity.TitleDetailsViewModel> = ArrayList()
+    fun transform(details: List<TitleDetails>): List<TitleDetailsViewModel> {
+        val viewModels: MutableList<TitleDetailsViewModel> = ArrayList()
         for (item in details) {
             viewModels.add(transform(item))
         }
@@ -125,7 +125,7 @@ class TitleDetailsConverter(private val context: Context) {
         }
     }
 
-    private fun getAiringLine(details: TitleDetailsTable): String? {
+    private fun getAiringLine(details: TitleDetails): String? {
 
         val airingStats = ArrayList<String>()
         val premiered = details.premiered
@@ -149,9 +149,11 @@ class TitleDetailsConverter(private val context: Context) {
                     minutes %= 60
                     String.format("%d hr. %d min.", hours % 24, minutes)
                 }
+
                 minutes > 0 -> {
                     String.format("%d min. per ep.", minutes)
                 }
+
                 else -> {
                     "? min. per ep."
                 }
@@ -162,84 +164,120 @@ class TitleDetailsConverter(private val context: Context) {
         return if (airingStats.isNotEmpty()) TextUtils.join(" • ", airingStats) else null
     }
 
-    private fun getDetailsList(details: TitleDetailsTable): List<Pair<String, String>> {
+    private fun getDetailsList(details: TitleDetails): List<Pair<String, String>> {
 
         val titleDetails: MutableList<Pair<String, String>> = ArrayList()
 
         val rating = details.rating
         if (rating != null) {
-            titleDetails.add(Pair(context.getString(R.string.rating), context.getString(getRatingLabel(rating))))
+            titleDetails.add(
+                Pair(
+                    context.getString(R.string.rating),
+                    context.getString(getRatingLabel(rating))
+                )
+            )
         }
 
         val source = details.source
         if (source != null) {
-            titleDetails.add(Pair(context.getString(R.string.source), source.replace("_", " ").capitalize()))
+            titleDetails.add(
+                Pair(
+                    context.getString(R.string.source),
+                    source.replace("_", " ").capitalize()
+                )
+            )
         }
 
-        if (!details.animeStudios.isNullOrEmpty()) {
-            val labels = details.animeStudios.map {
-                it.name
-            }
-            titleDetails.add(Pair(context.getString(R.string.studios), TextUtils.join(", ", labels)))
+        val studios = details.animeStudios
+        if (!studios.isNullOrEmpty()) {
+            val labels = studios.map { it.name }
+            titleDetails.add(
+                Pair(
+                    context.getString(R.string.studios),
+                    TextUtils.join(", ", labels)
+                )
+            )
         }
 
-        if (details.mangaAuthors != null && details.mangaAuthors.isNotEmpty()) {
-            val labels = details.mangaAuthors.map {
-                "${it.node.firstName} ${it.node.lastName} (${it.role})"
-            }
-            titleDetails.add(Pair(context.getString(R.string.authors), TextUtils.join(", ", labels)))
+        val authors = details.mangaAuthors
+        if (!authors.isNullOrEmpty()) {
+            val labels = authors.map { "${it.name} (${it.role})" }
+            titleDetails.add(
+                Pair(
+                    context.getString(R.string.authors),
+                    TextUtils.join(", ", labels)
+                )
+            )
         }
 
         val serialization = details.serialization
         if (serialization != null) {
-            val labels = serialization.map { it.node.name }
-            titleDetails.add(Pair(context.getString(R.string.serialization), TextUtils.join(", ", labels)))
+            val labels = serialization.map { it.name }
+            titleDetails.add(
+                Pair(
+                    context.getString(R.string.serialization),
+                    TextUtils.join(", ", labels)
+                )
+            )
         }
 
         val popularity = details.popularity
         if (popularity != null) {
-            titleDetails.add(Pair(context.getString(R.string.details_info__popularity), "#${popularity.formatToSeparatedText()}"))
+            titleDetails.add(
+                Pair(
+                    context.getString(R.string.details_info__popularity),
+                    "#${popularity.formatToSeparatedText()}"
+                )
+            )
         }
 
-        titleDetails.add(Pair(context.getString(R.string.details_info__members), details.members.formatToSeparatedText()))
+        titleDetails.add(
+            Pair(
+                context.getString(R.string.details_info__members),
+                details.members.formatToSeparatedText()
+            )
+        )
 
         return titleDetails
     }
 
-    private fun getRelatedTitles(details: TitleDetailsTable): List<RelatedTitle> {
+    private fun getRelatedTitles(details: TitleDetails): List<RelatedTitle> {
 
         val finalList = mutableListOf<RelatedTitle>()
-        if (details.relatedAnime != null) {
+        /*if (details.relatedAnime != null) {
             finalList.addAll(getRelatedSections(details.relatedAnime, TitleType.ANIME))
         }
         if (details.relatedManga != null) {
             finalList.addAll(getRelatedSections(details.relatedManga, TitleType.MANGA))
-        }
+        }*/
         return finalList
     }
 
-    private fun getRelatedSections(titles: List<RelatedTitleEdge>, titleType: TitleType): List<RelatedTitle> {
+    /*private fun getRelatedSections(
+        titles: List<RelatedTitle>,
+        titleType: TitleType
+    ): List<RelatedTitle> {
 
         val relationTypes = titles
-                .distinctBy { it.relationTypeFormatted }
-                .map { it.relationTypeFormatted }
+            .distinctBy { it.relationType }
+            .map { it.relationType }
 
         val relatedSections = relationTypes
-                .map { type ->
-                    titles.filter { type == it.relationTypeFormatted }
-                }
+            .map { type ->
+                titles.filter { type == it.relationType }
+            }
 
         val finalList = mutableListOf<RelatedTitle>()
         relatedSections.forEach { list ->
             finalList.add(
-                    RelatedTitle(0, list[0].relationTypeFormatted, LABEL, titleType)
+                RelatedTitle(0, list[0].relationType, LABEL, titleType)
             )
             finalList.addAll(
-                    list.map {
-                        RelatedTitle(it.node.id, it.node.title, LINK, titleType)
-                    }
+                list.map {
+                    RelatedTitle(it.id, it.name, LINK, titleType)
+                }
             )
         }
         return finalList
-    }
+    }*/
 }

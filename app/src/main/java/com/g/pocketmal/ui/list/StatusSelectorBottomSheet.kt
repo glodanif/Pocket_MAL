@@ -22,49 +22,49 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import com.g.pocketmal.data.common.ListCounts
-import com.g.pocketmal.data.common.Status
+import com.g.pocketmal.domain.InListStatus
+import com.g.pocketmal.domain.ListCounts
 import com.g.pocketmal.domain.TitleType
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun StatusSelectorBottomSheet(
     titleType: TitleType,
-    selectedStatus: Status,
+    selectedStatus: InListStatus,
     counts: ListCounts,
-    onNewStatusSelected: (Status) -> Unit,
+    onNewStatusSelected: (InListStatus) -> Unit,
     onDismissRequest: () -> Unit,
 ) {
     val statusSelectorItems = listOf(
         StatusSelectorItem(
             label = if (titleType.isAnime()) "Watching" else "Reading",
-            status = Status.IN_PROGRESS,
+            status = InListStatus.IN_PROGRESS,
             count = counts.inProgressCount.toString(),
-            isSelected = selectedStatus == Status.IN_PROGRESS,
+            isSelected = selectedStatus == InListStatus.IN_PROGRESS,
         ),
         StatusSelectorItem(
             label = "Completed",
             count = counts.completedCount.toString(),
-            status = Status.COMPLETED,
-            isSelected = selectedStatus == Status.COMPLETED,
+            status = InListStatus.COMPLETED,
+            isSelected = selectedStatus == InListStatus.COMPLETED,
         ),
         StatusSelectorItem(
             label = "On hold",
             count = counts.onHoldCount.toString(),
-            status = Status.ON_HOLD,
-            isSelected = selectedStatus == Status.ON_HOLD,
+            status = InListStatus.ON_HOLD,
+            isSelected = selectedStatus == InListStatus.ON_HOLD,
         ),
         StatusSelectorItem(
             label = "Dropped",
             count = counts.droppedCount.toString(),
-            status = Status.DROPPED,
-            isSelected = selectedStatus == Status.DROPPED,
+            status = InListStatus.DROPPED,
+            isSelected = selectedStatus == InListStatus.DROPPED,
         ),
         StatusSelectorItem(
             label = if (titleType.isAnime()) "Plan to watch" else "Plan to read",
             count = counts.plannedCount.toString(),
-            status = Status.PLANNED,
-            isSelected = selectedStatus == Status.PLANNED,
+            status = InListStatus.PLANNED,
+            isSelected = selectedStatus == InListStatus.PLANNED,
         ),
     )
     val sheetState = rememberModalBottomSheetState(
@@ -146,6 +146,6 @@ private fun StatusButtonContent(
 data class StatusSelectorItem(
     val label: String,
     val count: String,
-    val status: Status,
+    val status: InListStatus,
     val isSelected: Boolean,
 )

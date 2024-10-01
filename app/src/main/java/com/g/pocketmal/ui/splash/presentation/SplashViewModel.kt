@@ -2,9 +2,8 @@ package com.g.pocketmal.ui.splash.presentation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.g.pocketmal.data.keyvalue.UserSettings
-import com.g.pocketmal.data.repository.ListRepository
-import com.g.pocketmal.data.repository.SessionRepository
+import com.g.pocketmal.domain.repository.SessionRepository
+import com.g.pocketmal.domain.repository.UserSettingsRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -13,9 +12,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SplashViewModel @Inject constructor(
-    private val settings: UserSettings,
+    private val settingsRepository: UserSettingsRepository,
     private val sessionRepository: SessionRepository,
-    private val listRepository: ListRepository,
 ) : ViewModel() {
 
     private val _sessionState = MutableStateFlow<SplashState>(SplashState.Waiting)
@@ -27,13 +25,12 @@ class SplashViewModel @Inject constructor(
     }
 
     private fun migrate() {
-        settings.migrate()
+        settingsRepository.migrateStorage()
     }
 
     private fun dispatch() {
         viewModelScope.launch {
             if (sessionRepository.isUserLoggedIn()) {
-                //listRepository.loadListFromDb()
                 _sessionState.value = SplashState.LoggedIn
             } else {
                 _sessionState.value = SplashState.NotLoggedIn

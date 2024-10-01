@@ -3,7 +3,7 @@ package com.g.pocketmal.ui.login.presentation
 import android.net.Uri
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.g.pocketmal.data.repository.SessionRepository
+import com.g.pocketmal.domain.repository.SessionRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow

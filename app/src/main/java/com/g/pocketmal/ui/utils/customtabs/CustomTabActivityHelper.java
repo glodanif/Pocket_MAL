@@ -22,6 +22,7 @@ import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.widget.Toast;
 
 import androidx.browser.customtabs.CustomTabsClient;
 import androidx.browser.customtabs.CustomTabsIntent;
@@ -29,7 +30,6 @@ import androidx.browser.customtabs.CustomTabsServiceConnection;
 import androidx.browser.customtabs.CustomTabsSession;
 
 import com.g.pocketmal.R;
-import com.g.pocketmal.ui.legacy.SkeletonActivity;
 
 import java.util.List;
 
@@ -51,7 +51,7 @@ public class CustomTabActivityHelper implements ServiceConnectionCallback {
      * @param uri              the Uri to be opened.
      * @param fallback         a CustomTabFallback to be used if Custom Tabs is not available.
      */
-    public static void openCustomTab(SkeletonActivity activity,
+    public static void openCustomTab(Activity activity,
                                      CustomTabsIntent customTabsIntent,
                                      Uri uri,
                                      CustomTabFallback fallback) {
@@ -73,14 +73,14 @@ public class CustomTabActivityHelper implements ServiceConnectionCallback {
         }
     }
 
-    private static void openInBrowser(SkeletonActivity activity, Uri uri) {
+    private static void openInBrowser(Activity activity, Uri uri) {
 
         Intent intent = new Intent(Intent.ACTION_VIEW);
         intent.setData(uri);
         try {
             activity.startActivity(intent);
         } catch (ActivityNotFoundException | SecurityException e) {
-            activity.showToast(R.string.noWebBrowser);
+            Toast.makeText(activity, R.string.noWebBrowser, Toast.LENGTH_LONG).show();
         }
     }
 

@@ -9,11 +9,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.LightMode
 import androidx.compose.material.icons.rounded.Share
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -28,13 +26,12 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import com.g.pocketmal.domain.FloatingSharingButtonOptions
-import com.g.pocketmal.domain.ThemeMode
 
 @Composable
 fun FloatingSharingButtonOptionsDialog(
-    currentOptions: FloatingSharingButtonOptions,
+    currentOptions: com.g.pocketmal.domain.FloatingSharingButtonOptions,
     onDismissRequest: () -> Unit,
-    onOptionsChanged: (FloatingSharingButtonOptions) -> Unit
+    onOptionsChanged: (com.g.pocketmal.domain.FloatingSharingButtonOptions) -> Unit
 ) {
     var selectedOptions by remember { mutableStateOf(currentOptions) }
 

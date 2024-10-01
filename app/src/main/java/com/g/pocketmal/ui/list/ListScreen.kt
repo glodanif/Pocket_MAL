@@ -64,7 +64,7 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
 import com.g.pocketmal.R
-import com.g.pocketmal.data.common.Status
+import com.g.pocketmal.domain.InListStatus
 import com.g.pocketmal.domain.TitleType
 import com.g.pocketmal.ui.common.ErrorMessageWithRetryView
 import com.g.pocketmal.ui.common.LoadingView
@@ -280,8 +280,8 @@ fun ListScreen(
     }
 
     if (state is ListState.RecordsList) {
-        BackHandler(enabled = state.status != Status.IN_PROGRESS) {
-            viewModel.switchStatus(titleType, Status.IN_PROGRESS)
+        BackHandler(enabled = state.status != InListStatus.IN_PROGRESS) {
+            viewModel.switchStatus(titleType, InListStatus.IN_PROGRESS)
         }
     }
 }

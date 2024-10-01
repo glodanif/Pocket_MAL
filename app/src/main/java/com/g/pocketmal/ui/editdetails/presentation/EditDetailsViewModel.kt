@@ -2,11 +2,11 @@ package com.g.pocketmal.ui.editdetails.presentation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.g.pocketmal.data.api.UpdateParams
-import com.g.pocketmal.data.repository.RecordRepository
 import com.g.pocketmal.domain.TitleType
-import com.g.pocketmal.domain.exception.RecordNotFoundException
-import com.g.pocketmal.domain.unsetDate
+import com.g.pocketmal.domain.UNSET_DATE
+import com.g.pocketmal.domain.UpdateParameters
+import com.g.pocketmal.domain.repository.RecordRepository
+
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -24,7 +24,7 @@ class EditDetailsViewModel @Inject constructor(
         MutableStateFlow<EditDetailsState>(EditDetailsState.Loading)
     val recordDetailsState = _recordDetailsState.asStateFlow()
 
-    val updateParameters = UpdateParams()
+    val updateParameters = UpdateParameters()
 
     fun loadRecordDetails(recordId: Int, titleType: TitleType) {
         if (recordId <= 0) {
@@ -37,7 +37,7 @@ class EditDetailsViewModel @Inject constructor(
                 val record = repository.getRecordFromLocalStorage(recordId, titleType)
                 val viewEntity = converter.transform(record)
                 _recordDetailsState.value = EditDetailsState.RecordDetails(viewEntity)
-            } catch (exception: RecordNotFoundException) {
+            } catch (exception: com.g.pocketmal.domain.exception.RecordNotFoundException) {
                 _recordDetailsState.value = EditDetailsState.NotFound
             }
         }
@@ -63,7 +63,7 @@ class EditDetailsViewModel @Inject constructor(
                 startDateFormatted = null,
             )
             _recordDetailsState.value = EditDetailsState.RecordDetails(details = updatedDetails)
-            updateParameters.startDate = unsetDate
+            updateParameters.startDate = UNSET_DATE
         }
     }
 
@@ -87,7 +87,7 @@ class EditDetailsViewModel @Inject constructor(
                 finishDateFormatted = null,
             )
             _recordDetailsState.value = EditDetailsState.RecordDetails(details = updatedDetails)
-            updateParameters.finishDate = unsetDate
+            updateParameters.finishDate = UNSET_DATE
         }
     }
 

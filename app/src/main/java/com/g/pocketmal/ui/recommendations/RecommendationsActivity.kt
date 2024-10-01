@@ -1,9 +1,5 @@
 package com.g.pocketmal.ui.recommendations
 
-import android.content.Context
-import android.content.Intent
-import android.os.Bundle
-import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -16,7 +12,6 @@ import androidx.compose.foundation.layout.consumeWindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawing
@@ -45,71 +40,25 @@ import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.g.pocketmal.argument
 import com.g.pocketmal.domain.TitleType
-import com.g.pocketmal.transformedArgument
 import com.g.pocketmal.ui.common.ErrorMessageView
 import com.g.pocketmal.ui.common.ErrorMessageWithRetryView
-import com.g.pocketmal.ui.common.inliststatus.InListStatusLabel
 import com.g.pocketmal.ui.common.LoadingView
 import com.g.pocketmal.ui.common.Poster
-import com.g.pocketmal.ui.legacy.SkeletonActivity
-import com.g.pocketmal.ui.legacy.TitleDetailsActivity
+import com.g.pocketmal.ui.common.SmallDetailsRow
+import com.g.pocketmal.ui.common.inliststatus.InListStatusLabel
 import com.g.pocketmal.ui.recommendations.presentation.RecommendationsState
 import com.g.pocketmal.ui.recommendations.presentation.RecommendationsViewModel
 import com.g.pocketmal.ui.recommendations.presentation.RecommendedTitleViewEntity
-import com.g.pocketmal.ui.common.SmallDetailsRow
-import com.g.pocketmal.ui.theme.PocketMalTheme
-import dagger.hilt.android.AndroidEntryPoint
-
-@AndroidEntryPoint
-class RecommendationsActivity : SkeletonActivity() {
-
-    private val type by transformedArgument<Int, TitleType>(EXTRA_TYPE, TitleType.ANIME) {
-        TitleType.from(it)
-    }
-    private val id by argument<Int>(EXTRA_ID, 0)
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContent {
-            PocketMalTheme {
-                RecommendationsContent(
-                    titleId = id,
-                    titleType = type,
-                    onRecommendationClicked = { id ->
-                        TitleDetailsActivity.start(this, id, type)
-                    },
-                    onBackPressed = { finish() },
-                )
-            }
-        }
-    }
-
-    companion object {
-
-        private const val EXTRA_ID = "extra.id"
-        private const val EXTRA_TYPE = "extra.type"
-
-        fun start(context: Context, id: Int, type: TitleType) {
-            val intent = Intent(context, RecommendationsActivity::class.java).apply {
-                putExtra(EXTRA_ID, id)
-                putExtra(EXTRA_TYPE, type.type)
-            }
-            context.startActivity(intent)
-        }
-    }
-}
 
 @Composable
-private fun RecommendationsContent(
+private fun RecommendationsScreen(
     titleId: Int,
     titleType: TitleType,
     viewModel: RecommendationsViewModel = hiltViewModel(),
-    onRecommendationClicked: (Int) -> Unit,
+    onRecommendationClicked: (Int, TitleType) -> Unit,
     onBackPressed: () -> Unit,
 ) {
 
@@ -119,19 +68,21 @@ private fun RecommendationsContent(
         viewModel.loadRecommendations(titleId, titleType)
     }
 
-    RecommendationsScreen(
+    RecommendationsContent(
         recommendationsState = recommendationsState,
         onBackPressed = onBackPressed,
         onRetryPressed = {
             viewModel.loadRecommendations(titleId, titleType)
         },
-        onRecommendationClicked = onRecommendationClicked,
+        onRecommendationClicked = { id ->
+            onRecommendationClicked(id, titleType)
+        },
     )
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun RecommendationsScreen(
+private fun RecommendationsContent(
     recommendationsState: RecommendationsState,
     onRetryPressed: () -> Unit,
     onBackPressed: () -> Unit,

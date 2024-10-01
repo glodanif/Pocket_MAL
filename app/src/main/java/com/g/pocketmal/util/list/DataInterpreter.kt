@@ -3,7 +3,7 @@ package com.g.pocketmal.util.list
 import androidx.annotation.StringRes
 
 import com.g.pocketmal.R
-import com.g.pocketmal.data.common.Status
+import com.g.pocketmal.domain.InListStatus
 import com.g.pocketmal.domain.TitleType
 
 class DataInterpreter private constructor() {
@@ -44,7 +44,7 @@ class DataInterpreter private constructor() {
         }
 
         @StringRes
-        fun getStatusById(status: Status, type: TitleType): Int {
+        fun getStatusById(status: InListStatus, type: TitleType): Int {
             return if (type == TitleType.ANIME)
                 getAnimeWatchingStatusById(status)
             else
@@ -56,25 +56,25 @@ class DataInterpreter private constructor() {
                 if (type == TitleType.ANIME) R.string.anime_list else R.string.manga_list
 
         @StringRes
-        fun getAnimeWatchingStatusById(status: Status): Int {
+        fun getAnimeWatchingStatusById(status: InListStatus): Int {
             return when (status) {
-                Status.IN_PROGRESS -> R.string.watching
-                Status.COMPLETED -> R.string.completed
-                Status.ON_HOLD -> R.string.onHold
-                Status.DROPPED -> R.string.dropped
-                Status.PLANNED -> R.string.planToWatch
+                InListStatus.IN_PROGRESS -> R.string.watching
+                InListStatus.COMPLETED -> R.string.completed
+                InListStatus.ON_HOLD -> R.string.onHold
+                InListStatus.DROPPED -> R.string.dropped
+                InListStatus.PLANNED -> R.string.planToWatch
                 else -> R.string.unknown
             }
         }
 
         @StringRes
-        fun getMangaReadingStatusById(status: Status): Int {
+        fun getMangaReadingStatusById(status:InListStatus): Int {
             return when (status) {
-                Status.IN_PROGRESS -> R.string.reading
-                Status.COMPLETED -> R.string.completed
-                Status.ON_HOLD -> R.string.onHold
-                Status.DROPPED -> R.string.dropped
-                Status.PLANNED -> R.string.planToRead
+                InListStatus.IN_PROGRESS -> R.string.reading
+                InListStatus.COMPLETED -> R.string.completed
+                InListStatus.ON_HOLD -> R.string.onHold
+                InListStatus.DROPPED -> R.string.dropped
+                InListStatus.PLANNED -> R.string.planToRead
                 else -> R.string.unknown
             }
         }

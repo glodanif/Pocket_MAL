@@ -1,14 +1,14 @@
 package com.g.pocketmal.ui.legacy.popup
 
+import android.app.Activity
 import android.content.Context
 import android.graphics.drawable.ColorDrawable
 import android.util.DisplayMetrics
 import android.view.MotionEvent
 import android.view.WindowManager
 import android.widget.PopupWindow
-import com.g.pocketmal.ui.legacy.SkeletonActivity
 
-open class SkeletonPopupWindows @JvmOverloads constructor(protected var context: SkeletonActivity, private val ignoreOutside: Boolean = false) : PopupWindow() {
+open class SkeletonPopupWindows @JvmOverloads constructor(protected var context: Activity, private val ignoreOutside: Boolean = false) : PopupWindow() {
 
     protected var windowManager= context.getSystemService(Context.WINDOW_SERVICE) as WindowManager
     protected var inflater = context.layoutInflater
@@ -22,7 +22,6 @@ open class SkeletonPopupWindows @JvmOverloads constructor(protected var context:
         setTouchInterceptor { _, event ->
             if (event.action == MotionEvent.ACTION_OUTSIDE) {
                 dismiss()
-                context.hideKeyboard()
                 return@setTouchInterceptor true
             }
             false

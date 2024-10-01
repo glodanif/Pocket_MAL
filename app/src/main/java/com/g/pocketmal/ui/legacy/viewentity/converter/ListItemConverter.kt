@@ -3,16 +3,16 @@ package com.g.pocketmal.ui.legacy.viewentity.converter
 import android.content.Context
 import android.text.TextUtils
 import com.g.pocketmal.R
-import com.g.pocketmal.data.api.MalApi
-import com.g.pocketmal.data.database.model.DbListRecord
+import com.g.pocketmal.domain.MAL_HOST
 import com.g.pocketmal.domain.TitleType
+import com.g.pocketmal.domain.entity.ListRecord
 import com.g.pocketmal.reformatToViewableDate
 import com.g.pocketmal.ui.legacy.viewentity.RecordViewModel
 import com.g.pocketmal.util.list.DataInterpreter
 
 class ListItemConverter(private val context: Context) {
 
-    fun transform(record: DbListRecord): RecordViewModel {
+    fun transform(record: ListRecord): RecordViewModel {
 
         val isAnime = record.titleType == TitleType.ANIME
 
@@ -43,10 +43,10 @@ class ListItemConverter(private val context: Context) {
             else -> R.string.unknown
         }
 
-        val discussionLink = String.format("%s/forum/?%s=%s", MalApi.MAL_HOST,
+        val discussionLink = String.format("%s/forum/?%s=%s", MAL_HOST,
                 if (isAnime) "animeid" else "mangaid", record.seriesId)
 
-        val malLink = String.format("%s%s/%s", MalApi.MAL_HOST,
+        val malLink = String.format("%s%s/%s", MAL_HOST,
                 if (isAnime) "anime" else "manga", record.seriesId)
 
         val myScoreLabel = context.getString(R.string.scoreList,
@@ -119,7 +119,7 @@ class ListItemConverter(private val context: Context) {
         )
     }
 
-    fun transform(records: List<DbListRecord>): List<RecordViewModel> {
+    fun transform(records: List<ListRecord>): List<RecordViewModel> {
         return records.map { transform(it) }
     }
 
@@ -129,10 +129,10 @@ class ListItemConverter(private val context: Context) {
 
     fun createFrame(id: Int, type: TitleType, detailsViewModel: com.g.pocketmal.ui.legacy.viewentity.TitleDetailsViewModel?): RecordViewModel {
 
-        val discussionLink = String.format("%s/forum/?%s=%s", MalApi.MAL_HOST,
+        val discussionLink = String.format("%s/forum/?%s=%s", MAL_HOST,
                 if (type == TitleType.ANIME) "animeid" else "mangaid", id)
 
-        val malLink = String.format("%s%s/%s", MalApi.MAL_HOST,
+        val malLink = String.format("%s%s/%s", MAL_HOST,
                 if (type == TitleType.ANIME) "anime" else "manga", id)
 
         return RecordViewModel(

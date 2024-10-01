@@ -1,23 +1,19 @@
 package com.g.pocketmal.util.list.updaters
 
+import android.app.Activity
 import androidx.annotation.StyleRes
-import com.g.pocketmal.R
-import com.g.pocketmal.data.api.UpdateParams
-import com.g.pocketmal.data.common.Status
-import com.g.pocketmal.data.database.model.DbListRecord
-import com.g.pocketmal.ui.legacy.SkeletonActivity
-import com.g.pocketmal.ui.legacy.dialog.ScoreDialog
-import com.g.pocketmal.ui.legacy.dialog.YesNoDialog
+import com.g.pocketmal.domain.UpdateParameters
+import com.g.pocketmal.domain.entity.ListRecord
 import com.g.pocketmal.util.Action
 
 class MangaUpdatingFlow(
-    private val activity: SkeletonActivity,
+    private val activity: Activity,
     @StyleRes private val themeResId: Int
 ) : RecordUpdatingFlow() {
 
-    override fun updateTitle(actionType: Action, record: DbListRecord, params: UpdateParams) {
+    override fun updateTitle(actionType: Action, record: ListRecord, params: UpdateParameters) {
 
-        val chapters = params.chapters
+        /*val chapters = params.chapters
         val volumes = params.volumes
         val status = params.status
 
@@ -86,12 +82,12 @@ class MangaUpdatingFlow(
             }
         } else {
             executeUpdate(actionType, record, params)
-        }
+        }*/
     }
 
-    private fun showCompletedDialog(record: DbListRecord, volumesChanges: Boolean) {
+    private fun showCompletedDialog(record: ListRecord, volumesChanges: Boolean) {
 
-        YesNoDialog(activity, themeResId, activity.getString(R.string.setMangaAsCompleted),
+        /*YesNoDialog(activity, themeResId, activity.getString(R.string.setMangaAsCompleted),
             yesClick = {
                 if (record.myScore == 0) {
 
@@ -165,12 +161,12 @@ class MangaUpdatingFlow(
                     )
                 }
             }
-        ).show()
+        ).show()*/
     }
 
-    private fun showReadingDialog(record: DbListRecord, params: UpdateParams) {
+    private fun showReadingDialog(record: ListRecord, params: UpdateParameters) {
 
-        YesNoDialog(activity, themeResId, activity.getString(R.string.setAsReading),
+        /*YesNoDialog(activity, themeResId, activity.getString(R.string.setAsReading),
             yesClick = {
                 params.status = Status.IN_PROGRESS.status
                 executeUpdate(Action.ACTION_STATUS, record, params)
@@ -182,6 +178,6 @@ class MangaUpdatingFlow(
                     params
                 )
             }
-        ).show()
+        ).show()*/
     }
 }

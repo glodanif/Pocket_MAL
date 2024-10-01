@@ -1,8 +1,8 @@
 package com.g.pocketmal.ui.common.inliststatus
 
 import androidx.compose.ui.graphics.Color
-import com.g.pocketmal.domain.TitleType
 import com.g.pocketmal.domain.InListStatus
+import com.g.pocketmal.domain.TitleType
 import com.g.pocketmal.ui.theme.completedBlend
 import com.g.pocketmal.ui.theme.droppedBlend
 import com.g.pocketmal.ui.theme.inProgressBlend

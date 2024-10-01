@@ -21,7 +21,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.g.pocketmal.data.util.PartOfYear
+import com.g.pocketmal.domain.PartOfYear
 import com.g.pocketmal.ui.common.ToggleButton
 import com.g.pocketmal.ui.common.yearpicker.YearPicker
 import com.g.pocketmal.ui.common.yearpicker.rememberYearPickerState

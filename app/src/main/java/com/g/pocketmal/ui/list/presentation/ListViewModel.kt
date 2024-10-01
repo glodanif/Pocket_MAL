@@ -2,12 +2,11 @@ package com.g.pocketmal.ui.list.presentation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.g.pocketmal.data.common.RecordsSubList
-import com.g.pocketmal.data.common.Status
-import com.g.pocketmal.data.repository.ListRepository
-import com.g.pocketmal.data.repository.ListStatus
-import com.g.pocketmal.domain.RecordLists
+import com.g.pocketmal.domain.InListStatus
+import com.g.pocketmal.domain.RecordsSubList
 import com.g.pocketmal.domain.TitleType
+import com.g.pocketmal.domain.repository.ListRepository
+import com.g.pocketmal.domain.result.ListStatus
 import com.g.pocketmal.util.list.DataInterpreter
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -26,7 +25,7 @@ class ListViewModel @Inject constructor(
 
     private val _recordsState = MutableStateFlow<ListStatus?>(null)
 
-    private var currentStatus: Status = Status.IN_PROGRESS
+    private var currentStatus: InListStatus = InListStatus.IN_PROGRESS
 
     fun watchRecords(titleType: TitleType) {
         viewModelScope.launch {
@@ -49,7 +48,7 @@ class ListViewModel @Inject constructor(
             list = getRecordsByStatus(titleType, currentStatus),
             status = currentStatus,
             statusLabel = statusLabel,
-            counts = status.getCounts(),
+            counts = status.counts,
             isSynchronizing = status.isListSynchronizing,
             isSynchronized = status.isListSynchronized,
             isPreloaded = status.isListFetchedFromDb,
@@ -64,7 +63,7 @@ class ListViewModel @Inject constructor(
         }
     }
 
-    fun switchStatus(titleType: TitleType, status: Status) {
+    fun switchStatus(titleType: TitleType, status: InListStatus) {
         currentStatus = status
         val statusLabel = DataInterpreter.getStatusById(currentStatus, titleType)
         val state = _listState.value
@@ -79,17 +78,17 @@ class ListViewModel @Inject constructor(
 
     private fun getRecordsByStatus(
         titleType: TitleType,
-        status: Status,
+        status: InListStatus,
     ): List<RecordListViewEntity> {
-        val records = _recordsState.value?.lists ?: RecordLists()
+        val records = _recordsState.value?.lists ?: com.g.pocketmal.domain.RecordLists()
         val list = when (status) {
-            Status.IN_PROGRESS -> records.inProgress
-            Status.COMPLETED -> records.completed
-            Status.ON_HOLD -> records.onHold
-            Status.DROPPED -> records.dropped
-            Status.PLANNED -> records.planned
+            InListStatus.IN_PROGRESS -> records.inProgress
+            InListStatus.COMPLETED -> records.completed
+            InListStatus.ON_HOLD -> records.onHold
+            InListStatus.DROPPED -> records.dropped
+            InListStatus.PLANNED -> records.planned
             else -> RecordsSubList()
         }
-        return converter.transform(titleType, list.list, false)
+        return converter.transform(titleType, list.list)
     }
 }

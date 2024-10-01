@@ -2,8 +2,8 @@ package com.g.pocketmal.ui.userprofile.presentation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.g.pocketmal.data.repository.UserProfileRepository
-import com.g.pocketmal.data.repository.UserProfileResult
+import com.g.pocketmal.domain.repository.UserProfileRepository
+import com.g.pocketmal.domain.result.UserProfileResult
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -19,10 +19,10 @@ class UserProfileViewModel @Inject constructor(
     private val _userProfileState = MutableStateFlow<UserProfileState>(UserProfileState.Loading)
     val userProfileState = _userProfileState.asStateFlow()
 
-    fun loadUserProfileFromDb(userId: Int) {
+    fun loadUserProfileFromDb() {
         _userProfileState.value = UserProfileState.Loading
         viewModelScope.launch {
-            val dbResult = repository.getUserProfileFromLocalStorage(userId)
+            val dbResult = repository.getUserProfileFromLocalStorage()
             if (dbResult is UserProfileResult.Result) {
                 val userProfile = converter.transform(dbResult.userProfile)
                 _userProfileState.value = UserProfileState.UserProfileLoaded(userProfile)

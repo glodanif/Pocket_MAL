@@ -1,9 +1,8 @@
 package com.g.pocketmal.ui.externallinks.presentation
 
-import androidx.datastore.core.DataStore
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.g.pocketmal.data.keyvalue.UserPreferences
+import com.g.pocketmal.domain.repository.UserSettingsRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -12,7 +11,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ExternalLinksViewModel @Inject constructor(
-    private val userPreferencesStorage: DataStore<UserPreferences>
+    private val repository: UserSettingsRepository
 ): ViewModel() {
 
     private val _pattern = MutableStateFlow("")
@@ -24,15 +23,13 @@ class ExternalLinksViewModel @Inject constructor(
 
     fun saveNewPattern(pattern: String) {
         viewModelScope.launch {
-            userPreferencesStorage.updateData { preferences ->
-                preferences.copy(externalLinkPattern = pattern)
-            }
+            repository.saveNewPattern(pattern)
         }
     }
 
     private fun loadExternalLinksPattern() {
         viewModelScope.launch {
-            userPreferencesStorage.data.collect { preferences ->
+            repository.getExternalLinkPatternFlow().collect { preferences ->
                 _pattern.value = preferences.externalLinkPattern
             }
         }

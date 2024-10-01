@@ -4,7 +4,7 @@ import android.content.Context
 import android.text.Html
 import com.g.pocketmal.R
 import com.g.pocketmal.domain.TitleType
-import com.g.pocketmal.domain.entity.SeasonEntity
+import com.g.pocketmal.domain.entity.SeasonalAnime
 import com.g.pocketmal.ui.common.inliststatus.InListStatusConverter
 import java.text.DecimalFormat
 
@@ -15,7 +15,7 @@ class SeasonalAnimeConverter(
 
     private val membersFormatter = DecimalFormat("#,###,###")
 
-    fun transform(item: SeasonEntity): SeasonalAnimeViewEntity {
+    fun transform(item: SeasonalAnime): SeasonalAnimeViewEntity {
 
         val broadcast = item.broadcast
         val day = if (broadcast != null)
@@ -51,7 +51,8 @@ class SeasonalAnimeConverter(
                 item.episodes,
                 item.episodes
             )
-        val studio = if (!item.studios.isNullOrEmpty()) item.studios[0].name else null
+        val studiosArray = item.studios
+        val studio = if (!studiosArray.isNullOrEmpty()) studiosArray[0].name else null
 
         val inListStatus =
             statusConverter.transform(item.myListStatus, item.myScore, TitleType.ANIME)
@@ -72,7 +73,7 @@ class SeasonalAnimeConverter(
         )
     }
 
-    fun transform(items: List<SeasonEntity>): List<SeasonalAnimeViewEntity> {
+    fun transform(items: List<SeasonalAnime>): List<SeasonalAnimeViewEntity> {
         return items.map { transform(it) }
     }
 }

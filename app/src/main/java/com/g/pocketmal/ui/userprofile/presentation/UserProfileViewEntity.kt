@@ -1,6 +1,6 @@
 package com.g.pocketmal.ui.userprofile.presentation
 
-import com.g.pocketmal.data.common.ListCounts
+import com.g.pocketmal.domain.ListCounts
 import java.io.Serializable
 
 data class UserProfileViewEntity(

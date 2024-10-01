@@ -2,9 +2,9 @@ package com.g.pocketmal.ui.recommendations.presentation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.g.pocketmal.data.repository.RecommendationsRepository
-import com.g.pocketmal.data.repository.RecommendationsResult
 import com.g.pocketmal.domain.TitleType
+import com.g.pocketmal.domain.repository.RecommendationsRepository
+import com.g.pocketmal.domain.result.RecommendationsResult
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -36,7 +36,7 @@ class RecommendationsViewModel @Inject constructor(
                     _recommendationsState.value = RecommendationsState.RecommendationsList(result)
                 }
 
-                RecommendationsResult.EmptyResult -> {
+               RecommendationsResult.EmptyResult -> {
                     _recommendationsState.value = RecommendationsState.NoRecommendations
                 }
 

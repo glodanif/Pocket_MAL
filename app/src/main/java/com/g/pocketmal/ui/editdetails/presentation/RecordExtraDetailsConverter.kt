@@ -1,7 +1,7 @@
 package com.g.pocketmal.ui.editdetails.presentation
 
-import com.g.pocketmal.data.common.Status
-import com.g.pocketmal.domain.entity.ListRecordEntity
+import com.g.pocketmal.domain.InListStatus
+import com.g.pocketmal.domain.entity.ListRecord
 import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -19,7 +19,7 @@ class RecordExtraDetailsConverter {
             timeZone = TimeZone.getTimeZone("UTC")
         }
 
-    fun transform(record: ListRecordEntity): RecordExtraDetailsViewEntity {
+    fun transform(record: ListRecord): RecordExtraDetailsViewEntity {
         return RecordExtraDetailsViewEntity(
             titleType = record.titleType,
             startDate = domainToDate(record.myStartDate),
@@ -30,7 +30,7 @@ class RecordExtraDetailsConverter {
             seriesSubEpisodes = record.seriesSubEpisodes,
             myEpisodes = record.myEpisodes,
             mySubEpisodes = record.mySubEpisodes,
-            isReAvailable = record.myStatus == Status.COMPLETED || record.myRe,
+            isReAvailable = record.myStatus == InListStatus.COMPLETED || record.myRe,
             isRe = record.myRe,
             reTimes = record.myReTimes,
             reValue = record.myReValue,

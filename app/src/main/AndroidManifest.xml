@@ -5,15 +5,21 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="com.google.android.gms.permission.AD_ID" tools:node="remove"/>
-    <uses-permission android:name="android.permission.ACCESS_ADSERVICES_AD_ID" tools:node="remove"/>
-    <uses-permission android:name="android.permission.ACCESS_ADSERVICES_ATTRIBUTION" tools:node="remove"/>
+    <uses-permission
+        android:name="com.google.android.gms.permission.AD_ID"
+        tools:node="remove" />
+    <uses-permission
+        android:name="android.permission.ACCESS_ADSERVICES_AD_ID"
+        tools:node="remove" />
+    <uses-permission
+        android:name="android.permission.ACCESS_ADSERVICES_ATTRIBUTION"
+        tools:node="remove" />
 
     <application
         android:name=".PocketMALApplication"
         android:allowBackup="true"
-        android:fullBackupContent="@xml/backupscheme"
         android:dataExtractionRules="@xml/backupscheme"
+        android:fullBackupContent="@xml/backupscheme"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:largeHeap="true"
@@ -31,40 +37,5 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-        <activity
-            android:name=".ui.legacy.TitleDetailsActivity"
-            android:theme="@style/Theme.Mal.WhiteBackground"
-            android:windowSoftInputMode="stateAlwaysHidden" />
-
-        <activity
-            android:name=".ui.recommendations.RecommendationsActivity"
-            android:configChanges="orientation|screenSize|keyboardHidden"
-            android:label="Recommendations"
-            android:theme="@style/Theme.Mal" />
-
-        <activity
-            android:name=".ui.editdetails.EditDetailsActivity"
-            android:label="Edit Details"
-            android:theme="@style/Theme.Mal.NativeDialog.WhiteBackground.DialogWhenLarge" />
-        
-        <activity
-            android:name=".ui.sharingpatterns.SharingPatternsActivity"
-            android:configChanges="orientation|screenSize|keyboardHidden"
-            android:label="Sharing Text Patterns"
-            android:theme="@style/Theme.Mal.NativeDialog.WhiteBackground"
-            android:windowSoftInputMode="stateHidden" />
-
-        <activity
-            android:name=".ui.poster.PosterActivity"
-            android:configChanges="orientation|screenSize|keyboardHidden"
-            android:label="@string/poster__title"
-            android:theme="@style/Theme.Mal.NativeDialog.WhiteBackground.DialogWhenLarge" />
-
-        <activity
-            android:name=".ui.externallinks.ExternalLinksActivity"
-            android:configChanges="orientation|screenSize|keyboardHidden"
-            android:label="External links setup"
-            android:theme="@style/Theme.Mal" />
     </application>
 </manifest>

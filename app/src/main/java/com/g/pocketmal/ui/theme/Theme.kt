@@ -10,7 +10,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.graphics.Color
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.g.pocketmal.domain.ThemeMode
+import com.g.pocketmal.domain.ThemeType
 
 private val lightScheme = lightColorScheme(
     primary = primaryLight,
@@ -120,13 +120,13 @@ fun PocketMalTheme(
     viewModel: ScreenViewModel = hiltViewModel(),
     content: @Composable () -> Unit
 ) {
-    val themeMode by viewModel.themeMode.collectAsState()
+    val themeMode by viewModel.themeType.collectAsState()
 
     val colorScheme = when (themeMode) {
-        ThemeMode.BLACK -> blackScheme
-        ThemeMode.DARK -> darkScheme
-        ThemeMode.LIGHT -> lightScheme
-        ThemeMode.SYSTEM -> if (isSystemInDarkTheme()) darkScheme else lightScheme
+        ThemeType.BLACK -> blackScheme
+        ThemeType.DARK -> darkScheme
+        ThemeType.LIGHT -> lightScheme
+        ThemeType.SYSTEM -> if (isSystemInDarkTheme()) darkScheme else lightScheme
     }
 
     MaterialTheme(

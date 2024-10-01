@@ -1,6 +1,6 @@
 package com.g.pocketmal.util
 
-import com.g.pocketmal.data.util.PartOfYear
+import com.g.pocketmal.domain.PartOfYear
 
 //FIXME merge with Season class?
 object AnimeSeason {
@@ -16,7 +16,6 @@ object AnimeSeason {
     }
 
     fun parseSeasonName(name: String): PartOfYear {
-
         return when {
             "winter".equals(name, ignoreCase = true) -> PartOfYear.WINTER
             "spring".equals(name, ignoreCase = true) -> PartOfYear.SPRING

@@ -1,7 +1,7 @@
 package com.g.pocketmal.ui.userprofile.presentation
 
-import com.g.pocketmal.data.api.MalApi
-import com.g.pocketmal.domain.entity.UserProfileEntity
+import com.g.pocketmal.domain.MAL_HOST
+import com.g.pocketmal.domain.entity.UserProfile
 import com.g.pocketmal.formatToDecimalText
 import com.g.pocketmal.formatToSeparatedText
 import com.g.pocketmal.reformatToViewableDate
@@ -17,7 +17,7 @@ class UserProfileConverter {
 
     private val viewFormat = SimpleDateFormat("MMM dd, yyyy", Locale.ENGLISH)
 
-    fun transform(entity: UserProfileEntity): UserProfileViewEntity {
+    fun transform(entity: UserProfile): UserProfileViewEntity {
 
         val gender = entity.gender
         val isTraditionalGender = !gender.isNullOrEmpty() &&
@@ -26,10 +26,8 @@ class UserProfileConverter {
                     ignoreCase = true
                 ))
         val isFemale =
-            !gender.isNullOrEmpty() && isTraditionalGender && "female".equals(
-                gender,
-                ignoreCase = true
-            )
+            !gender.isNullOrEmpty() && isTraditionalGender &&
+                    "female".equals(gender, ignoreCase = true)
 
         val location = entity.location
         val birthday = entity.birthday
@@ -52,7 +50,7 @@ class UserProfileConverter {
             entity.location ?: "",
             viewFormat.format(entity.joinDate),
             entity.isSupporter,
-            String.format("%s/profile/%s", MalApi.MAL_HOST, entity.name),
+            "${MAL_HOST}profile/${entity.name}",
             entity.animeSpentDays.formatToDecimalText(),
             entity.animeCounts,
             entity.animeMeanScore.formatToDecimalText(),

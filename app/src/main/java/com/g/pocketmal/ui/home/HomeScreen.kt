@@ -39,11 +39,11 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
-import com.g.pocketmal.data.util.RankingType
+import com.g.pocketmal.domain.ExploreType
 import com.g.pocketmal.domain.TitleType
 import com.g.pocketmal.ui.about.AboutScreen
-import com.g.pocketmal.ui.browse.BrowseScreen
 import com.g.pocketmal.ui.explore.ExploreScreen
+import com.g.pocketmal.ui.externallinks.ExternalLinksScreen
 import com.g.pocketmal.ui.list.ListScreen
 import com.g.pocketmal.ui.ranked.RankedScreen
 import com.g.pocketmal.ui.search.SearchScreen
@@ -92,16 +92,7 @@ data object OpenSourceLibraries
 data object SeasonalAnime
 
 @Serializable
-data class MostPopular(val type: TitleType)
-
-@Serializable
-data class TopRated(val type: TitleType)
-
-@Serializable
-data class Releasing(val type: TitleType)
-
-@Serializable
-data class Upcoming(val type: TitleType)
+data class Ranked(val exploreType: ExploreType, val titleType: TitleType)
 
 data class NavigationOption(
     val label: String,
@@ -231,16 +222,16 @@ fun HomeScreen(
                             navController.navigate(SeasonalAnime)
                         },
                         onTopRatedClicked = { type ->
-                            navController.navigate(TopRated(type))
+                            navController.navigate(Ranked(ExploreType.TOP_RATED, type))
                         },
                         onMostPopularClicked = { type ->
-                            navController.navigate(MostPopular(type))
+                            navController.navigate(Ranked(ExploreType.MOST_POPULAR, type))
                         },
                         onReleasingClicked = { type ->
-                            navController.navigate(Releasing(type))
+                            navController.navigate(Ranked(ExploreType.RELEASING, type))
                         },
                         onUpcomingClicked = { type ->
-                            navController.navigate(Upcoming(type))
+                            navController.navigate(Ranked(ExploreType.UPCOMING, type))
                         },
                     )
                 }
@@ -253,7 +244,6 @@ fun HomeScreen(
                 }
                 composable<HomeScreenTabs.UserProfile> {
                     UserProfileScreen(
-                        userId = 0,
                         onLoggedOut = {
 
                         },
@@ -269,51 +259,12 @@ fun HomeScreen(
                         }
                     )
                 }
-                composable<TopRated> {
-                    val topRated = it.toRoute<TopRated>()
+                composable<Ranked> {
+                    val topRated = it.toRoute<Ranked>()
                     RankedScreen(
-                        rankingType = RankingType.ALL,
-                        titleType = topRated.type,
+                        exploreType = topRated.exploreType,
+                        titleType = topRated.titleType,
                         onRankedItemClicked = { id, type ->
-                            navController.navigate(Details(id, type))
-                        },
-                        onBackPressed = {
-                            navController.popBackStack()
-                        },
-                    )
-                }
-                composable<MostPopular> {
-                    val mostPopular = it.toRoute<MostPopular>()
-                    RankedScreen(
-                        rankingType = RankingType.BY_POPULARITY,
-                        titleType = mostPopular.type,
-                        onRankedItemClicked = { id, type ->
-                            navController.navigate(Details(id, type))
-                        },
-                        onBackPressed = {
-                            navController.popBackStack()
-                        },
-                    )
-                }
-                composable<Releasing> {
-                    val releasing = it.toRoute<Releasing>()
-                    BrowseScreen(
-                        rankingType = RankingType.RELEASING,
-                        titleType = releasing.type,
-                        onBrowseItemClicked = { id, type ->
-                            navController.navigate(Details(id, type))
-                        },
-                        onBackPressed = {
-                            navController.popBackStack()
-                        },
-                    )
-                }
-                composable<Upcoming> {
-                    val upcoming = it.toRoute<Upcoming>()
-                    BrowseScreen(
-                        rankingType = RankingType.UPCOMING,
-                        titleType = upcoming.type,
-                        onBrowseItemClicked = { id, type ->
                             navController.navigate(Details(id, type))
                         },
                         onBackPressed = {
@@ -329,6 +280,13 @@ fun HomeScreen(
                         onSetupSharingPatternsClicked = {
                             navController.navigate(SharingPatterns)
                         },
+                        onBackPressed = {
+                            navController.popBackStack()
+                        }
+                    )
+                }
+                composable<LinkPattern> {
+                    ExternalLinksScreen(
                         onBackPressed = {
                             navController.popBackStack()
                         }

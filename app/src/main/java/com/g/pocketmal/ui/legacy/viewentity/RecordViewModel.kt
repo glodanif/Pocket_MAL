@@ -1,7 +1,7 @@
 package com.g.pocketmal.ui.legacy.viewentity
 
+import com.g.pocketmal.domain.InListStatus
 import com.g.pocketmal.domain.TitleType
-import com.g.pocketmal.data.common.Status
 import java.io.Serializable
 
 class RecordViewModel(
@@ -15,7 +15,7 @@ class RecordViewModel(
     val myEpisodes: Int = 0,
     val mySubEpisodes: Int = 0,
     val myScore: Int = 0,
-    val myStatus: Status = Status.NOT_IN_LIST,
+    val myStatus: InListStatus = InListStatus.NOT_IN_LIST,
     val myStatusLabel: String,
     val myRe: Boolean = false,
     val myReTimes: Int = 0,

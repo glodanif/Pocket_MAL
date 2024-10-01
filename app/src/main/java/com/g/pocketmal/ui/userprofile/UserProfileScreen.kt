@@ -63,7 +63,6 @@ import com.g.pocketmal.ui.userprofile.presentation.UserProfileViewModel
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun UserProfileScreen(
-    userId: Int,
     viewModel: UserProfileViewModel = hiltViewModel(),
     onLoggedOut: () -> Unit,
 ) {
@@ -76,7 +75,7 @@ fun UserProfileScreen(
     var isLogoutConfirmationOpened by remember { mutableStateOf(false) }
 
     LaunchedEffect(Unit) {
-        viewModel.loadUserProfileFromDb(userId)
+        viewModel.loadUserProfileFromDb()
     }
     LaunchedEffect(state) {
         if (state is UserProfileState.UserProfileLoaded) {

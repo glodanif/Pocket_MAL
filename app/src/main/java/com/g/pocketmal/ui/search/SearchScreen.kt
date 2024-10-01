@@ -57,8 +57,6 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.g.pocketmal.domain.TitleType
-import com.g.pocketmal.domain.TitleType.ANIME
-import com.g.pocketmal.domain.TitleType.MANGA
 import com.g.pocketmal.ui.common.ErrorMessageView
 import com.g.pocketmal.ui.common.ErrorMessageWithRetryView
 import com.g.pocketmal.ui.common.LoadingView
@@ -77,7 +75,7 @@ fun SearchScreen(
     onSearchItemClick: (Int, TitleType) -> Unit,
 ) {
     val searchState by viewModel.searchState.collectAsState()
-    var titleType by remember { mutableStateOf(ANIME) }
+    var titleType by remember { mutableStateOf(TitleType.ANIME) }
 
     Scaffold(
         topBar = {
@@ -299,11 +297,11 @@ private fun TitleTypeSwitch(
             .background(MaterialTheme.colorScheme.tertiaryContainer)
             .clickable {
                 onTypeChanged(
-                    if (titleType.isAnime()) MANGA else ANIME
+                    if (titleType.isAnime()) TitleType.MANGA else TitleType.ANIME
                 )
             }
     ) {
-        if (titleType == ANIME) {
+        if (titleType.isAnime()) {
             Box(
                 modifier = Modifier
                     .size(64.dp, 16.dp)

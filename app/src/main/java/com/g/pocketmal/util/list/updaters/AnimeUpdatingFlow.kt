@@ -1,23 +1,19 @@
 package com.g.pocketmal.util.list.updaters
 
+import android.app.Activity
 import androidx.annotation.StyleRes
-import com.g.pocketmal.R
-import com.g.pocketmal.data.api.UpdateParams
-import com.g.pocketmal.data.common.Status
-import com.g.pocketmal.data.database.model.DbListRecord
-import com.g.pocketmal.ui.legacy.SkeletonActivity
-import com.g.pocketmal.ui.legacy.dialog.ScoreDialog
-import com.g.pocketmal.ui.legacy.dialog.YesNoDialog
+import com.g.pocketmal.domain.UpdateParameters
+import com.g.pocketmal.domain.entity.ListRecord
 import com.g.pocketmal.util.Action
 
 class AnimeUpdatingFlow(
-    private val activity: SkeletonActivity,
+    private val activity: Activity,
     @StyleRes private val themeResId: Int
 ) : RecordUpdatingFlow() {
 
-    override fun updateTitle(actionType: Action, record: DbListRecord, params: UpdateParams) {
+    override fun updateTitle(actionType: Action, record: ListRecord, params: UpdateParameters) {
 
-        val episodes = params.episodes
+        /*val episodes = params.episodes
         val status = params.status
 
         if (episodes != null) {
@@ -80,12 +76,12 @@ class AnimeUpdatingFlow(
             }
         } else {
             executeUpdate(actionType, record, params)
-        }
+        }*/
     }
 
-    private fun showCompletedDialog(record: DbListRecord) {
+    private fun showCompletedDialog(record: ListRecord) {
 
-        YesNoDialog(activity, themeResId, activity.getString(R.string.setAnimeAsCompleted),
+        /*YesNoDialog(activity, themeResId, activity.getString(R.string.setAnimeAsCompleted),
             yesClick = {
                 if (record.myScore == 0) {
 
@@ -151,12 +147,12 @@ class AnimeUpdatingFlow(
                     executeUpdate(Action.ACTION_EPISODES, record, params)
                 }
             }
-        ).show()
+        ).show()*/
     }
 
-    private fun showWatchingDialog(record: DbListRecord, params: UpdateParams) {
+    private fun showWatchingDialog(record: ListRecord, params: UpdateParameters) {
 
-        YesNoDialog(activity, themeResId, activity.getString(R.string.setAsWatching),
+        /*YesNoDialog(activity, themeResId, activity.getString(R.string.setAsWatching),
             yesClick = {
                 params.status = Status.IN_PROGRESS.status
                 executeUpdate(Action.ACTION_STATUS, record, params)
@@ -164,6 +160,6 @@ class AnimeUpdatingFlow(
             noClick = {
                 executeUpdate(Action.ACTION_EPISODES, record, params)
             }
-        ).show()
+        ).show()*/
     }
 }

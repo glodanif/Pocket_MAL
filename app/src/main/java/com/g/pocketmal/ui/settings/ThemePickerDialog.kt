@@ -26,13 +26,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
-import com.g.pocketmal.domain.ThemeMode
+import com.g.pocketmal.domain.ThemeType
 
 @Composable
 fun ThemePickerDialog(
-    currentTheme: ThemeMode,
+    currentTheme: ThemeType,
     onDismissRequest: () -> Unit,
-    onThemeSelected: (ThemeMode) -> Unit
+    onThemeSelected: (ThemeType) -> Unit
 ) {
     var selectedTheme by remember { mutableStateOf(currentTheme) }
 
@@ -60,7 +60,7 @@ fun ThemePickerDialog(
                     text = "Theme",
                     modifier = Modifier.padding(16.dp),
                 )
-                ThemeMode.entries.forEach { themeMode ->
+                ThemeType.entries.forEach { themeMode ->
                     Row(
                         verticalAlignment = Alignment.CenterVertically,
                         modifier = Modifier
